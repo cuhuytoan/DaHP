@@ -33,17 +33,7 @@ namespace CMS.Website.Services
                 options.Password.RequiredLength = 6;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                //options.SignIn.RequireConfirmedEmail = true;
-                //options.Lockout.AllowedForNewUsers = true;
-                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-                //options.Lockout.MaxFailedAccessAttempts = 5;
-                //Set TimeSpan for verify Email
-
-                options.Tokens.ProviderMap.Add("CustomEmailConfirmation",
-           new TokenProviderDescriptor(
-               typeof(CustomEmailConfirmationTokenProvider<IdentityUser>)));
-                options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
+                options.Password.RequireNonAlphanumeric = false;               
             })
         .AddRoles<IdentityRole>()
             .AddRoles<IdentityRole>()

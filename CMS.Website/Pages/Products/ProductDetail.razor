@@ -389,17 +389,7 @@
 												</div>
 											</div>
 										</div>
-									</Authorized>
-									<NotAuthorized>
-										<div class="order-form__list">
-											<div class="order-form__item order-form__full">
-												<textarea disabled name="name" rows="3" placeholder="Bạn cần đăng nhập để đánh giá sản phẩm"></textarea>
-											</div>
-											<div class="order-form__button">
-												<button type="button" name="button" @onclick="() =>  loginModal.Open()">Đăng nhập</button>
-											</div>
-										</div>
-									</NotAuthorized>
+									</Authorized>									
 								</AuthorizeView>
 
 
@@ -459,5 +449,5 @@
 
 	<ProductOthersComponent />
 
-	<LoginComponent @ref="loginModal" />
+	
 </CascadingValue>

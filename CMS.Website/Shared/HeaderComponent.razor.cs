@@ -27,10 +27,7 @@
         List<SpUserNotifySearchResult> lstUserNoti { get; set; } = new List<SpUserNotifySearchResult>();
         public int? totalUnread { get; set; }
         private List<ProductCategoryTreeGroup> lstProductCategoryGroups { get; set; } = new();
-        private List<SpProductCategoryTreeResult> lstMenuHorizontal { get; set; } = new();
-        private ForgotComponent forgotModal { get; set; }
-        public LoginComponent loginModal { get; set; }
-        private RegisterComponent registerModal { get; set; }
+        private List<SpProductCategoryTreeResult> lstMenuHorizontal { get; set; } = new();       
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         private string keyword { get; set; }
@@ -149,32 +146,7 @@
                 }
             }
         }
-        private async Task OnRedirectShopMan()
-        {
-            if (globalModel.user.Identity.IsAuthenticated)
-            {
-                if (globalModel.productBrandId is null || globalModel.productBrandId == 0)
-                {
-                    NavigationManager.NavigateTo("/thong-bao-dang-ky-cua-hang", true);
-                }
-                else
-                {
-                    if (globalModel.productBrandStatusId != 4)
-                    {
-                        NavigationManager.NavigateTo("/cua-hang-cho-duyet", true);
-                    }
-                    else
-                    {
-                        NavigationManager.NavigateTo("/Shopman/Dashboard/Index", true);
-                    }
-
-                }
-            }
-            else
-            {
-                loginModal.Open();
-            }
-        }
+      
       
         #endregion
     }

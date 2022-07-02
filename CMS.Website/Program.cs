@@ -19,7 +19,7 @@ builder.Services.ConfigureDefaultIdentity();
 //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 // ===== Config Token Life Span=============================
-builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
+
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 //services.AddDatabaseDeveloperPageExceptionFilter();
 // ===== Add Logging ================================
@@ -118,9 +118,6 @@ app.UseAuthorization();
 app.UseSession();
 
 app.UseMiddleware<BlazorCookieLoginMiddleware>();
-
-//LogVisit Middle Ware
-app.UseMiddleware<LogVisitMiddleware>();
 
 app.UseEndpoints(endpoints =>
 {
