@@ -1,0 +1,62 @@
+﻿@page "/Admin/Article/ArticleBlockIndex"
+
+<!-- .row -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Danh sách bài viết</h3>
+            <p class="text-muted m-b-30 font-13"> Danh sách block bài viết </p>        
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="white-box">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>                                       
+                                        <th>
+                                            Tên khối block
+                                        </th>                                       
+                                        <th>
+                                        </th>                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (lstArticleBlock == null)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in lstArticleBlock)
+                                        {
+                                           
+                                            <tr>
+                                                <td>
+                                                    <div style="font-weight: 700;">                                                     
+                                                            @item.Name                                                      
+                                                    </div>                                                   
+                                                </td>   
+                                                <td>
+                                                    <div style="margin-top: 20px;">                                                       
+                                                            <a href="javascript:void(0);" @onclick="() => ArticleBlockArticleShow(item.Id)">
+                                                                <i class="fa fa-cog"></i>
+                                                            </a>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ModalDynamicComponent @ref="PropertiesDynamicEdit" />

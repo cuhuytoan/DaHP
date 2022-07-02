@@ -1,0 +1,231 @@
+﻿@page "/Admin/dashboard/index"
+@page "/Admin/dashboard"
+@page "/Admin"
+
+<!-- /.row -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="white-box user-table">
+			<div class="row">
+				<div class="col-sm-3">
+					<h4 class="box-title">Báo cáo theo thời gian</h4>
+				</div>
+				<div class="col-sm-9">
+					<ul class="list-inline">
+						<li>
+							<span style="width:20px;padding-left :10px; padding-right:10px;">Thời gian: </span>
+							  <TelerikComboBox @bind-Value="@dateOptionSelected"
+                                        Data="@dateOptions"
+                                        ValueField="Key"
+                                        TextField="Value"
+                                        Placeholder="Chọn tiêu chí thời gian ..."
+										OnChange="@OnChangeDateOptionSelected"
+                                        Filterable=true
+                                        FilterOperator =StringFilterOperator.Contains
+                                        Width="100%">
+                             </TelerikComboBox>
+						</li>			
+						<li>
+	
+						   <span style="width:20px;padding-left :10px; padding-right:10px;">Từ ngày: </span>
+						
+							
+							<TelerikDatePicker @bind-Value="dateQry.FromDate"></TelerikDatePicker>									
+							
+						
+						</li>
+						<li>
+							<span style="width:20px;padding-left :10px; padding-right:10px;">Đến ngày: </span>
+							<TelerikDatePicker @bind-Value="dateQry.ToDate"></TelerikDatePicker>
+						</li>
+
+							<li>
+							<button type="button" @onclick="@InitData" class="btn btn-default waves-effect waves-light  dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <i class="fa fa-refresh"></i> </button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<!-- row -->
+@if (adminDashBoard != null)
+{
+	<div class="row">
+		<div class="col-lg-3 col-sm-3 col-xs-12">
+			<div class="white-box analytics-info">
+				<h3 class="box-title">Số lượt truy cập</h3>
+				<ul class="list-inline two-part">
+					<li>
+						<img src="/assets/themes/front/assets/images/common/chart-green.png"chart">
+					</li>
+					<li class="text-right"><span class="counter text-success">@adminDashBoard.ViewCount</span></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-lg-3 col-sm-3 col-xs-12">
+			<div class="white-box analytics-info">
+				<h3 class="box-title">Số lượng cửa hàng</h3>
+				<ul class="list-inline two-part">
+					<li>
+						<img src="/assets/themes/front/assets/images/common/chart-violet.png" alt="chart">
+					</li>
+					<li class="text-right"><span class="counter text-purple">@adminDashBoard.ProductBrandCount</span></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-lg-3 col-sm-3 col-xs-12">
+			<div class="white-box analytics-info">
+				<h3 class="box-title">Số lượng sản phẩm</h3>
+				<ul class="list-inline two-part">
+					<li>
+						<img src="/assets/themes/front/assets/images/common/chart-blue.png" alt="chart">
+					</li>
+					<li class="text-right"><span class="counter text-info">@adminDashBoard.ProductCount</span></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-lg-3 col-sm-3 col-xs-12">
+			<div class="white-box analytics-info">
+				<h3 class="box-title">Số lượt đánh giá</h3>
+				<ul class="list-inline two-part">
+					<li>
+						<img src="/assets/themes/front/assets/images/common/chart-red.png" alt="chart">
+					</li>
+					<li class="text-right"><span class="text-danger">@adminDashBoard.ProductReviewCount</span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+}
+
+<!-- /.row -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="white-box user-table">
+			<div class="row">
+				<div class="col-sm-6">
+					<h4 class="box-title">Sản phẩm mới nhất</h4>
+				</div>
+				<div class="col-sm-6">
+					<ul class="list-inline">
+						<li>
+							<button type="button" @onclick="@InitData" class="btn btn-default waves-effect waves-light  dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> <i class="fa fa-refresh"></i> </button>
+						</li>
+						<li>
+							<a href="javascript:void(0);" @onclick="@(() => NavigationManager.NavigateTo("/Admin/Product/Edit",true))" class="btn btn-success font-20">+</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			@if (lstProduct == null)
+			{
+
+			}
+			else
+			{
+				<div class="table-responsive">
+
+					<table class="table">
+						<thead>
+							<tr>
+								<th>
+
+								</th>
+								<th>Tên sản phẩm</th>
+								<th>Cập nhật</th>
+								<th>Người cập nhật</th>
+								<th>Trạng thái</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach(var item in lstProduct)
+							{
+								<tr>
+								<td>
+									<img src="/data/product/mainimages/small/@(@item.Image ?? "noimage.gif")" alt="product" width="60" height="60">
+								</td>
+								<td><a href="/Admin/Product/Edit?productId=@item.Id" class="text-link"> @item.Name</a></td>
+								<td>@item.LastEditDate.Value.ToString("dd/MM/yyyy | HH:mm")</td>
+								<td>@item.LastEditByName</td>
+								  @{
+                                                            string styleStatus = "label-primary";
+                                                                if (item.ProductStatusId == 0)
+                                                                {
+                                                                    styleStatus = "label-danger";
+                                                                }
+                                                                else if (item.ProductStatusId == 1)
+                                                                {
+                                                                    styleStatus = "label-info";
+                                                                }
+                                                                else if (item.ProductStatusId == 2)
+                                                                {
+                                                                    styleStatus = "label-primary";
+                                                                }
+                                                                else if (item.ProductStatusId == 3)
+                                                                {
+                                                                    styleStatus = "label-warning";
+                                                                }
+                                                                else if (item.ProductStatusId == 4)
+                                                                {
+                                                                    styleStatus = "label-success";
+                                                                }
+                                                            }
+								<td><span class="label @styleStatus">@item.StatusName</span></td>
+								<td>
+									<a href="/Admin/Product/Edit?productId=@item.Id" class="btn btn-success btn-outline font-16"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+									<a href="javascript:void(0);" @onclick="(() => DeleteProduct(item.Id))" class="btn btn-default btn-outline font-16"><i class="fa fa-trash" aria-hidden="true"></i></a>
+								</td>
+							</tr>
+							}
+							
+							
+						</tbody>
+					</table>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 col-sm-12">
+						<div class="dataTables_paginate paging_simple_numbers" id="simpletable_paginate" style="float:right">
+							<ul class="pagination">
+								<li class="paginate_button page-item previous" id="simpletable_previous">
+									<a href="Admin/Dashboard/Index?p=@p" aria-controls="simpletable" data-dt-idx="1" tabindex="0" class="page-link">
+										<i class="fa fa-fast-backward"></i>
+									</a>
+								</li>
+								<li class="paginate_button page-item previous" id="simpletable_previous">
+									<a href="Admin/Dashboard/Index?p=@(p > 1 ? p - 1 : 1)" aria-controls="simpletable" data-dt-idx="@(p-1)" tabindex="0" class="page-link">
+										<i class="fa fa-step-backward"></i>
+									</a>
+								</li>
+								@for (var i = 1; i <= totalPages; i++)
+								{
+									<li class="paginate_button page-item @(i == currentPage ? "active" : "")" style="@((i > currentPage + 2) || (i < currentPage -2) ? "display:none" : "" )">
+										<a href="Admin/Dashboard/Index?p=@i" aria-controls="simpletable" data-dt-idx="@i" tabindex="0" class="page-link">
+											@i
+										</a>
+									</li>
+								}
+								<li class="paginate_button page-item next" id="simpletable_next">
+									<a href="Admin/Dashboard/Index?p=@(p == totalPages ? totalPages : p + 1)" aria-controls="simpletable" data-dt-idx="@(p+1)" tabindex="0" class="page-link">
+										<i class="fa fa-step-forward"></i>
+									</a>
+								</li>
+								<li class="paginate_button page-item next" id="simpletable_next">
+									<a href="Admin/Dashboard/Index?p=@totalPages" aria-controls="simpletable" data-dt-idx="@totalPages" tabindex="0" class="page-link">
+										<i class="fa fa-fast-forward"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			}
+		</div>
+	</div>
+</div>
+
+<ConfirmBase @ref="DeleteConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+			 ConfirmationMessage=@($"Bạn có chắc chắn muốn xóa?") ConfirmationTitle=@("Xác nhận xóa") />

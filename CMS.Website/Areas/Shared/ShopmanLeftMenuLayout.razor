@@ -1,0 +1,63 @@
+﻿<!-- ===== Left-Sidebar ===== -->
+@using CMS.Data.ModelDTO;
+
+<div class="scroll-sidebar">
+    <div class="user-profile">
+        <div class="dropdown user-pro-body">
+            <div class="profile-image">
+                <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                    <img src="/data/user/mainimages/small/@(String.IsNullOrEmpty(@globalModel.avatar) ? "noimages.png" : globalModel.avatar)" alt="user-img" class="img-circle">
+                    
+                </a>              
+            </div>
+            <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"> @globalModel.user.Identity.Name</a></p>
+        </div>
+    </div>
+    <nav class="sidebar-nav">
+        <ul id="side-menu">         
+             <AuthorizeView Roles="Quản trị cửa hàng, Nhân viên cập nhật cửa hàng">
+                  <li class="active">
+                    <a class="waves-effect" href="/Shopman/Dashboard/Index" aria-expanded="true"><i class="icon-settings fa-fw"></i> <span class="hide-menu"> Dashboard </span></a>                   
+                </li>   
+            </AuthorizeView>
+            <AuthorizeView Roles="Quản trị cửa hàng, Nhân viên cập nhật cửa hàng">
+                <li class="active">
+                    <a class="waves-effect" href="javascript:void(0);" aria-expanded="true"><i class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Quản lý bài viết </span></a>
+                    <ul aria-expanded="true" class="collapse">
+                        <li> <a href="/Shopman/Article/Edit">Thêm mới bài viết</a> </li>
+                        <li> <a href="/Shopman/Article">Tất cả bài viết</a> </li>
+                    </ul>
+                </li>
+            </AuthorizeView>         
+            <AuthorizeView Roles="Quản trị cửa hàng, Nhân viên cập nhật cửa hàng">
+                <li class="active">
+                    <a class="waves-effect" href="javascript:void(0);" aria-expanded="true"><i class="icon-briefcase fa-fw"></i> <span class="hide-menu"> Quản lý sản phẩm </span></a>
+                    <ul aria-expanded="true" class="collapse">
+                        <li> <a href="/Shopman/Product/Edit">Thêm mới sản phẩm</a> </li>
+                        <li> <a href="/Shopman/Product">Tất cả sản phẩm</a> </li>
+                    </ul>
+                </li>
+            </AuthorizeView>          
+            <AuthorizeView Roles="Quản trị cửa hàng">
+                <li class="active">
+                    <a class="waves-effect" href="javascript:void(0);" aria-expanded="true"><i class="icon-people fa-fw"></i> <span class="hide-menu"> Quản lý thành viên </span></a>
+                    <ul aria-expanded="true" class="collapse">
+                        <li> <a href="/Shopman/Employee/Edit">Thêm mới thành viên</a> </li>
+                        <li> <a href="/Shopman/Employee/Index">Danh sách thành viên</a> </li>
+                    </ul>
+                </li>              
+            </AuthorizeView>
+            <AuthorizeView Roles="Quản trị cửa hàng, Nhân viên cập nhật cửa hàng">
+                <li class="active">
+                    <a class="waves-effect" href="/Shopman/ProductBrand/Edit" aria-expanded="true"><i class="icon-settings fa-fw"></i> <span class="hide-menu"> Thay đổi thông tin cửa hàng </span></a>                   
+                </li>              
+            </AuthorizeView>          
+        </ul>
+    </nav>
+</div>
+@code{
+    [CascadingParameter]
+    protected GlobalModel globalModel { get; set; }
+    
+}
+<!-- ===== Left-Sidebar-End ===== -->

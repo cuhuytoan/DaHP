@@ -1,0 +1,24 @@
+﻿@using Blazored.Toast.Configuration
+@inherits LayoutComponentBase
+
+<TelerikRootComponent>
+<BlazoredToasts Position="ToastPosition.TopCenter"
+                Timeout="3"
+                IconType="IconType.FontAwesome"
+                SuccessClass="success-toast-override"
+                SuccessIcon="fa fa-thumbs-up"
+                ErrorIcon="fa fa-bug"
+                InfoIcon="fa fa-info"
+                WarningIcon="fa fa-exclamation-triangle"
+                ShowProgressBar="@false" />
+
+                <CascadingValue Value="hubConnection">
+<CascadingValue Value="globalModel">
+            <HeaderComponent />
+          
+            @Body
+           
+            <FooterComponent />
+  </CascadingValue>
+          </CascadingValue>
+</TelerikRootComponent>

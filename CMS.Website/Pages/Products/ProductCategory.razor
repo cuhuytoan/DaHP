@@ -1,0 +1,269 @@
+﻿@page "/chung-loai/{url}"
+@if(productCategory !=null && setting !=null)
+{
+	string metaDescription =productCategory.MetaDescription != null ? productCategory.MetaDescription.Length > 300 ? productCategory.MetaDescription.Substring(0, 300) : productCategory.MetaDescription : "";
+
+	<PageTitle>@((MarkupString)((setting != null ? setting.MetaTitleDefault :"" ) + " - " + productCategory.Name))</PageTitle>
+	<HeadContent>
+    <meta name="keywords" content="@(String.IsNullOrEmpty(productCategory.MetaKeywords) ? (setting != null ? setting.MetaKeywordsDefault : "") : productCategory.MetaKeywords)" />
+    <meta name="description" content="@((MarkupString)((String.IsNullOrEmpty(metaDescription) ? (setting != null ? setting.MetaDescriptionDefault : "") : metaDescription)))" />
+    <link id="canonical" rel="canonical" href="@(NavigationManager.Uri.ToString())">
+    <!-- META FOR FACEBOOK -->
+    <meta property="og:url" content="@(NavigationManager.Uri.ToString())">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="@((MarkupString)((setting != null ? setting.MetaTitleDefault :"" ) + " - " + productCategory.Name))">
+    <meta property="og:description" content="@((MarkupString)((String.IsNullOrEmpty(metaDescription) ? (setting != null ? setting.MetaDescriptionDefault : "") : metaDescription)))" />    
+    <meta property="og:image" content="@(NavigationManager.Uri.ToString())favicon.jpg">
+
+    <!-- END META FOR FACEBOOK -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card" value="">
+    <meta name="twitter:site" content="">
+    <meta name="twitter:creator" content="">
+    <!-- End Twitter Card -->
+</HeadContent>
+}
+<CascadingValue Value="url">
+
+    <ProductBreadCrumbComponent breadCrumbType="productCategory"/>
+
+    <ProductCategorySlideComponent />
+
+    <div class="products-category">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="products-category--main">
+                        <div class="products-category__right">
+                            <!-- Sắp xếp theo sản phẩm -->
+                            <div class="products-category__right__filter">
+                                <div class="products-category__right__filter__label">
+                                    Sắp xếp theo sản phẩm
+                                </div>
+                                <div class="products-category__right__filter__form">                                    
+                                        <select @onchange="@OnChangeOrder">         
+                                            @foreach(var p in lstSort){
+                                                <option value="@p.Key">@p.Value</option>
+                                            }     
+                                        </select>                                    
+                                </div>
+                            </div>
+                            <!-- Hết phần Sắp xếp theo sản phẩm -->
+                            <!-- Danh sách sản phẩm -->
+                            @if (lstProduct == null)
+                            {
+                                
+                            }
+                            else
+                            {
+                                 <div class="products-category__list">
+                                
+                                    @foreach (var p in lstProduct)
+                                    {
+                                        <div class="products-category__box">
+                                            <div class="products__item">
+                                                <a href="/san-pham/@p.URL" @onclick="@(() => NavigationManager.NavigateTo($"/san-pham/{@p.URL}",true))">
+                                                    <div class="products__item__img">
+                                                        <img src="/data/product/mainimages/small/@p.Image" alt="@p.Name">
+                                                    </div>
+
+                                                    @if (@p.Rate != null && @p.Rate > 0)
+                                                    {
+                                                        <span class="products__item__label">
+                                                            @p.Rate %
+                                                        </span>
+                                                    }
+                                                    <div class="products__item__info">
+                                                        <div class="products__item__name">@p.Name</div>
+                                                        <div class="products__item__sold">
+                                                            <div class="products__item__sold__rating">
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                                <i class="fa fa-star"></i>
+                                                            </div>
+                                                            <div class="products__item__sold__count">
+                                                                <span>66 đã bán</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="products__item__price">
+                                                            <div class="products__item__new-price">@String.Format((new System.Globalization.CultureInfo("vi-VN")),"{0:N0}", @p.Price)<sup>₫</sup></div>
+                                                            <div class="products__item__old-price">@String.Format((new System.Globalization.CultureInfo("vi-VN")),"{0:N0}", @p.PriceOld)<sup>₫</sup></div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    }
+                                
+                            </div>
+                            <!-- Hết phần Danh sách sản phẩm -->
+                            <!-- pagination -->
+                            <div class="pagination-box">
+                                <ul class="pagination justify-content-center" style="margin:20px 0">
+                                       <li class="paginate_button page-item previous" id="simpletable_previous">
+                                                <a href="/chung-loai/@url?locationId=@locationId&fromPrice=@fromPrice&toPrice=@toPrice&orderBy=@orderBy&p=1" aria-controls="simpletable" data-dt-idx="1" tabindex="0" class="page-link">
+                                                    <i class="fa fa-fast-backward"></i>
+                                                </a>
+                                            </li>
+                                            <li class="paginate_button page-item previous" id="simpletable_previous">
+                                                <a href="/chung-loai/@url?locationId=@locationId&fromPrice=@fromPrice&toPrice=@toPrice&orderBy=@orderBy&p=@(p > 1 ? p - 1 : 1)" aria-controls="simpletable" data-dt-idx="@(p-1)" tabindex="0" class="page-link">
+                                                    <i class="fa fa-step-backward"></i>
+                                                </a>
+                                            </li>
+                                            @for (var ij = 1; ij <= totalPages; ij++)
+                                            {
+
+                                                <li class="paginate_button page-item @(ij == currentPage ? "active" : "") " style="@((ij > currentPage + 2) || (ij < currentPage -2) ? "display:none" : "" )">
+                                                    <a href="/chung-loai/@url?locationId=@locationId&fromPrice=@fromPrice&toPrice=@toPrice&orderBy=@orderBy&p=@ij" aria-controls="simpletable" data-dt-idx="@ij" tabindex="0" class="page-link">
+                                                        @ij
+                                                    </a>
+                                                </li>
+                                            }
+                                            <li class="paginate_button page-item next" id="simpletable_next">
+                                                <a href="/chung-loai/@url?locationId=@locationId&fromPrice=@fromPrice&toPrice=@toPrice&orderBy=@orderBy&p=@(p == totalPages ? totalPages : p + 1)" aria-controls="simpletable" data-dt-idx="@(p+1)" tabindex="0" class="page-link">
+                                                    <i class="fa fa-step-forward"></i>
+                                                </a>
+                                            </li>
+                                            <li class="paginate_button page-item next" id="simpletable_next">
+                                                <a href="/chung-loai/@url?locationId=@locationId&fromPrice=@fromPrice&toPrice=@toPrice&orderBy=@orderBy&p=@totalPages" aria-controls="simpletable" data-dt-idx="@totalPages" tabindex="0" class="page-link">
+                                                    <i class="fa fa-fast-forward"></i>
+                                                </a>
+                                            </li>
+                                </ul>
+                            </div>
+                            <!-- end pagination -->
+                            }
+                           
+                        </div>
+                        <div class="products-category__left">
+                            <!-- all-categories -->
+                            <div class="all-categories">
+                                <h3 class="all-categories__title">Danh mục </h3>
+                                <ul class="all-categories__list">
+                                    @if(lstProductCategoryChild == null)
+                                    {
+                                        
+                                    }
+                                    else
+                                    {
+                                    @foreach (var p in lstProductCategoryChild)
+                                    {
+                                        <li><a href="/chung-loai/@p.Url" @onclick="@(() => NavigationManager.NavigateTo($"/chung-loai/{@p.Url}",true))">@p.Name</a></li>
+                                    }    
+                                    }
+                                    
+                                </ul>
+                            </div>
+                            <!-- End all-categories -->
+                            <div class="search-advanced">
+                                <h3 class="search-advanced__title">Bộ lọc tìm kiếm</h3>
+                                <!-- Nhà Cung Cấp -->
+                                <!--   <div class="search-advanced__box">
+                                       <h4 class="search-advanced__small-title">Loại Nhà Cung Cấp</h4>
+                                       <div class="search-advanced__type-radio">
+                                           <div class="form-check">
+                                               <label class="form-check-label">
+                                                   <input type="radio" class="form-check-input" name="merchant" checked>Tất Cả
+                                               </label>
+                                           </div>
+                                           <div class="form-check">
+                                               <label class="form-check-label">
+                                                   <input type="radio" class="form-check-input" name="merchant">Bình Thường
+                                               </label>
+                                           </div>
+                                           <div class="form-check">
+                                               <label class="form-check-label">
+                                                   <input type="radio" class="form-check-input" name="merchant">Voso Mall
+                                               </label>
+                                           </div>
+                                       </div>
+                                   </div>-->
+                                <!-- Tỉnh thành -->
+                                <div class="search-advanced__box">
+                                    <h4 class="search-advanced__small-title">Tỉnh thành</h4>
+                                    <div class="search-advanced__type-radio">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="city" checked @onclick="@(() => OnSlectedLocation(null))">Tất Cả
+                                            </label>
+                                        </div>
+                                        @{
+                                            if(lstLocation == null)
+                                            {
+                                            }
+                                            else
+                                            {
+                                                 int i = 1;
+                                                @foreach (var p in lstLocation)
+                                                {
+                                                    if (i < 5)
+                                                    {
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" value="@p.Id" class="form-check-input" name="city" @onclick="@(() => OnSlectedLocation(@p.Id))" />@p.Name
+                                                            </label>
+                                                        </div>
+                                                        i++;
+                                                    }
+                                                    else
+                                                    {
+                                                        break;
+                                                    }
+                                                }
+                                            
+                                           
+
+                                            <span id="dots"></span>
+                                            <!-- Xem thêm -->
+                                            <span id="more" style="display: @(@viewMoreExpanded ? "none" : "inline") !important">
+                                                @foreach (var p in lstLocation)
+                                                {
+
+                                                    @if (i > 5)
+                                                    {
+                                                        <div class="form-check">
+                                                            <label class="form-check-label">
+                                                                <input type="radio" value="@p.Id" class="form-check-input" name="city" @onclick="@(() => OnSlectedLocation(@p.Id))" />@p.Name
+                                                            </label>
+                                                        </div>
+                                                    }
+
+                                                    i++;
+                                                }
+                                            </span>
+                                            <span @onclick="@(() => ColapsedViewMore())" id="viewMore" class="search-advanced__box__view-more">@(viewMoreExpanded ? "Xem thêm" : "Rút gọn")</span>
+
+
+                                        }
+
+                                        }
+
+                                    </div>
+                                </div>
+                                <!-- Giá sản phẩm -->
+                                <div class="search-advanced__box">
+                                    <h4 class="search-advanced__small-title">Giá</h4>
+                                    <div class="search-advanced__filter-price">
+                                        <input type="number" @bind="fromPrice" class="filter_price_min" placeholder="đ Từ" />
+                                        -
+                                        <input type="number" @bind="toPrice" class="filter_price_max" placeholder="đ Đến" />
+                                    </div>
+                                </div>
+
+                                <div class="search-advanced__button-search">
+                                    <a href="/chung-loai/@url?locationId=@locationId&fromPrice=@fromPrice&toPrice=@toPrice&orderBy=@orderBy&p=@p" class="btn btn-outline-primary btn-sm">ÁP DỤNG</a>
+                                    @*<button type="button" @onclick="@OnFilter" class="btn btn-outline-primary btn-sm">ÁP DỤNG</button>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</CascadingValue>

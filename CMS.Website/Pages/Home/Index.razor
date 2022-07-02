@@ -1,0 +1,1293 @@
+﻿@page "/"
+<PageTitle>@(setting != null ? setting.MetaTitleDefault :"")</PageTitle>
+<HeadContent>
+    <meta name="keywords" content="@(setting != null ? setting.MetaKeywordsDefault :"")" />
+    <meta name="description" content="@(setting != null ? setting.MetaDescriptionDefault :"")" />
+    <link id="canonical" rel="canonical" href="@(NavigationManager.Uri.ToString())">
+    <!-- META FOR FACEBOOK -->
+    <meta property="og:url" content="@(NavigationManager.Uri.ToString())">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="@(setting != null ? setting.MetaTitleDefault :"")">
+    <meta property="og:description" content="@(setting != null ? setting.MetaDescriptionDefault :"")">    
+    <meta property="og:image" content="@(NavigationManager.Uri.ToString())favicon.jpg">
+
+    <!-- END META FOR FACEBOOK -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card" value="">
+    <meta name="twitter:site" content="">
+    <meta name="twitter:creator" content="">
+    <!-- End Twitter Card -->
+</HeadContent>
+
+
+
+  <div class="content-fluid-mobile mb:display md:display-none">
+        <div class="flex w-fullx">
+            <div class="banner w-full bg-banner">
+            </div>
+        </div>
+
+        <div class="col mx-6 my-4">
+            <div class="flex flex-col">
+                <p class="title text-xl font-medium mb-2">GIỚI THIỆU</p>
+                <div class="underline"></div>
+                <p class="text1 font-medium text-lg mb-2">DOANH NGHIỆP ĐÁ MỸ NGHỆ TÂM NGUYỆN</p>
+                <p class="text2  text-md mb-2">
+                    Đá Mỹ Nghệ Tâm Nguyện hình thành và phát triển từ làng nghề Đá Mỹ Nghệ Ninh Vân. Nơi đây nổi tiếng với các sản phẩm mỹ nghệ thủ công từ đá tự nhiên, đặc biệt là lăng mộ đá, mộ đá. Tính đến nay, doanh nghiệp của chúng tôi đã hơn 10 năm tuổi. Trong suốt quãng thời gian đó, chúng tôi đã thi công hơn 1.000 công trình lớn nhỏ khắp cả nước. Đối với chúng tôi, niềm vui của khách hàng luôn là động lực to lớn để chúng tôi phát triển và ngày một lớn mạnh.
+                </p>
+                <p class="text2 text-md">
+                    Chúng tôi có 2 cơ sở sản xuất, thi công đá. Mỗi cơ sở rộng 500m2. Với những nghệ nhân đá lành nghề, chúng tôi luôn cố gắng làm việc không ngừng để cung cấp những sản phẩm đá mỹ nghệ đẹp nhất, đúng thời hạn nhất.
+                </p>
+                <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28 my-4">
+                    Xem thêm
+                </button>
+                <div>
+                    <img src="./assets/img/content/1.jpeg" class="bg-cover bg-center bg-no-repeat">
+                </div>
+            </div>
+        </div>
+
+        <div class="col bg-gray">
+            <div class="flex flex-col mx-4 mt-4">
+                <p class="title text-xl font-medium mb-2 mt-4 mx-auto uppercase">SẢN PHẨM CHÍNH CỦA CHÚNG TÔI</p>
+                <div class="underline mx-auto"></div>
+                <p class="text1 text-md mt-4">
+                    Sản phẩm đá mỹ nghệ của Đá Tâm Nguyện chúng tôi rất đa dạng về mẫu mã, chủng loại, đáp ứng đầy đủ mong muốn của khách hàng như Lăng mộ đá, mộ đá, cột đá nhà thờ, lan can đá, cuốn thư đá, đồ thờ đá, bàn ghế đá… Các sản phẩm của chúng tôi đều được sản xuất từ chính đôi bàn tay của các nghệ nhân nổi tiếng, kinh nghiệm lâu năm của làng nghề đá Ninh Vân, Ninh Bình. Ngoài ra, chúng tôi luôn cố gắng khai thác thêm nhiều mẫu mã, đảm bảo được sự đa dạng và độc đáo của mỗi sản phẩm so với các đơn vị khác trên thị trường.
+                </p>
+                <div class="flex row mt-4">
+                    <div class="flex flex-col blockProduct mr-4">
+                        <div class="flex">
+                            <img src="./assets/img/content/2.jpeg" class="bg-cover bg-center bg-no-repeat">
+                        </div>
+                        <div class="flex mt-4">
+                            <div class="mx-auto w-36 bg-white">
+                                <p class="font-medium text-md text-center uppercase my-2">Lăng mộ đá</p>
+                            </div>
+                        </div>
+                        <div class="flex mx-auto my-4">
+                            <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28">
+                                Xem thêm
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col blockProduct">
+                        <div class="flex">
+                            <img src="./assets/img/content/3.jpeg" class="bg-cover bg-center bg-no-repeat">
+                        </div>
+                        <div class="flex mt-4">
+                            <div class="mx-auto w-36 bg-white">
+                                <p class="font-medium text-md text-center uppercase my-2">mộ đá</p>
+                            </div>
+                        </div>
+                        <div class="flex mx-auto my-4">
+                            <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28">
+                                Xem thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex row mt-4 mb-4">
+                    <div class="flex flex-col blockProduct mr-4">
+                        <div class="flex">
+                            <img src="./assets/img/content/2.jpeg" class="bg-cover bg-center bg-no-repeat">
+                        </div>
+                        <div class="flex mt-4">
+                            <div class="mx-auto w-36 bg-white">
+                                <p class="font-medium text-md text-center uppercase my-2">Lăng mộ đá</p>
+                            </div>
+                        </div>
+                        <div class="flex mx-auto my-4">
+                            <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28">
+                                Xem thêm
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col blockProduct">
+                        <div class="flex">
+                            <img src="./assets/img/content/3.jpeg" class="bg-cover bg-center bg-no-repeat">
+                        </div>
+                        <div class="flex mt-4">
+                            <div class="mx-auto w-36 bg-white">
+                                <p class="font-medium text-md text-center uppercase my-2">mộ đá</p>
+                            </div>
+                        </div>
+                        <div class="flex mx-auto my-4">
+                            <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28">
+                                Xem thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-col">
+            <div class="flex flex-col mx-4 mt-4">
+                <p class="title text-xl font-medium mb-2 mt-4 mx-auto uppercase">Các sản phẩm tiêu biểu</p>
+                <div class="underline mx-auto"></div>
+                <div class="flex mt-4 mb-4 w-full">
+                    <div class="carousel relative shadow-2xl w-full">
+                        <div class="carousel-inner relative overflow-hidden w-full">
+                            <!--Slide 1-->
+                            <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
+                            <div class="carousel-item absolute opacity-0">
+                                <div class="flex flex-row">
+                                    <div class="flex flex-col mr-4">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/8.jpeg" class="bg-cover bg-center bg-no-repeat">
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/7.jpeg" class="bg-cover bg-center bg-no-repeat">
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="carousel-3" class="prev control-1 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-5 inset-y-0 left-0 my-auto">‹</label>
+                            <label for="carousel-2" class="next control-1 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-5 inset-y-0 right-0 my-auto">›</label>
+
+                            <!--Slide 2-->
+                            <input class="carousel-open" type="radio" id="carousel-2" name="carousel" aria-hidden="true" hidden="">
+                            <div class="carousel-item absolute opacity-0">
+                                <div class="flex flex-row">
+                                    <div class="flex flex-col mr-4">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/10.jpeg" class="bg-cover bg-center bg-no-repeat">
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/13.jpeg" class="bg-cover bg-center bg-no-repeat">
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="carousel-1" class="prev control-2 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
+                            <label for="carousel-3" class="next control-2 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
+
+                            <!--Slide 3-->
+                            <input class="carousel-open" type="radio" id="carousel-3" name="carousel" aria-hidden="true" hidden="">
+                            <div class="carousel-item absolute opacity-0">
+                                <div class="flex flex-row">
+                                    <div class="flex flex-col blockProduct mr-4">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/13.jpeg" class="bg-cover bg-center bg-no-repeat">
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col blockProduct">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/14.jpeg" class="bg-cover bg-center bg-no-repeat">
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="carousel-2" class="prev control-3 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
+                            <label for="carousel-1" class="next control-3 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
+
+                            <!-- Add additional indicators for each slide-->
+                            <!--                        <ol class="carousel-indicators">-->
+                            <!--                            <li class="inline-block mr-3">-->
+                            <!--                                <label for="carousel-1" class="carousel-bullet cursor-pointer block text-4xl text-white hover:text-blue-700">•</label>-->
+                            <!--                            </li>-->
+                            <!--                            <li class="inline-block mr-3">-->
+                            <!--                                <label for="carousel-2" class="carousel-bullet cursor-pointer block text-4xl text-white hover:text-blue-700">•</label>-->
+                            <!--                            </li>-->
+                            <!--                            <li class="inline-block mr-3">-->
+                            <!--                                <label for="carousel-3" class="carousel-bullet cursor-pointer block text-4xl text-white hover:text-blue-700">•</label>-->
+                            <!--                            </li>-->
+                            <!--                        </ol>-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full bg-intro flex flex-col justify-end">
+            <div class="flex flex-col rightPart">
+                <p class="text-xl text-white uppercase">TẠI SAO NÊN CHỌN ĐÁ TÂM NGUYỆN</p>
+                <div class="underline my-2"></div>
+                <ul role="list" class="textBlock marker:text-white list-disc pl-2">
+                    <li class="text-md text-white text-center">Mang lại sản phẩm tốt nhất về chất lượng và thẩm mỹ</li>
+                    <li class="text-white text-center">Sản phẩm hoa văn tinh xảo, đa dạng và nhiều chủng loại</li>
+                    <li class="text-white text-center">Đá nguyên khối , già đá không chấp vá, rạn nứt.</li>
+                    <li class="text-white text-center">Đội ngũ nhân sự có nhiều kinh nghiệm, chuyên môn</li>
+                    <li class="text-white text-center">Luôn đáp ứng đúng tiến độ</li>
+                    <li class="text-white text-center">Bảo hành trọn đời</li>
+                    <li class="text-white text-center">Giá cả hợp lý đáp ứng nhu cầu của khách hàng.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col mb-8">
+            <div class="flex flex-col mx-auto mt-6">
+                <p class="titleBlock text-xl uppercase text-center">Video clip đá tâm nguyện</p>
+                <div class="underline my-2 mx-auto"></div>
+                <div class="flex mt-4 mx-auto">
+                    <div class="flex imageVideo ">
+                        <iframe src="https://www.youtube.com/embed/r9jwGansp1E" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="flex mt-4">
+                    <div class="mx-6">
+                        <p class="text-xs text-center font-medium uppercase my-2">Thi công thiết kế, xây dựng khuôn viên lăng mộ đá cho dòng họ, gia đình</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col">
+            <p class="title text-xl font-medium mt-6 mx-auto">Tin tức</p>
+            <div class="underline mx-auto"></div>
+            <div class="flex mt-4">
+                <div class="carousel-new relative shadow-2xl w-full">
+                    <div class="carousel-inner relative overflow-hidden w-full">
+                        <!--Slide 1-->
+                        <input class="carousel-open" type="radio" id="carousel-new-1" name="carousel-new" aria-hidden="true" hidden="" checked="checked">
+                        <div class="carousel-item absolute opacity-0">
+                            <div class="flex mx-4">
+                                <div class="flex flex-col detailNewsBlock">
+                                    <div class="imgPart figure1">
+                                        <a href="/dai-phun-nuoc/" title="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất">
+                                            <img alt="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất" loading="lazy" src="./assets/img/content/dai-phun-nuoc__19_.jpeg">
+                                        </a>
+                                    </div>
+                                    <div class="textPart">
+                                        <p class="titleNews">
+                                            <a href="/dai-phun-nuoc/" title="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất">#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất</a>
+                                        </p>
+                                        <p class="timePost"> 01 Tháng 06, 2022</p>
+                                        <p class="descriptionNews">
+                                            Đài phun nước sân vườn là gì? Các mẫu đài phun nước trang trí sân vườn siêu hot hiện nay cho gia đình bạn. Cùng Đá Tâm Nguyện tìm hiểu các mẫu đài phun nước sân vườn nhé!
+                                        </p>
+                                        <p class="btnPart">
+                                            <a href="/dai-phun-nuoc/">Xem chi tiết &gt;</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="carousel-new-3" class="prev control-1 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-5 inset-y-0 left-0 my-auto">‹</label>
+                        <label for="carousel-new-2" class="next control-1 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-5 inset-y-0 right-0 my-auto">›</label>
+
+                        <!--Slide 2-->
+                        <input class="carousel-open" type="radio" id="carousel-new-2" name="carousel-new" aria-hidden="true" hidden="">
+
+                        <div class="carousel-item absolute opacity-0">
+                            <div class="flex mx-4">
+                                <div class="flex flex-col detailNewsBlock">
+                                    <div class="imgPart figure1">
+                                        <a href="" title="">
+                                            <img alt="" loading="lazy" src="./assets/img/content/den-da-san-vuon__3_.jpeg">
+                                        </a>
+                                    </div>
+                                    <div class="textPart">
+                                        <p class="titleNews">
+                                            <a href="/dai-phun-nuoc/" title="#21+ Mẫu Đèn Đá Sân Vườn Trang Trí Đẹp Nhất">#21+ Mẫu Đèn Đá Sân Vườn Trang Trí Đẹp Nhất</a>
+                                        </p>
+                                        <p class="timePost"> 01 Tháng 06, 2022</p>
+                                        <p class="descriptionNews">
+
+                                            Đèn đá sân vườn được biết đến như một trào lưu được nhiều người yêu thích. Đối với nhiều người đã từng sử dụng loại đèn này đã đánh giá khá cao bởi nó mang đến một không gian độc đáo!
+                                        </p>
+                                        <p class="btnPart">
+                                            <a href="/dai-phun-nuoc/">Xem chi tiết &gt;</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="carousel-new-1" class="prev control-2 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
+                        <label for="carousel-new-3" class="next control-2 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
+
+                        <!--Slide 3-->
+                        <input class="carousel-open" type="radio" id="carousel-new-3" name="carousel-new" aria-hidden="true" hidden="">
+                        <div class="carousel-item absolute opacity-0">
+                            <div class="flex mx-4">
+                                <div class="flex flex-col detailNewsBlock">
+                                    <div class="imgPart figure1">
+                                        <a href="" title="">
+                                            <img alt="" loading="lazy" src="./assets/img/content/ban-ghe-da__10_.jpeg">
+                                        </a>
+                                    </div>
+                                    <div class="textPart">
+                                        <p class="titleNews">
+                                            <a href="/dai-phun-nuoc/" title="#21+ Mẫu Đèn Đá Sân Vườn Trang Trí Đẹp Nhất">#21+ Mẫu Đèn Đá Sân Vườn Trang Trí Đẹp Nhất</a>
+                                        </p>
+                                        <p class="timePost"> 01 Tháng 06, 2022</p>
+                                        <p class="descriptionNews">
+
+                                            Đèn đá sân vườn được biết đến như một trào lưu được nhiều người yêu thích. Đối với nhiều người đã từng sử dụng loại đèn này đã đánh giá khá cao bởi nó mang đến một không gian độc đáo!
+                                        </p>
+                                        <p class="btnPart">
+                                            <a href="/dai-phun-nuoc/">Xem chi tiết &gt;</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="carousel-new-2" class="prev control-3 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
+                        <label for="carousel-new-1" class="next control-3 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col  bg-about-us">
+            <p class="title text-xl font-medium mb-2 mt-6 mx-auto">Khách hàng nói về chúng tôi</p>
+            <div class="underline mx-auto"></div>
+            <p class="mb-4 mt-4 mx-6">Đối với chúng tôi, chất lượng sản phẩm luôn được đặt lên hàng đầu. Nhiều năm hoạt động, sự thành công trên con đường tạo ra Lăng mộ đá của hơn 50.000 Sản phẩm chính là minh chứng rõ ràng nhất cho chất lượng tuyệt vời của ĐÁ TÂM NGUYỆN.</p>
+
+            <div class="flex mt-4 mb-4">
+                <div class="carousel-about-us relative shadow-2xl w-full">
+                    <div class="carousel-inner relative overflow-hidden w-full">
+                        <!--Slide 1-->
+                        <input class="carousel-open" type="radio" id="carousel-about-us-1" name="carousel-about-us" aria-hidden="true" hidden="" checked="checked">
+                        <div class="carousel-item absolute opacity-0">
+                            <div class="flex mx-4">
+                                <div class="detailCusTalkUsBlock">
+                                    <div class="imgCustomer">
+                                        <img alt="customer_3" loading="lazy" src="./assets/img/upload/customer_1.png">
+                                    </div>
+                                    <div class="imgStar">
+                                        <img alt="fiveStar" loading="lazy" src="./assets/img/upload/fiveStar.png">
+                                    </div>
+                                    <div class="textPart">
+                                        <p class="nameCus">Đỗ Đức Tứ</p>
+                                        <p class="addressCus">Giám Đốc - Công Ty Cổ Phần Xây Dựng Giao Thông Tỉnh Yên Bái</p>
+                                        <p class="feedbackCus">Thông qua bạn bè tôi đã biết đến doanh nghiệp Đá Tâm Nguyện, tôi thấy rất hài lòng về chất lượng phục vụ và đội ngũ kỹ thuật rất chuyên nghiệp,khi có dịp tôi sẽ giới thiệu cho bạn bè biết đến và trải nhiệm dịch vụ của công ty. Cảm ơn các bạn rất nhiều. Xin chúc công ty ngày càng lớn mạnh và phát triển!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="carousel-about-us-3" class="prev control-1 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-5 inset-y-0 left-0 my-auto">‹</label>
+                        <label for="carousel-about-us-2" class="next control-1 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-5 inset-y-0 right-0 my-auto">›</label>
+
+                        <!--Slide 2-->
+                        <input class="carousel-open" type="radio" id="carousel-about-us-2" name="carousel-about-us" aria-hidden="true" hidden="">
+
+                        <div class="carousel-item absolute opacity-0">
+                            <div class="flex mx-4">
+                                <div class="detailCusTalkUsBlock">
+                                    <div class="imgCustomer">
+                                        <img alt="customer_3" loading="lazy" src="./assets/img/upload/customer_2.png">
+                                    </div>
+                                    <div class="imgStar">
+                                        <img alt="fiveStar" loading="lazy" src="./assets/img/upload/fiveStar.png">
+                                    </div>
+                                    <div class="textPart">
+                                        <p class="nameCus">Bác Khuê</p>
+                                        <p class="addressCus">ở Thanh Chương Nghệ An</p>
+                                        <p class="feedbackCus">Tôi năm nay cũng đã ngoài ngũ tuần, nên cũng muốn báo hiếu ông bà, tổ tiên. Nên tôi quyết định cải tổ lại khu lăng mộ đá gia đình tôi. Khi tôi liên hệ, các bạn rất nhiệt tình, chạy từ Ninh Bình vào tận Nghệ An để tư vấn và đo đạc. Tôi làm lăng mộ đá xanh rêu. Điều làm tôi ưng ý nhất là đá rất đều màu, không nứt vỡ. Còn hoa văn thì tuyệt vời, đẹp đến từng chi tiết.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="carousel-about-us-1" class="prev control-2 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
+                        <label for="carousel-about-us-3" class="next control-2 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
+
+                        <!--Slide 3-->
+                        <input class="carousel-open" type="radio" id="carousel-about-us-3" name="carousel-about-us" aria-hidden="true" hidden="">
+                        <div class="carousel-item absolute opacity-0">
+                            <div class="flex mx-4">
+                                <div class="detailCusTalkUsBlock">
+                                    <div class="imgCustomer">
+                                        <img alt="customer_3" loading="lazy" src="./assets/img/upload/customer_3.png">
+                                    </div>
+                                    <div class="imgStar">
+                                        <img alt="fiveStar" loading="lazy" src="./assets/img/upload/fiveStar.png">
+                                    </div>
+                                    <div class="textPart">
+                                        <p class="nameCus">Nguyễn Thanh Phong</p>
+                                        <p class="addressCus">Giám Đốc Chi Nhánh Ngân Hàng BIDV</p>
+                                        <p class="feedbackCus">Tôi thực sự rất ưng ý khi Đá Tâm Nguyện hoàn thành khu lăng mộ đá cho họ nhà tôi. Tôi là một người con xa quê, nên tôi rất mong muốn có thể đóng góp cho dòng họ, cũng coi như là báo hiếu tổ tiên. Vì vậy, tôi đã họp lại với trưởng tộc và anh em, quyết định xây lăng mộ cho cả họ. Tôi rất ưng bản thiết kế cũng như hoa văn mà Đá Tâm Nguyện đã thi công cho khu lăng mộ nhà chúng tôi.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="carousel-about-us-2" class="prev control-3 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 left-0 my-auto">‹</label>
+                        <label for="carousel-about-us-1" class="next control-3 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden text-3xl font-bold text-black hover:text-white rounded-full bg-white hover:bg-blue-700 leading-tight text-center z-10 inset-y-0 right-0 my-auto">›</label>
+
+                        <!-- Add additional indicators for each slide-->
+                        <!--                        <ol class="carousel-indicators">-->
+                        <!--                            <li class="inline-block mr-3">-->
+                        <!--                                <label for="carousel-1" class="carousel-bullet cursor-pointer block text-4xl text-white hover:text-blue-700">•</label>-->
+                        <!--                            </li>-->
+                        <!--                            <li class="inline-block mr-3">-->
+                        <!--                                <label for="carousel-2" class="carousel-bullet cursor-pointer block text-4xl text-white hover:text-blue-700">•</label>-->
+                        <!--                            </li>-->
+                        <!--                            <li class="inline-block mr-3">-->
+                        <!--                                <label for="carousel-3" class="carousel-bullet cursor-pointer block text-4xl text-white hover:text-blue-700">•</label>-->
+                        <!--                            </li>-->
+                        <!--                        </ol>-->
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex flex-col w-full bg-[#0f2446]">
+            <div class="flex secRegistration">
+                <div class="blockRegistration w-9/10">
+                    <p class="titleBlock ">ĐĂNG KÝ NHẬN TƯ VẤN</p>
+                    <div class="flex">
+                        <div class="flex flex-col w-full">
+                            <div class="form-group text-center">
+                                <input class="form-control" id="name1" placeholder="Họ tên" type="text">
+                                <div class="val_name1"></div>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="phone1" placeholder="Số điện thoại" type="text">
+                                <div class="val_phone1"></div>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" id="address1" placeholder="Địa chỉ" type="text">
+                                <div class="val_address1"></div>
+                            </div>
+                            <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28 mx-auto">
+                                Gửi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex">
+                <div class="flex-col mx-2 padding-top-320-px">
+                    <p class="text-white text-md font-medium mb-2">THÔNG TIN CÔNG TY</p>
+                    <div class="flex flex-col">
+                        <p class="text-white text1 my-1">
+                            <b>Xưởng Chế Tác:</b>
+                        </p>
+                        <a href="https://goo.gl/maps/xmkGYZVCZBLs6KKDA" rel="nofollow" target="_blank">
+                            <p class="text-white text1 my-1">- 561 Nguyễn Huệ, Nam Bình, Ninh Bình</p>
+                        </a>
+                        <p class="text-white text1 my-1">- Thôn Đồng Quan – Xã Ninh Vân – Huyện Hoa Lư – Ninh Bình</p>
+                        <a href="https://goo.gl/maps/UyEwvNDX8V3MeFz77" rel="nofollow" target="_blank">
+                            <p class="text-white mb-1">
+                                <b>VPDD:</b>
+                                Toà nhà Season Avenue, Làng việt kiều châu âu – Mỗ Lao – Hà Đông – HN.
+                            </p>
+                        </a>
+                        <p class="text-white text1 my-1">
+                            <a href="tel:0865686892">
+                                <b>Hotline:</b>
+                                0865.68.68.92
+                            </a>
+                        </p>
+                        <p class="text-white text1 my-1">
+                            <a href="mailto:damynghetamnguyen@gmail.com">
+                                <b>Email:</b>
+                                damynghetamnguyen@gmail.com
+                            </a>
+                        </p>
+                        <p class="text-white text1 my-1">
+                            <a href="https://datamnguyen.vn">
+                                <b>Website:</b>
+                                https://datamnguyen.vn
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex mt-4">
+                <div class="flex-col mx-2 w-full">
+                    <p class="text-white text-md font-medium mb-2">THÔNG TIN HỖ TRỢ</p>
+                    <div class="flex-col w-full">
+                        <ul>
+                            <li>
+                                <a class="text-white text1 my-1 mx-2 link" href="/gioi-thieu/">Giới Thiệu</a>
+                            </li>
+                            <li>
+                                <a class="text-white text1 my-1 mx-2 link" href="/mo-da/">Mộ Đá</a>
+                            </li>
+                            <li>
+                                <a class="text-white text1 my-1 mx-2 link" href="/lang-mo-da/">Lăng Mộ Đá</a>
+                            </li>
+                            <li>
+                                <a class="text-white text1 my-1 mx-2 link" href="/lien-he/">Liên Hệ</a>
+                            </li>
+                        </ul>
+                        <img alt="bo_cong_thuong" src="./assets/img/logo/bo_cong_thuong.png" class="width-200-px my-2">
+                        <a class="dmca-badge" href="https://www.dmca.com/Protection/Status.aspx?ID=93a55eee-bb80-4a4e-a873-8302b1e8ab72&amp;refurl=https://datamnguyen.vn/" target="_blank" title="DMCA.com Protection Status">
+                            <img alt="DMCA.com Protection Status" class="width-200-px my-2" src="https://images.dmca.com/Badges/dmca_protected_16_120.png?ID=93a55eee-bb80-4a4e-a873-8302b1e8ab72">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex mt-4">
+                <div class="flex flex-col">
+                    <p class="text-white text-md font-medium mb-2 ml-2">KẾT NỐI VỚI ĐÁ TÂM NGUYỆN</p>
+                    <div class="flex ml-2 my-4">
+                        <a href="https://www.facebook.com/damynghetamnguyen/">
+                            <img alt="fanpage" src="./assets/img/upload/fanpage.png">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-fluid-desk mb:display-none md:display">
+        <div class="flex-col">
+            <div class="flex w-full">
+                <div class="w-full">
+                    <img class="object-fill w-full"  src="./assets/img/banner/banner_desk.jpeg"/>
+                </div>
+            </div>
+
+            <div class="container mx-6 mt-6 mb-8 px-32 flex flex-row">
+                <div class="flex w-1/2 my-2 mr-2 imagePart">
+                </div>
+                <div class="flex w-1/2 flex-col ml-2">
+                    <p class="text-xl font-medium mb-2">GIỚI THIỆU</p>
+                    <div class="underline"></div>
+                    <p class="text-md font-medium text-lg mb-2">DOANH NGHIỆP ĐÁ MỸ NGHỆ TÂM NGUYỆN</p>
+                    <p class="text-md text-md mb-2">
+                        Đá Mỹ Nghệ Tâm Nguyện hình thành và phát triển từ làng nghề Đá Mỹ Nghệ Ninh Vân. Nơi đây nổi tiếng với các sản phẩm mỹ nghệ thủ công từ đá tự nhiên, đặc biệt là lăng mộ đá, mộ đá. Tính đến nay, doanh nghiệp của chúng tôi đã hơn 10 năm tuổi. Trong suốt quãng thời gian đó, chúng tôi đã thi công hơn 1.000 công trình lớn nhỏ khắp cả nước. Đối với chúng tôi, niềm vui của khách hàng luôn là động lực to lớn để chúng tôi phát triển và ngày một lớn mạnh.
+                    </p>
+                    <p class="text2 text-md">
+                        Chúng tôi có 2 cơ sở sản xuất, thi công đá. Mỗi cơ sở rộng 500m2. Với những nghệ nhân đá lành nghề, chúng tôi luôn cố gắng làm việc không ngừng để cung cấp những sản phẩm đá mỹ nghệ đẹp nhất, đúng thời hạn nhất.
+                    </p>
+                    <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28 mt-6">
+                        Xem thêm
+                    </button>
+
+                </div>
+            </div>
+
+            <div class="flex bg-gray px-32 mt-6 mb-8">
+                <div class="flex flex-col mx-4 mt-4">
+                    <p class="title text-xl font-medium mb-2 mt-4 mx-auto uppercase">SẢN PHẨM CHÍNH CỦA CHÚNG TÔI</p>
+                    <div class="underline mx-auto"></div>
+                    <p class="text-lg mt-4">
+                        Sản phẩm đá mỹ nghệ của Đá Tâm Nguyện chúng tôi rất đa dạng về mẫu mã, chủng loại, đáp ứng đầy đủ mong muốn của khách hàng như Lăng mộ đá, mộ đá, cột đá nhà thờ, lan can đá, cuốn thư đá, đồ thờ đá, bàn ghế đá… Các sản phẩm của chúng tôi đều được sản xuất từ chính đôi bàn tay của các nghệ nhân nổi tiếng, kinh nghiệm lâu năm của làng nghề đá Ninh Vân, Ninh Bình. Ngoài ra, chúng tôi luôn cố gắng khai thác thêm nhiều mẫu mã, đảm bảo được sự đa dạng và độc đáo của mỗi sản phẩm so với các đơn vị khác trên thị trường.
+                    </p>
+                    <div class="flex flex-row mt-6">
+                        <div class="flex flex-col blockProduct wrapBox">
+                            <div class="flex">
+                                <img src="./assets/img/content/2.jpeg" class="bg-cover bg-center bg-no-repeat">
+                            </div>
+                            <div class="flex mt-4">
+                                <div class="mx-auto w-36 bg-white">
+                                    <p class="font-medium text-md text-center uppercase my-2">Lăng mộ đá</p>
+                                </div>
+                            </div>
+                            <div class="flex mx-auto my-4">
+                                <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28">
+                                    Xem thêm
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-col blockProduct wrapBox">
+                            <div class="flex">
+                                <img src="./assets/img/content/3.jpeg" class="bg-cover bg-center bg-no-repeat">
+                            </div>
+                            <div class="flex mt-4">
+                                <div class="mx-auto w-36 bg-white">
+                                    <p class="font-medium text-md text-center uppercase my-2">mộ đá</p>
+                                </div>
+                            </div>
+                            <div class="flex mx-auto my-4">
+                                <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28">
+                                    Xem thêm
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-col blockProduct wrapBox">
+                            <div class="flex">
+                                <img src="./assets/img/content/4.jpeg" class="bg-cover bg-center bg-no-repeat">
+                            </div>
+                            <div class="flex mt-4">
+                                <div class="mx-auto w-36 bg-white">
+                                    <p class="font-medium text-md text-center uppercase my-2">Công trình đá</p>
+                                </div>
+                            </div>
+                            <div class="flex mx-auto my-4">
+                                <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28">
+                                    Xem thêm
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex flex-col blockProduct wrapBox">
+                            <div class="flex">
+                                <img src="./assets/img/content/5.jpeg" class="bg-cover bg-center bg-no-repeat">
+                            </div>
+                            <div class="flex mt-4">
+                                <div class="mx-auto w-36 bg-white">
+                                    <p class="font-medium text-md text-center uppercase my-2">Nhà thờ họ</p>
+                                </div>
+                            </div>
+                            <div class="flex mx-auto my-4">
+                                <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-28">
+                                    Xem thêm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-col px-32 mt-6 mb-8">
+                <div class="flex flex-col mx-4 mt-4">
+                    <p class="title text-xl font-medium mb-2 mt-4 mx-auto uppercase">Các sản phẩm tiêu biểu</p>
+                    <div class="underline mx-auto"></div>
+                    <div class="flex">
+                        <div class="carousel w-full">
+                            <div id="slide1" class="carousel-item relative w-full">
+                                <div class="flex flex-row">
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/5.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/5.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/5.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/5.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                                    <a href="#slide4" class="btn btn-circle">❮</a>
+                                    <a href="#slide2" class="btn btn-circle">❯</a>
+                                </div>
+                            </div>
+                            <div id="slide2" class="carousel-item relative w-full">
+                                <div class="flex flex-row">
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/7.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá đôi nhà thờ họ đẹp</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/7.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá đôi nhà thờ họ đẹp</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/7.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá đôi nhà thờ họ đẹp</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/7.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá đôi nhà thờ họ đẹp</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                                    <a href="#slide1" class="btn btn-circle">❮</a>
+                                    <a href="#slide3" class="btn btn-circle">❯</a>
+                                </div>
+                            </div>
+                            <div id="slide3" class="carousel-item relative w-full">
+                                <div class="flex flex-row">
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/8.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/8.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/8.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/8.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                                    <a href="#slide2" class="btn btn-circle">❮</a>
+                                    <a href="#slide4" class="btn btn-circle">❯</a>
+                                </div>
+                            </div>
+                            <div id="slide4" class="carousel-item relative w-full">
+                                <div class="flex flex-row">
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/13.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/13.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/13.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div class="flex flex-col w-4/12 px-2 py-2">
+                                        <div class="flex">
+                                            <img src="./assets/img/content/13.jpeg" class="object-fill"/>
+                                        </div>
+                                        <div class="flex mt-4">
+                                            <div class="mx-aut">
+                                                <p class="text-xs text-center uppercase my-2">Cổng đá nhà thờ họ đẹp ở Bình Dương</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex mx-auto my-4">
+                                            <button class="bg-currentColor hover:bg-blue-700 text-white text-xs font-bold py-2 px-4 rounded">
+                                                Liên hệ: 0865.68.68.92
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                                    <a href="#slide3" class="btn btn-circle">❮</a>
+                                    <a href="#slide1" class="btn btn-circle">❯</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="flex bg-intro-dk w-full">
+                <div class="flex flex-row justify-end w-full">
+                    <div class="flex w-1/2 w-full">
+                        <div class="flex flex-col rightPart w-full">
+                            <p class="text-xl text-white uppercase">TẠI SAO NÊN CHỌN ĐÁ TÂM NGUYỆN</p>
+                            <div class="underline my-2"></div>
+                            <ul role="list" class="textBlock marker:text-white list-disc pl-2">
+                                <li class="text-md text-white text-center">Mang lại sản phẩm tốt nhất về chất lượng và thẩm mỹ</li>
+                                <li class="text-white text-center">Sản phẩm hoa văn tinh xảo, đa dạng và nhiều chủng loại</li>
+                                <li class="text-white text-center">Đá nguyên khối , già đá không chấp vá, rạn nứt.</li>
+                                <li class="text-white text-center">Đội ngũ nhân sự có nhiều kinh nghiệm, chuyên môn</li>
+                                <li class="text-white text-center">Luôn đáp ứng đúng tiến độ</li>
+                                <li class="text-white text-center">Bảo hành trọn đời</li>
+                                <li class="text-white text-center">Giá cả hợp lý đáp ứng nhu cầu của khách hàng.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-col px-32">
+                <p class="title text-xl font-medium mt-6 mx-auto">Tin tức</p>
+                <div class="underline mx-auto"></div>
+                <div class="flex flex-row mt-4">
+                    <div class="flex mx-4">
+                        <div class="flex flex-col detailNewsBlock">
+                            <div class="imgPart figure1">
+                                <a href="/dai-phun-nuoc/" title="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất">
+                                    <img alt="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất" loading="lazy" src="./assets/img/content/dai-phun-nuoc__19_.jpeg">
+                                </a>
+                            </div>
+                            <div class="textPart">
+                                <p class="titleNews">
+                                    <a href="/dai-phun-nuoc/" title="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất">#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất</a>
+                                </p>
+                                <p class="timePost"> 01 Tháng 06, 2022</p>
+                                <p class="descriptionNews">
+                                    Đài phun nước sân vườn là gì? Các mẫu đài phun nước trang trí sân vườn siêu hot hiện nay cho gia đình bạn. Cùng Đá Tâm Nguyện tìm hiểu các mẫu đài phun nước sân vườn nhé!
+                                </p>
+                                <p class="btnPart">
+                                    <a href="/dai-phun-nuoc/">Xem chi tiết &gt;</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex mx-4">
+                        <div class="flex flex-col detailNewsBlock">
+                            <div class="imgPart figure1">
+                                <a href="/dai-phun-nuoc/" title="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất">
+                                    <img alt="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất" loading="lazy" src="./assets/img/content/dai-phun-nuoc__19_.jpeg">
+                                </a>
+                            </div>
+                            <div class="textPart">
+                                <p class="titleNews">
+                                    <a href="/dai-phun-nuoc/" title="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất">#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất</a>
+                                </p>
+                                <p class="timePost"> 01 Tháng 06, 2022</p>
+                                <p class="descriptionNews">
+                                    Đài phun nước sân vườn là gì? Các mẫu đài phun nước trang trí sân vườn siêu hot hiện nay cho gia đình bạn. Cùng Đá Tâm Nguyện tìm hiểu các mẫu đài phun nước sân vườn nhé!
+                                </p>
+                                <p class="btnPart">
+                                    <a href="/dai-phun-nuoc/">Xem chi tiết &gt;</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex mx-4">
+                        <div class="flex flex-col detailNewsBlock">
+                            <div class="imgPart figure1">
+                                <a href="/dai-phun-nuoc/" title="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất">
+                                    <img alt="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất" loading="lazy" src="./assets/img/content/dai-phun-nuoc__19_.jpeg">
+                                </a>
+                            </div>
+                            <div class="textPart">
+                                <p class="titleNews">
+                                    <a href="/dai-phun-nuoc/" title="#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất">#29+ Đài Phun Nước Sân Vườn Trang Trí Đẹp Nhất</a>
+                                </p>
+                                <p class="timePost"> 01 Tháng 06, 2022</p>
+                                <p class="descriptionNews">
+                                    Đài phun nước sân vườn là gì? Các mẫu đài phun nước trang trí sân vườn siêu hot hiện nay cho gia đình bạn. Cùng Đá Tâm Nguyện tìm hiểu các mẫu đài phun nước sân vườn nhé!
+                                </p>
+                                <p class="btnPart">
+                                    <a href="/dai-phun-nuoc/">Xem chi tiết &gt;</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-col px-32  bg-about-us">
+                <p class="title text-xl font-medium mb-2 mt-6 mx-auto">Khách hàng nói về chúng tôi</p>
+                <div class="underline mx-auto"></div>
+                <p class="mb-4 mt-4 mx-6">Đối với chúng tôi, chất lượng sản phẩm luôn được đặt lên hàng đầu. Nhiều năm hoạt động, sự thành công trên con đường tạo ra Lăng mộ đá của hơn 50.000 Sản phẩm chính là minh chứng rõ ràng nhất cho chất lượng tuyệt vời của ĐÁ TÂM NGUYỆN.</p>
+                <div class="flex flex-row">
+                    <div class="flex w-4/12">
+                        <div class="flex mx-4">
+                            <div class="detailCusTalkUsBlock">
+                                <div class="imgCustomer">
+                                    <img alt="customer_3" loading="lazy" src="./assets/img/upload/customer_1.png">
+                                </div>
+                                <div class="imgStar">
+                                    <img alt="fiveStar" loading="lazy" src="./assets/img/upload/fiveStar.png">
+                                </div>
+                                <div class="textPart min-height-300-px">
+                                    <p class="nameCus">Đỗ Đức Tứ</p>
+                                    <p class="addressCus">Giám Đốc - Công Ty Cổ Phần Xây Dựng Giao Thông Tỉnh Yên Bái</p>
+                                    <p class="feedbackCus">Thông qua bạn bè tôi đã biết đến doanh nghiệp Đá Tâm Nguyện, tôi thấy rất hài lòng về chất lượng phục vụ và đội ngũ kỹ thuật rất chuyên nghiệp,khi có dịp tôi sẽ giới thiệu cho bạn bè biết đến và trải nhiệm dịch vụ của công ty. Cảm ơn các bạn rất nhiều. Xin chúc công ty ngày càng lớn mạnh và phát triển!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex w-4/12">
+                        <div class="flex mx-4">
+                            <div class="detailCusTalkUsBlock">
+                                <div class="imgCustomer">
+                                    <img alt="customer_3" loading="lazy" src="./assets/img/upload/customer_2.png">
+                                </div>
+                                <div class="imgStar">
+                                    <img alt="fiveStar" loading="lazy" src="./assets/img/upload/fiveStar.png">
+                                </div>
+                                <div class="textPart min-height-300-px">
+                                    <p class="nameCus">Bác Khuê</p>
+                                    <p class="addressCus">ở Thanh Chương Nghệ An</p>
+                                    <p class="feedbackCus">Tôi năm nay cũng đã ngoài ngũ tuần, nên cũng muốn báo hiếu ông bà, tổ tiên. Nên tôi quyết định cải tổ lại khu lăng mộ đá gia đình tôi. Khi tôi liên hệ, các bạn rất nhiệt tình, chạy từ Ninh Bình vào tận Nghệ An để tư vấn và đo đạc. Tôi làm lăng mộ đá xanh rêu. Điều làm tôi ưng ý nhất là đá rất đều màu, không nứt vỡ. Còn hoa văn thì tuyệt vời, đẹp đến từng chi tiết.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex w-4/12">
+                        <div class="flex mx-4">
+                            <div class="detailCusTalkUsBlock">
+                                <div class="imgCustomer">
+                                    <img alt="customer_3" loading="lazy" src="./assets/img/upload/customer_3.png">
+                                </div>
+                                <div class="imgStar">
+                                    <img alt="fiveStar" loading="lazy" src="./assets/img/upload/fiveStar.png">
+                                </div>
+                                <div class="textPart min-height-300-px">
+                                    <p class="nameCus">Nguyễn Thanh Phong</p>
+                                    <p class="addressCus">Giám Đốc Chi Nhánh Ngân Hàng BIDV</p>
+                                    <p class="feedbackCus">Tôi thực sự rất ưng ý khi Đá Tâm Nguyện hoàn thành khu lăng mộ đá cho họ nhà tôi. Tôi là một người con xa quê, nên tôi rất mong muốn có thể đóng góp cho dòng họ, cũng coi như là báo hiếu tổ tiên. Vì vậy, tôi đã họp lại với trưởng tộc và anh em, quyết định xây lăng mộ cho cả họ. Tôi rất ưng bản thiết kế cũng như hoa văn mà Đá Tâm Nguyện đã thi công cho khu lăng mộ nhà chúng tôi.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col w-full bg-[#0f2446]">
+                <div class="flex secRegistration">
+                    <div class="blockRegistration-dk w-9/10">
+                        <p class="titleBlock ">ĐĂNG KÝ NHẬN TƯ VẤN</p>
+                        <div class="flex">
+                            <div class="flex flex-row w-full">
+                                <div class="form-group text-center mr-4">
+                                    <input class="form-control"  placeholder="Họ tên" type="text">
+                                    <div class="val_name1"></div>
+                                </div>
+                                <div class="form-group mx-2">
+                                    <input class="form-control"  placeholder="Số điện thoại" type="text">
+                                    <div class="val_phone1"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Địa chỉ" type="text">
+                                    <div class="val_address1"></div>
+                                </div>
+                                <button class="bg-currentColor hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-32 mx-auto">
+                                    Gửi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex padding-top-120-px px-32">
+                    <div class="flex-row mx-2  w-4/12">
+                       <div class="flex flex-col">
+                           <p class="text-white text-md font-medium mb-2">THÔNG TIN CÔNG TY</p>
+                           <div class="flex flex-col">
+                               <p class="text-white text1 my-1">
+                                   <b>Xưởng Chế Tác:</b>
+                               </p>
+                               <a href="https://goo.gl/maps/xmkGYZVCZBLs6KKDA" rel="nofollow" target="_blank">
+                                   <p class="text-white text1 my-1">- 561 Nguyễn Huệ, Nam Bình, Ninh Bình</p>
+                               </a>
+                               <p class="text-white text1 my-1">- Thôn Đồng Quan – Xã Ninh Vân – Huyện Hoa Lư – Ninh Bình</p>
+                               <a href="https://goo.gl/maps/UyEwvNDX8V3MeFz77" rel="nofollow" target="_blank">
+                                   <p class="text-white mb-1 text1">
+                                       <b>VPDD:</b>
+                                       Toà nhà Season Avenue, Làng việt kiều châu âu – Mỗ Lao – Hà Đông – HN.
+                                   </p>
+                               </a>
+                               <p class="text-white text1 my-1">
+                                   <a href="tel:0865686892">
+                                       <b>Hotline:</b>
+                                       0865.68.68.92
+                                   </a>
+                               </p>
+                               <p class="text-white text1 my-1">
+                                   <a href="mailto:damynghetamnguyen@gmail.com">
+                                       <b>Email:</b>
+                                       damynghetamnguyen@gmail.com
+                                   </a>
+                               </p>
+                               <p class="text-white text1 my-1">
+                                   <a href="https://datamnguyen.vn">
+                                       <b>Website:</b>
+                                       https://datamnguyen.vn
+                                   </a>
+                               </p>
+                           </div>
+                       </div>
+                    </div>
+                    <div class="flex  w-4/12">
+                        <div class="flex-col mx-2 w-full">
+                            <p class="text-white text-md font-medium mb-2">THÔNG TIN HỖ TRỢ</p>
+                            <div class="flex-col w-full">
+                                <ul>
+                                    <li>
+                                        <a class="text-white text1 my-1 mx-2 link" href="/gioi-thieu/">Giới Thiệu</a>
+                                    </li>
+                                    <li>
+                                        <a class="text-white text1 my-1 mx-2 link" href="/mo-da/">Mộ Đá</a>
+                                    </li>
+                                    <li>
+                                        <a class="text-white text1 my-1 mx-2 link" href="/lang-mo-da/">Lăng Mộ Đá</a>
+                                    </li>
+                                    <li>
+                                        <a class="text-white text1 my-1 mx-2 link" href="/lien-he/">Liên Hệ</a>
+                                    </li>
+                                </ul>
+                                <img alt="bo_cong_thuong" src="./assets/img/logo/bo_cong_thuong.png" class="width-200-px my-2">
+                                <a class="dmca-badge" href="https://www.dmca.com/Protection/Status.aspx?ID=93a55eee-bb80-4a4e-a873-8302b1e8ab72&amp;refurl=https://datamnguyen.vn/" target="_blank" title="DMCA.com Protection Status">
+                                    <img alt="DMCA.com Protection Status" class="width-200-px my-2" src="https://images.dmca.com/Badges/dmca_protected_16_120.png?ID=93a55eee-bb80-4a4e-a873-8302b1e8ab72">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex  w-4/12">
+                        <div class="flex flex-col">
+                            <p class="text-white text-md font-medium mb-2 ml-2">KẾT NỐI VỚI ĐÁ TÂM NGUYỆN</p>
+                            <div class="flex ml-2 my-4">
+                                <a href="https://www.facebook.com/damynghetamnguyen/">
+                                    <img alt="fanpage" src="./assets/img/upload/fanpage.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bottom-navigation" class="sticky inset-x-0 bottom-0 z-10 bg-gray shadow h-16 mb:display md:display-none">
+        <div id="tabs" class="flex justify-between">
+            <a href="#" class="w-full justify-center inline-block text-center">
+                <img src="./assets/img/svg/homeItem.svg" class="w-10 mx-auto mt-4">
+            </a>
+            <a href="#" class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+                <img src="./assets/img/svg/messengerItem.svg" class="w-10 mx-auto mt-1">
+            </a>
+            <a href="#" class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1 centerPart">
+                <div class="flex phone-center">
+                    <img src="./assets/img/svg/phoneItem.svg" class="w-10 mx-auto mt-1">
+                </div>
+            </a>
+            <a href="#" class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+                <img src="./assets/img/svg/mesPhoneItem.svg" class="w-10 mx-auto mt-1">
+            </a>
+            <a href=# class="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+                <img src="./assets/img/svg/zaloItem.png" class="w-10 mx-auto mt-1">
+            </a>
+        </div>
+    </div>
+
+    <div class="container-fluid mb:display-none md:display" id="btnContactDesk">
+        <ul class="wrapAllPart">
+            <li>
+                <a href="https://zalo.me/0865686892" rel="nofollow" target="_blank" class="my-2">
+                   <div class="flex flex-col mx-auto">
+                       <img src="./assets/img/svg/zaloItem.png" class="zaloChatItem mx-auto">
+                       <p class="text-xs text-center mt-1 mb-2">Chat Zalo</p>
+                   </div>
+                </a>
+            </li>
+            <li>
+                <a href="https://m.me/460230617661095" rel="nofollow" target="_blank" class="my-2">
+                    <div class="flex flex-col mx-auto">
+                        <img src="./assets/img/svg/messengerItem.svg" class="zaloChatItem mx-auto">
+                        <p class="text-xs text-center mt-1">Chat Face</p>
+                    </div>
+                </a>
+            </li>
+            <li class="upItemLi">
+                <a>
+                    <i class="upItem"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+

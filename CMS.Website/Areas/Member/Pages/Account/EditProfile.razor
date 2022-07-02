@@ -1,0 +1,241 @@
+﻿@page "/Member/Account/EditProfile"
+@page "/Member"
+<style>
+    .profile-image {
+        text-align: center;
+    }
+
+        .profile-image .image {
+            position: relative;
+            border: 2px solid #FFC107;
+            border-radius: 50%;
+            width: 220px;
+            height: 220px;
+            display: inline-block;
+        }
+
+    .profile-img {
+        overflow: hidden;
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+    }
+
+        .profile-img img {
+            width: 100%;
+            min-height: 220px;
+        }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Cập nhật hồ sơ</h3>
+            <p class="text-muted m-b-30 font-13"> Cập nhật hồ sơ </p>
+            <EditForm Model="userInfo.AspNetUserProfiles" OnValidSubmit="@PostUserInfo" class="form-horizontal">
+                <DataAnnotationsValidator />
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="profile-image pr-3">
+                            <div class="image mt-4">
+                                <a @onclick="(() => OnCropImage())">
+                                    <div class="profile-img">
+
+                                        @{
+                                            if (userInfo.AspNetUserProfiles.AvatarUrl != null)
+                                            {
+                                                <img class="image-preview-main-db" src="/data/user/mainimages/original/@userInfo.AspNetUserProfiles.AvatarUrl" />
+                                            }
+                                            else if (@imageDataUrls != null && imageDataUrls.Count > 0)
+                                            {
+                                                foreach (var img in @imageDataUrls)
+                                                {
+                                                    <img class="image-preview-main-db" src="@img" />
+                                                }
+                                            }
+                                            else
+                                            {
+                                    <img class="image-preview-main-db" src="/data/user/mainimages/original/noimages.png" />
+                                            }
+                                        }
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-10" style="margin-left: auto; margin-right: auto;">
+                        <h4 class="sub-title">Thông tin bắt buộc</h4>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Tên đăng nhập</label>
+                            <div class="col-sm-9">
+                                <b>@globalModel.user.Identity.Name</b>
+                            </div>
+                        </div>                        
+                         <div class="form-group row" style="display : @(IsEmail ? "none" : "block")">
+                            <label class="col-sm-3 control-label">Email (*)</label>
+                            <div class="col-sm-9">
+                                <InputText @bind-Value="userInfo.AspNetUsers.Email" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUsers.Email" /></span>
+                            </div>
+                        </div>
+                        <div class="form-group row" style="display : @(IsPhoneNumber ? "none" : "block")">
+                            <label class="col-sm-3 control-label">số điện thoại (*)</label>
+                            <div class="col-sm-9">
+                                <InputText @bind-Value="userInfo.AspNetUsers.PhoneNumber" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUsers.PhoneNumber" /></span>
+                            </div>
+                        </div>
+                         <div class="form-group row">
+                            <label class="col-sm-3 control-label">Doanh nghiệp</label>
+                            <div class="col-sm-9">
+                                <TelerikComboBox @bind-Value="@userInfo.AspNetUserProfiles.ProductBrandId"
+                                                 Data="@lstProductBrand" Placeholder="Chọn doanh nghiệp ..."
+                                                 ValueField="@nameof(ProductBrand.Id)" TextField="@nameof(ProductBrand.Name)"
+                                                 Id="productBrand" PopupHeight="auto" Width="100%"
+                                                 Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains
+                                                 Enabled="false">
+                                </TelerikComboBox>
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.DepartmentId" /></span>
+                            </div>
+                        </div>
+                        <hr />
+                        <h4 class="sub-title">Thông tin tùy chọn</h4>
+                        <div class="form-group row">
+                            <label class="col-sm-3 control-label">Tên đầy đủ (*)</label>
+                            <div class="col-sm-9">
+                                <InputText @bind-Value="userInfo.AspNetUserProfiles.FullName" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.FullName" /></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 control-label">Giới tính</label>
+                            <div class="col-sm-9">
+                                <TelerikDropDownList Data="@lstGender" ValueField="Key" TextField="Value" @bind-Value="@userInfo.AspNetUserProfiles.Gender" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.Gender" /></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 control-label">Ngày sinh</label>
+                            <div class="col-sm-9">
+                                <TelerikDatePicker Min="@MinDate" Max="@MaxDate" @bind-Value="@userInfo.AspNetUserProfiles.BirthDate" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.BirthDate" /></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 control-label">Phòng ban</label>
+                            <div class="col-sm-9">
+                                <TelerikComboBox @bind-Value="@userInfo.AspNetUserProfiles.DepartmentId"
+                                                 Data="@lstDepartment" Placeholder="Chọn phòng ban ..."
+                                                 ValueField="@nameof(Department.Id)" TextField="@nameof(Department.Name)"
+                                                 Id="department" PopupHeight="auto" Width="100%"
+                                                 Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains>
+                                </TelerikComboBox>
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.DepartmentId" /></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 control-label">Địa chỉ (*)</label>
+                            <div class="col-sm-9 col-12">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <TelerikComboBox @bind-Value="@userInfo.AspNetUserProfiles.LocationId"
+                                                         Data="@lstLocation" Placeholder="Chọn tỉnh thành ..."
+                                                         ValueField="@nameof(Location.Id)" TextField="@nameof(Location.Name)"
+                                                         Id="location" PopupHeight="auto" Width="100%"
+                                                         Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains
+                                                         OnChange="@LocationSelected">
+                                        </TelerikComboBox>
+                                        <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.LocationId" /></span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <TelerikComboBox @bind-Value="@userInfo.AspNetUserProfiles.DistrictId"
+                                                         Data="@lstDistrict" Placeholder="Chọn quận huyện ..."
+                                                         ValueField="@nameof(District.Id)" TextField="@nameof(District.Name)"
+                                                         Id="district" PopupHeight="auto" Width="100%"
+                                                         Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains
+                                                         Enabled="@(userInfo.AspNetUserProfiles.LocationId >0)"
+                                                         OnChange="@DistrictSelected">
+                                        </TelerikComboBox>
+                                        <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.DistrictId" /></span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <TelerikComboBox @bind-Value="@userInfo.AspNetUserProfiles.WardId"
+                                                         Data="@lstWard" Placeholder="Chọn phường xã ..."
+                                                         ValueField="@nameof(Ward.Id)" TextField="@nameof(Ward.Name)"
+                                                         Id="ward" PopupHeight="auto" Width="100%"
+                                                         Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains
+                                                         Enabled="@(userInfo.AspNetUserProfiles.DistrictId >0)">
+                                        </TelerikComboBox>
+                                        <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.WardId" /></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-3 control-label">Địa chỉ chi tiết</label>
+                            <div class="col-sm-9">
+                                <InputText @bind-Value="userInfo.AspNetUserProfiles.Address" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.Address" /></span>
+                            </div>
+                        </div>
+                   @*     <div class="form-group row">
+                            <label class="col-sm-3 control-label">Điện thoại</label>
+                            <div class="col-sm-9">
+                                <InputText @bind-Value="userInfo.As.Phone" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.Phone" /></span>
+                            </div>
+                        </div>*@
+                        <div class="form-group row">
+                            <label class="col-sm-3 control-label">Cơ quan công tác</label>
+                            <div class="col-sm-9">
+                                <InputText @bind-Value="userInfo.AspNetUserProfiles.Company" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.Company" /></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 control-label">Ngân hàng</label>
+                            <div class="col-sm-9">
+                                <TelerikComboBox @bind-Value="@userInfo.AspNetUserProfiles.BankId"
+                                                 Data="@lstBank" Placeholder="Chọn ngân hàng ..."
+                                                 ValueField="@nameof(Bank.Id)" TextField="@nameof(Bank.Name)"
+                                                 Id="bank" PopupHeight="auto" Width="100%"
+                                                 Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains>
+                                </TelerikComboBox>
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.BankId" /></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-3 control-label">Số Tài khoản</label>
+                            <div class="col-sm-9">
+                                <InputText @bind-Value="userInfo.AspNetUserProfiles.BankAcc" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.BankAcc" /></span>
+                            </div>
+                        </div>
+                          <div class="form-group row">
+                            <label class="col-sm-3 control-label">Nhận thông báo qua email</label>
+                            <div class="col-sm-9">
+                                <InputCheckbox @bind-Value="userInfo.AspNetUserProfiles.AllowNotifyEmail" class="form-control" />
+                                <span class="text-danger"><ValidationMessage For="() =>userInfo.AspNetUserProfiles.AllowNotifyEmail" /></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12" style="display:inline-block;text-align:center">
+                        <button type="submit" class="btn btn-mat btn-primary"><i class="fa fa-save"></i>Cập nhật</button>                        
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+<ImageCropper @ref="imageCropperModal" ConfirmationCropChanged="ConfirmImageCropper" />

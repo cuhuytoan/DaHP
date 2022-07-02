@@ -1,0 +1,361 @@
+﻿@page "/Admin/ProductBrand/Edit"
+<style>
+    .disabled-item {
+        color: #D3D3D3;
+        width: 100%;
+    }
+
+    /* remove default padding so the user can't click the underlying element outside the template
+            Note: this will also affect other dropdowns on the page
+        */
+    .ddl-item {
+        padding: 4px 8px;
+    }
+
+    /*    .k-popup ul.k-list li.k-item {
+        padding: 0;
+    }*/
+</style>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+               
+                    
+                        <h3 class="box-title m-b-0">Cập nhật cửa hàng</h3>
+                        <p class="text-muted m-b-30 font-13"> Cập nhật chi tiết cửa hàng </p>
+                        <h4 class="sub-title">Nội dung cập nhật</h4>
+                        <EditForm Model="productbrand" OnValidSubmit="@PostProductbrand" class="form-horizontal">
+                            <DataAnnotationsValidator />
+                            <input type="hidden" class="form-control" @bind="productbrand.Id">
+                            <div class="form-group row">
+                                <div class="col-sm-8">
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Tên cửa hàng <span class="text-danger">(*)</span></label>
+                                        <div class="col-sm-10">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.Name" />
+                                            <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.Name" /></span>
+                                        </div>
+                                    </div>
+                                     <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Loại cửa hàng </label>
+                                        <div class="col-sm-10">
+                                            <TelerikComboBox @bind-Value="@productbrand.ProductBrandLevelId"
+                                                 Data="@lstProductBrandLevel" Placeholder="Chọn loại gian hàng ..."
+                                                 ValueField="@nameof(ProductBrandLevel.Id)" TextField="@nameof(ProductBrandLevel.Name)"
+                                                 Id="bank" PopupHeight="auto" Width="100%"
+                                                 Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains>
+                                            </TelerikComboBox>
+                                            <span class="text-danger"><ValidationMessage For="() =>productbrand.ProductBrandLevelId" /></span>
+                                        </div>                                       
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Tên giao dịch viết tắt </label>
+                                        <div class="col-sm-10">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.TradingName" />
+                  <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.TradingName" /></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Thương hiệu</label>
+                                        <div class="col-sm-10">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.BrandName" />
+                  <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.BrandName" /></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Mã số thuế </label>
+                                        <div class="col-sm-10">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.TaxCode" />
+                  <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.TaxCode" /></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Lĩnh vực kinh doanh chính <span class="text-danger">(*)</span></label>
+                                        <div class="col-sm-10">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.BusinessArea" />
+                  <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.BusinessArea" /></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Tỉnh thành phố <span class="text-danger">(*)</span></label>
+                                        <div class="col-sm-10 col-12">
+                                               <div class="row">
+                                    <div class="col-sm-4">
+                                        <TelerikComboBox @bind-Value="@productbrand.LocationId"
+                                                         Data="@lstLocation" Placeholder="Chọn tỉnh thành ..."
+                                                         ValueField="@nameof(Location.Id)" TextField="@nameof(Location.Name)"
+                                                         Id="location" PopupHeight="auto" Width="100%"
+                                                         Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains
+                                                         OnChange="@LocationSelected">
+                                        </TelerikComboBox>
+                                        <span class="text-danger"><ValidationMessage For="() =>productbrand.LocationId" /></span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <TelerikComboBox @bind-Value="@productbrand.DistrictId"
+                                                         Data="@lstDistrict" Placeholder="Chọn quận huyện ..."
+                                                         ValueField="@nameof(District.Id)" TextField="@nameof(District.Name)"
+                                                         Id="district" PopupHeight="auto" Width="100%"
+                                                         Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains
+                                                         Enabled="@(productbrand.LocationId >0)"
+                                                         OnChange="@DistrictSelected">
+                                        </TelerikComboBox>
+                                        <span class="text-danger"><ValidationMessage For="() =>productbrand.DistrictId" /></span>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <TelerikComboBox @bind-Value="@productbrand.WardId"
+                                                         Data="@lstWard" Placeholder="Chọn phường xã ..."
+                                                         ValueField="@nameof(Ward.Id)" TextField="@nameof(Ward.Name)"
+                                                         Id="ward" PopupHeight="auto" Width="100%"
+                                                         Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains
+                                                         Enabled="@(productbrand.DistrictId >0)">
+                                        </TelerikComboBox>
+                                        <span class="text-danger"><ValidationMessage For="() =>productbrand.WardId" /></span>
+                                    </div>
+                                </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Địa chỉ chi tiết</label>
+                                        <div class="col-sm-10">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.Address" />
+                                            <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.Address" /></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Điện thoại <span class="text-danger">(*)</span></label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.Telephone" />
+                                        <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.Telephone" /></span>
+                                        </div>
+                                         <label class="col-sm-2 control-label">Hotline</label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.Hotline" />
+                                            <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.Hotline" /></span>
+                                        </div>
+                                    </div>
+
+                                     <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Email <span class="text-danger">(*)</span></label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.Email" />
+                                        <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.Email" /></span>
+                                        </div>
+                                         <label class="col-sm-2 control-label">Zalo</label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.Zalo" />
+                                            <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.Zalo" /></span>
+                                        </div>
+                                    </div>
+                                     <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Facebook</label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.Facebook" />
+                                        <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.Facebook" /></span>
+                                        </div>
+                                         <label class="col-sm-2 control-label">Website</label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text"  class="form-control"  @bind-Value="productbrand.Website" />
+                                            <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.Website" /></span>
+                                        </div>
+                                    </div>
+                                     <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Giói thiệu doanh nghiệp <span class="text-danger">(*)</span></label>
+                                        <div class="col-sm-10">
+                                            <InputTextArea type="text" class="form-control" @bind-Value="productbrand.Description" row="3" />
+                                        <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.Description" /></span>
+                                        </div>                                       
+                                    </div>
+                                     <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Google Maps Code </label>
+                                        <div class="col-sm-10">
+                                            <InputText type="text" class="form-control" @bind-Value="productbrand.GoogleMapCode" />
+                                        <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.GoogleMapCode" /></span>
+                                        </div>                                       
+                                    </div>
+                                     <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Ngân hàng </label>
+                                        <div class="col-sm-10">
+                                            <TelerikComboBox @bind-Value="@productbrand.BankId"
+                                                 Data="@lstBank" Placeholder="Chọn ngân hàng ..."
+                                                 ValueField="@nameof(Bank.Id)" TextField="@nameof(Bank.Name)"
+                                                 Id="bank" PopupHeight="auto" Width="100%"
+                                                 Filterable=true
+                                                         FilterOperator =StringFilterOperator.Contains>
+                                            </TelerikComboBox>
+                                            <span class="text-danger"><ValidationMessage For="() =>productbrand.BankId" /></span>
+                                        </div>                                       
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Số tài khoản </label>
+                                        <div class="col-sm-10">
+                                            <InputText @bind-Value="productbrand.BankAcc" class="form-control" />
+                                            <span class="text-danger"><ValidationMessage For="() =>productbrand.BankAcc" /></span>
+                                        </div>  
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Tài liệu pháp lý </label>
+                                        <div class="col-sm-10">
+                                            <TelerikUpload SaveUrl="@SaveUrl"
+                                               RemoveUrl="@RemoveUrl"
+                                               OnSelect="@OnSelectHandler"
+                                               SaveField="file" RemoveField="fileToRemove"
+                                               AllowedExtensions="@( new List<string>() { ".pdf", ".docx", ".jpg", ".doc", ".png", ".zip", ".rar" } )"
+                                               MaxFileSize="2048000"
+                                               OnSuccess="OnSuccess"
+                                               OnRemove="OnRemove">
+                                                </TelerikUpload>   
+                                        </div> 
+                                    </div>
+                                        @if(lstAttachFileBinding != null && lstAttachFileBinding.Count >0)
+                                    {
+                                           <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Danh sách file đã tải </label>
+                                        <div class="col-sm-10">
+                                         <div class="col-xs-12 col-sm-12">
+                                    <table id="simpletable" class="table table-styling" role="grid" aria-describedby="simpletable_info">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:50px;">
+                                                </th>
+                                                <th style="width:50px;">
+                                                    Tên file
+                                                </th>
+                                                <th style="width:50px;">
+                                                    Kích thước
+                                                </th>
+                                                <th style="width:50px;">
+                                                    Ngày cập nhật
+                                                </th>
+                                                <th style="width:50px;">
+                                                </th>
+                                                <th style="width:50px;">
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var p in lstAttachFileBinding)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <img src="/assets/images/ext/@(p.FileType.Replace(".",string.Empty) + "32.png")" />
+                                                    </td>
+                                                    <td>
+                                                        <b>@p.AttachFileName</b>
+                                                    </td>
+                                                    <td>
+                                                        @(p.FileSize / 1024 ) Mb
+                                                    </td>
+                                                    <td>
+                                                        @p.CreateDate?.ToString("dd/MM/yyyy HH:mm:ss")
+                                                    </td>
+                                                    <td>
+                                                        <a @onclick="@(() => DeleteAttachFile(p.Id))"><i class="fa fa-trash"></i></a>
+                                                    </td>
+                                                    <td>
+                                                        <a download="" href="/data/productbrand/upload/@p.AttachFileName"><i class="fa fa-download"></i></a>
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                                        </div> 
+                                         </div>
+                                    }
+                                    <br />
+                                    <h4 class="sub-title">Thông tin người liên lạc</h4>
+                                     <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Ông/Bà</label>
+                                        <div class="col-sm-4">
+                                            <TelerikDropDownList class="form-control" Data="@lstPersonSurName" ValueField="Key" TextField="Value" @bind-Value="productbrand.PersonSurName" />
+                                            <span class="text-danger"><ValidationMessage For="() =>productbrand.PersonSurName" /></span>
+                                        </div>
+                                         <label class="col-sm-2 control-label">Họ tên</label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text" class="form-control" @bind-Value="productbrand.PersonName" />
+                                            <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.PersonName" /></span>
+                                        </div>
+                                    </div>
+                                     <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Chức vụ</label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text" class="form-control" @bind-Value="productbrand.PersonPosition" />
+                                            <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.PersonPosition" /></span>
+                                        </div>
+                                         <label class="col-sm-2 control-label">Điện thoại</label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text" class="form-control" @bind-Value="productbrand.PersonMobile" />
+                                            <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.PersonMobile" /></span>
+                                        </div>
+                                    </div>
+                                     <div class="form-group row">
+                                        <label class="col-sm-2 control-label">Email</label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text" class="form-control" @bind-Value="productbrand.PersonEmail" />
+                  <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.PersonEmail" /></span>       
+                                        </div>
+                                         <label class="col-sm-2 control-label">Zalo</label>
+                                        <div class="col-sm-4">
+                                            <InputText type="text" class="form-control" @bind-Value="productbrand.PersonZalo" />
+                  <span class="text-danger m-t-10"><ValidationMessage For="() => productbrand.PersonZalo" /></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group row">
+                                        <div class="col-md-12" id="uploadImg">                                       
+                                            <a @onclick="(() => OnCropImage(true))">
+
+                                                @{
+                                                    if (productbrand.Image != null)
+                                                    {
+                                                        <img class="image-preview-main-db" src="/data/productbrand/mainimages/original/@productbrand.Image" />
+                                                    }
+                                                    else if (@imageDataUrls !=null && imageDataUrls.Count >0)
+                                                    {
+                                                        foreach (var img in @imageDataUrls)
+                                                        {
+                                                            <img class="image-preview-main-db" src="@img" />
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="btn btn-primary" style="border: 2px solid rgba(103, 192, 103, 0.75);border-radius: 40px;">
+                                                            <i class="fa fa-upload"> </i>Upload
+                                                        </div>
+                                                        
+                                                    }
+                                                }
+
+                                            </a>
+                                               
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                      
+                                    <div class="form-group row" style="display:flex;justify-content:center">
+                                        @*<button type="submit" @onclick="@(() => postType = 0)" class="btn btn-mat btn-primary m-r-10"><i class="fa fa-save"></i>Lưu</button>*@
+                                        <button type="submit" @onclick="@(() => postType = 1)" class="btn btn-mat btn-success  m-r-10"><i class="fa fa-newspaper-o"></i>Cập nhật</button>
+                                        <a href="/Admin/ProductBrand/Index" class="btn btn-mat btn-warning  m-r-10"><i class="fa fa-times-circle"></i>Hủy bỏ</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </EditForm>
+            </div>
+        </div>
+    </div>
+
+<ImageCropper @ref="imageCropperModal" ConfirmationCropChanged="ConfirmImageCropper"/>

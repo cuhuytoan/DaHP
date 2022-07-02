@@ -1,0 +1,67 @@
+﻿ <!-- Sản phẩm khác -->
+  <div class="products-other">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="products-other--main">
+            <div class="products-other__title">
+              <h3>Sản phẩm khác</h3>
+            </div>
+            <div class="products-other__box-list">
+              <div class="slider six-column products__slide">
+              @if(lstProductRelated ==null)
+              {
+
+              }
+              else{
+                  @foreach(var p in lstProductRelated)
+                  {
+                        <!-- Item -->
+                <div class="products__box">
+                  <div class="products__item">
+                    <a href="/san-pham/@p.URL" @onclick="@(() => NavigationManager.NavigateTo($"/san-pham/{@p.URL}",true))">
+                      <div class="products__item__img">
+                        <img src="/data/product/mainimages/small/@p.Image" alt="@p.Name">
+                      </div>
+                      @if (@p.Rate != null && @p.Rate > 0)
+                                                    {
+                                                        <span class="products__item__label">
+                                                            @p.Rate %
+                                                        </span>
+                                                    }
+                      <div class="products__item__info">
+                        <div class="products__item__name">@p.Name</div>
+                        <div class="products__item__sold">
+                          <div class="products__item__sold__rating">
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star active"></i>
+                            <i class="fa fa-star"></i>
+                          </div>
+                          <div class="products__item__sold__count">
+                            <span>66 đã bán</span>
+                          </div>
+                        </div>
+                        <div class="products__item__price">
+                          <div class="products__item__new-price">@String.Format((new System.Globalization.CultureInfo("vi-VN")),"{0:N0}", @p.Price)<sup>₫</sup></div>
+                                                            <div class="products__item__old-price">@String.Format((new System.Globalization.CultureInfo("vi-VN")),"{0:N0}", @p.PriceOld)<sup>₫</sup></div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                  }
+                 
+              }
+               
+               
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Hết Sản phẩm khác -->

@@ -1,0 +1,70 @@
+﻿@page "/Admin/Product/ProductCategoryEdit"
+<!-- .row -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Cập nhật danh mục sản phẩm</h3>
+            <p class="text-muted m-b-30 font-13">Cập nhật danh mục sản phẩm</p>
+            <div class="row">
+                
+                <TelerikTreeList Data="@Data"
+                                 IdField="Id"
+                                 ParentIdField="ParentId"
+                                 Pageable="false"                                 
+                                 EditMode="@TreeListEditMode.Inline"
+                                 OnCreate="@CreateItem"
+                                 OnUpdate="@UpdateItem"
+                                 OnDelete="@DeleteItem" 
+                                 >
+                    <TreeListToolBar>
+                        <TreeListCommandButton Command="Add" Icon="add">Thêm mới danh mục cấp 1</TreeListCommandButton>
+                    </TreeListToolBar>
+                  
+                    <TreeListColumns>
+                        <TreeListColumn Field="Name" Width="20%" Title="Danh mục" Expandable="true" >
+                          
+                        
+                        </TreeListColumn>
+                        @*<TreeListColumn Field="URL" Title="URL"></TreeListColumn> *@
+                        <TreeListColumn Field="Sort" Title="Sắp xếp"></TreeListColumn> 
+                        <TreeListColumn Field="DisplayMenu" Title="Menu Chính"></TreeListColumn> 
+                        <TreeListColumn Field="DisplayMenuHorizontal" Title="Menu Ngang"></TreeListColumn> 
+                        <TreeListColumn Field="Active" Title="Ative"></TreeListColumn> 
+                        <TreeListColumn Title="Cập nhật thông số kỹ thuật">
+                            <Template>
+                                @{
+                                    var item = context as SpProductCategoryTreeResult;
+                                    @*<TreeListCommandColumn Title="Cập nhật thông số kỹ thuật">*@
+                                        <TelerikButton Hidden="@(item.ParentId == null)"
+                                                               OnClick="@(() => UpdateProductProperties(item))" Icon="gear" />
+
+                                        
+                                    @*</TreeListCommandColumn>*@
+                               
+                                    }
+                            </Template>
+                        </TreeListColumn>
+            
+                      
+                        <TreeListCommandColumn>  
+                                <TreeListCommandButton Command="Add" Icon="add"></TreeListCommandButton>
+                                <TreeListCommandButton Command="Edit" Icon="edit"></TreeListCommandButton>
+                                <TreeListCommandButton Command="Delete" Icon="delete"></TreeListCommandButton>
+                                <TreeListCommandButton Command="Save" Icon="save" ShowInEdit="true" ></TreeListCommandButton>
+                                <TreeListCommandButton Command="Cancel" Icon="cancel" ShowInEdit="true"></TreeListCommandButton>
+                        </TreeListCommandColumn>
+                    </TreeListColumns>
+                    
+                </TelerikTreeList>
+                 
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<ModalDynamicComponent @ref="PropertiesDynamicEdit"/>
+
+<ConfirmBase @ref="DeleteConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+             ConfirmationMessage=@($"Bạn có chắc chắn muốn xóa?") ConfirmationTitle=@("Xác nhận xóa") />
+

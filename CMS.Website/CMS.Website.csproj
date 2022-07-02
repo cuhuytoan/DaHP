@@ -1,0 +1,139 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <UserSecretsId>aspnet-CMS.Website-AACCECE0-8EFD-4008-B094-0708917159AA</UserSecretsId>
+    <SignAssembly>false</SignAssembly>
+    <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>1</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Admin\Pages\Account\**" />
+    <Compile Remove="Areas\Admin\Pages\Shared\**" />
+    <Compile Remove="Pages\HomePage\**" />
+    <Compile Remove="wwwroot\adminty\**" />
+    <Compile Remove="wwwroot\assets\themes\front\**" />
+    <Content Remove="Areas\Admin\Pages\Account\**" />
+    <Content Remove="Areas\Admin\Pages\Shared\**" />
+    <Content Remove="Pages\HomePage\**" />
+    <Content Remove="wwwroot\adminty\**" />
+    <Content Remove="wwwroot\assets\themes\front\**" />
+    <EmbeddedResource Remove="Areas\Admin\Pages\Account\**" />
+    <EmbeddedResource Remove="Areas\Admin\Pages\Shared\**" />
+    <EmbeddedResource Remove="Pages\HomePage\**" />
+    <EmbeddedResource Remove="wwwroot\adminty\**" />
+    <EmbeddedResource Remove="wwwroot\assets\themes\front\**" />
+    <None Remove="Areas\Admin\Pages\Account\**" />
+    <None Remove="Areas\Admin\Pages\Shared\**" />
+    <None Remove="Pages\HomePage\**" />
+    <None Remove="wwwroot\adminty\**" />
+    <None Remove="wwwroot\assets\themes\front\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Shared\AdminLayout - Copy.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Areas\Admin\Pages\Advertising\AdvertisingBlockIndex.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Advertising\Edit.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Advertising\Index.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Article\ArticleBlockArticleEdit.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Article\ArticleBlockIndex.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Article\ArticleCategoryEdit.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Article\ArticleCommentMng.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Article\ArticleRelation.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Article\Edit.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Article\Index.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Article\Preview.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\Edit.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\Index.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\Preview.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\ProductBlockIndex.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\ProductBlockProductEdit.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\ProductCategoryEdit.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\ProductCommentMng.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\ProductPropertiesEdit.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\ProductRelation.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Product\PropertiesComponent.razor.cs" />
+    <Content Include="Areas\Admin\Pages\Settings\Edit.razor.cs" />
+    <Content Include="Areas\Identity\IdentityHostingStartup.cs" />
+    <Content Include="Areas\Identity\Pages\Account\ConfirmEmail.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\ExternalLogin.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\ForgotPassword.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\ForgotPasswordConfirmation.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Login.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Logout.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Manage\ManageNavPages.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Manage\ShowRecoveryCodes.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\PhoneNumberConfirmation.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\RedirectToLogin.cs" />
+    <Content Include="Areas\Identity\Pages\Account\Register.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\ResetPassword.cshtml.cs" />
+    <Content Include="Areas\Identity\Pages\Account\ResetPasswordConfirmation.cshtml.cs" />
+    <Content Include="Areas\Identity\RevalidatingIdentityAuthenticationStateProvider.cs" />
+    <Content Include="Areas\Member\Pages\Account\ChangePassword.razor.cs" />
+    <Content Include="Areas\Member\Pages\Account\EditProfile.razor.cs" />
+    <Content Include="Areas\Member\Pages\Account\ListNotification.razor.cs" />
+    <Content Include="Areas\Shared\ShopmanLayout.razor.cs" />
+    <Content Include="Areas\Shared\MemberLayout.razor.cs" />
+    <Content Include="Areas\Shared\AdminLayout.razor.cs" />
+    <Content Include="Areas\Shared\Components\CaroulselOwlSync.razor.cs" />
+    <Content Include="Areas\Shared\Components\ConfirmBase.razor.cs" />
+    <Content Include="Areas\Shared\Components\ImageCropper.razor.cs" />
+    <Content Include="Areas\Shared\Components\ModalDynamicComponent.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\cropperjs\cropper.js" />
+    <None Include="wwwroot\assets\cropperjs\cropper.min.js" />
+    <None Include="wwwroot\assets\slidecaptcha\disk\longbow.slidercaptcha.js" />
+    <None Include="wwwroot\assets\slidecaptcha\disk\longbow.slidercaptcha.min.js" />
+    <None Include="wwwroot\assets\slidecaptcha\disk\longbow.slidercaptcha.min.js.map" />
+    <None Include="wwwroot\assets\slidecaptcha\lib\font-awesome\css\font-awesome.css.map" />
+    <None Include="wwwroot\assets\slidecaptcha\lib\font-awesome\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\assets\slidecaptcha\lib\font-awesome\fonts\fontawesome-webfont.woff2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="Blazored.Toast" Version="3.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.ProtectedBrowserStorage" Version="5.0.0-rc.1.20451.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.JSInterop" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.0.0-preview.1" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3" />
+	<PackageReference Include="Telerik.UI.for.Blazor" Version="2.18.0" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CMS.Common\CMS.Common.csproj" />
+    <ProjectReference Include="..\CMS.Data\CMS.Data.csproj" />
+    <ProjectReference Include="..\CMS.Services\CMS.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\data\article\upload\thanhcongtctn%40gmail.com\" />
+    <Folder Include="wwwroot\data\articlepublish\" />
+  </ItemGroup>
+
+</Project>

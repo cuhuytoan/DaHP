@@ -1,0 +1,63 @@
+﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration;
+
+<AuthorizeView Roles="Quản trị cửa hàng,
+    Nhân viên cập nhật cửa hàng,
+    Nhân viên kinh doanh cửa hàng,
+    Nhân viên giao nhận cửa hàng">               
+    <Authorized>
+        <TelerikRootComponent>
+        <BlazoredToasts Position="ToastPosition.TopCenter"
+                        Timeout="5"
+                        IconType="IconType.FontAwesome"
+                        SuccessClass="success-toast-override"
+                        SuccessIcon="fa fa-thumbs-up"
+                        ErrorIcon="fa fa-bug"
+                        InfoIcon="fa fa-info"
+                        WarningIcon="fa fa-exclamation-triangle"
+                        ShowProgressBar="@false" />
+
+        <CascadingValue Value="hubConnection">
+          
+                       <CascadingValue Value="globalModel">
+                <div id="wrapper">
+                    <nav class="navbar navbar-default navbar-static-top m-b-0">
+                        <Header />
+                    </nav>
+                    <aside class="sidebar" role="navigation">
+                        <ShopmanLeftMenuLayout />
+                    </aside>
+                    <div class="page-wrapper">
+                        <div class="container-fluid">   
+                            <ErrorBoundary>
+                                <ChildContent>
+                                      @if(globalModel.productBrandId == null)
+            {
+
+            }
+                else
+                {
+                                     @Body
+                                        }
+                                </ChildContent>
+                                <ErrorContent Context="Error">
+                                    <p class="my-error">Có lỗi xảy ra </p>
+                                </ErrorContent>
+                            </ErrorBoundary>                               
+                        </div>
+                    </div>
+                </div>
+            </CascadingValue>
+             
+             
+        </CascadingValue>
+    </TelerikRootComponent>
+    </Authorized>
+      <NotAuthorized>       
+        <CMS.Website.Areas.Identity.Pages.Account.RedirectToLogin  returnUrl="/Shopman/Dashboard/Index"/>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+

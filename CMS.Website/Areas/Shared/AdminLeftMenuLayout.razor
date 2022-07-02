@@ -1,0 +1,97 @@
+﻿<!-- ===== Left-Sidebar ===== -->
+@using CMS.Data.ModelDTO;
+
+<div class="scroll-sidebar">
+    <div class="user-profile">
+        <div class="dropdown user-pro-body">
+            <div class="profile-image">
+                <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                    <img src="/data/user/mainimages/small/@(String.IsNullOrEmpty(@globalModel.avatar) ? "noimages.png" : globalModel.avatar)" alt="user-img" class="img-circle">                    
+                </a>           
+            </div>
+            <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"> @globalModel.user.Identity.Name</a></p>
+        </div>
+    </div>
+    <nav class="sidebar-nav">
+        <ul id="side-menu">
+              <AuthorizeView Roles="Quản trị hệ thống">
+                  <li class="active">
+                    <a class="waves-effect" href="/Admin/Dashboard/Index" aria-expanded="true"><i class="icon-settings fa-fw"></i> <span class="hide-menu"> Dashboard </span></a>                   
+                </li>   
+            </AuthorizeView>
+            <AuthorizeView Roles="Quản trị hệ thống">
+                <li class="active">
+                    <a class="waves-effect" href="javascript:void(0);" aria-expanded="true"><i class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Quản lý bài viết </span></a>
+                    <ul aria-expanded="true" class="collapse">
+                        <li> <a href="/Admin/Article/Edit">Thêm mới bài viết</a> </li>
+                        <li> <a href="/Admin/Article">Tất cả bài viết</a> </li>
+                    </ul>
+                </li>
+            </AuthorizeView>
+
+            <AuthorizeView Roles="Quản trị hệ thống">
+                <li class="active">
+                    <a class="waves-effect" href="javascript:void(0);" aria-expanded="true"><i class="icon-folder-alt fa-fw"></i> <span class="hide-menu"> Quản lý cài đặt bài viết </span></a>
+                    <ul aria-expanded="true" class="collapse">
+                        <li> <a href="/Admin/Article/ArticleBlockIndex">Quản lý khối bài viết</a> </li>
+                        <li> <a href="/Admin/Article/ArticleCategoryEdit">Quản lý danh mục</a> </li>
+                    </ul>
+                </li>
+            </AuthorizeView>
+            <AuthorizeView Roles="Quản trị hệ thống">
+                <li class="active">
+                    <a class="waves-effect" href="javascript:void(0);" aria-expanded="true"><i class="icon-briefcase fa-fw"></i> <span class="hide-menu"> Quản lý sản phẩm </span></a>
+                    <ul aria-expanded="true" class="collapse">
+                        <li> <a href="/Admin/Product/Edit">Thêm mới sản phẩm</a> </li>
+                        <li> <a href="/Admin/Product">Tất cả sản phẩm</a> </li>
+                         <li> <a href="/Admin/Product/ProductBlockIndex">Quản lý khối sản phẩm</a> </li>
+                        <li> <a href="/Admin/Product/ProductCategoryEdit">Quản trị danh mục</a> </li>
+                        <li> <a href="/Admin/ProductReview">Quản lý đánh giá sản phẩm</a> </li>
+                    </ul>
+                </li>
+            </AuthorizeView>       
+            <AuthorizeView Roles="Quản trị hệ thống">
+                <li class="active">
+                    <a class="waves-effect" href="javascript:void(0);" aria-expanded="true"><i class="icon-folder-alt fa-fw"></i> <span class="hide-menu"> Quản lý quảng cáo </span></a>
+                    <ul aria-expanded="true" class="collapse">
+                        <li> <a href="/Admin/AdvertisingBlock">Danh sách khối quảng cáo</a> </li>                        
+                    </ul>
+                </li>
+            </AuthorizeView>
+            <AuthorizeView Roles="Quản trị hệ thống">
+                <li class="active">
+                    <a class="waves-effect" href="javascript:void(0);" aria-expanded="true"><i class="icon-people fa-fw"></i> <span class="hide-menu"> Quản lý thành viên </span></a>
+                    <ul aria-expanded="true" class="collapse">
+                        <li> <a href="/Admin/Employee/Edit">Thêm mới thành viên</a> </li>
+                        <li> <a href="/Admin/Employee/Index">Danh sách thành viên</a> </li>
+                    </ul>
+                </li>
+                 <li class="active">
+                    <a class="waves-effect" href="/Admin/ProductBrand/Index" aria-expanded="true"><i class="icon-handbag fa-fw"></i> <span class="hide-menu"> Quản lý cửa hàng </span></a>
+                </li>
+                <li class="active">
+                    <a class="waves-effect" href="/Admin/Logvisit/Index" aria-expanded="true"><i class="icon-handbag fa-fw"></i> <span class="hide-menu"> Lịch sử truy cập </span></a>
+                </li>
+                <li class="active">
+                    <a class="waves-effect" href="/Admin/Settings/Edit" aria-expanded="true"><i class="icon-settings fa-fw"></i> <span class="hide-menu"> Cấu hình hệ thống </span></a>
+                </li>
+            </AuthorizeView>
+
+            <li class="active">
+                <a class="waves-effect" href="javascript:void(0);" aria-expanded="true"><i class="icon-user fa-fw"></i> <span class="hide-menu"> Quản lý tài khoản </span></a>
+                <ul aria-expanded="true" class="collapse">
+                    <li><a href="/Member/Account/EditProfile"><i class="fa fa-user"></i> Thông tin cá nhân</a></li>
+                    <li><a href="/Member/Account/ChangePassword"><i class="fa fa-key"></i> Đổi mật khẩu</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/Identity/Account/Logout?returnUrl=/Login"><i class="fa fa-power-off"></i> Đăng xuất</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>
+@code{
+    [CascadingParameter]
+    protected GlobalModel globalModel { get; set; }
+    
+}
+<!-- ===== Left-Sidebar-End ===== -->

@@ -1,0 +1,25 @@
+﻿<!-- breadcrumb -->
+<div class="breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb__list">
+                    <li><a href="/">Trang chủ</a></li>
+                    
+                    @{
+                        if(lstProductBreadcrumb !=null)
+                        {
+                            var last = lstProductBreadcrumb.LastOrDefault();
+                        foreach (var p in lstProductBreadcrumb)
+                        {
+                            <li class="@(p.Equals(last) ? "active" : "")"><a href="javascripts:void(0)" @onclick="@(() => NavigationManager.NavigateTo(@p.FullUrl,true))">@p.Name</a></li>
+                        }
+                        }
+                        
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb -->

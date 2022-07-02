@@ -1,0 +1,61 @@
+﻿<html lang="en">
+
+<head>
+    <title>CMS </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/themes/default/plugins/images/favicon.png">
+
+    <!-- ===== Bootstrap CSS ===== -->
+    <link href="~/assets/themes/default/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- ===== Plugin CSS ===== -->
+    <link href="~/assets/themes/default/plugins/components/icheck/skins/all.css" rel="stylesheet">
+    <!-- ===== Animation CSS ===== -->
+    <link href="~/assets/themes/default/css/animate.css" rel="stylesheet">
+    <!-- ===== Custom CSS ===== -->
+    <link href="~/assets/themes/default/css/style.css" rel="stylesheet">
+    <!-- ===== Color CSS ===== -->
+    <link href="~/assets/themes/default/css/colors/default.css" id="theme" rel="stylesheet">
+</head>
+
+<body class="mini-sidebar">
+    <!-- Pre-loader start -->
+    <div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+    <!-- Pre-loader end -->
+    <section id="wrapper" class="login-register">
+        <div class="login-box">
+            <div class="white-box">
+                @RenderBody()
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery -->
+    <script src="~/assets/themes/default/plugins/components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/assets/themes/default/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="~/assets/themes/default/js/sidebarmenu.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="~/assets/themes/default/js/jquery.slimscroll.js"></script>    
+    <!-- icheck -->
+    <!--<script src="~/assets/themes/default/plugins/components/icheck/icheck.min.js"></script>
+    <script src="~/assets/themes/default/plugins/components/icheck/icheck.init.js"></script>-->
+    <!--Wave Effects -->
+    <script src="~/assets/themes/default/js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="~/assets/themes/default/js/custom.js"></script>
+    <!--Style Switcher -->
+    <script src="~/assets/themes/default/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>
+
+

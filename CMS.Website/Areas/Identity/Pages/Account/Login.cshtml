@@ -1,0 +1,70 @@
+﻿@page "/Login"
+@model CMS.Website.Areas.Identity.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "/Areas/Identity/Pages/Shared/_LayoutAccount.cshtml";
+}
+<form class="form-horizontal form-material" id="loginform" method="post">
+    <h3 class="box-title m-b-20">Đăng nhập</h3>
+    <div class="form-group ">
+        <div class="col-xs-12">
+            <input type="text" asp-for="Input.Email" class="form-control" placeholder="Nhập email hoặc số điện thoại">
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-xs-12">
+            <input type="password" asp-for="Input.Password" class="form-control" placeholder="Nhập mật khẩu">
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="icheck-list pull-left p-t-0">
+                <input type="checkbox" asp-for="Input.RememberMe" class="check" id="minimal-checkbox-1" data-checkbox="icheckbox_flat-red">
+                <span for="minimal-checkbox-1">Nhớ tài khoản</span>
+            </div>
+            <a href="/ForgotPassword" id="to-recover" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i> Quên mật khẩu</a>
+        </div>
+    </div>
+    <div class="text-danger">
+        @Html.ValidationSummary(false)
+    </div>
+
+    
+    <div class="form-group text-center m-t-20">
+        <div class="col-xs-12">
+            <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Đăng nhập</button>
+        </div>
+    </div>
+
+</form>
+@*<form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+    <div style="text-align: center;">
+        <p>
+            @foreach (var provider in Model.ExternalLogins)
+            {
+            
+                if(provider.Name == "Google")
+                {
+                <button type="submit" class="btn btn-googleplus" name="provider" value="@provider.Name" title="Đăng nhập với Google"><i class="fa fa-google"></i></button>
+                }
+                else 
+                {
+                    <button type="submit" class="btn btn-facebook" name="provider" value="@provider.Name" title="Đăng nhập với Facebook"><i class="fa fa-facebook"></i></button>
+                }
+                
+            }
+        </p>
+    </div>
+    
+</form>*@
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

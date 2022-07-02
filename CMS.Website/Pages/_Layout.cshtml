@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@namespace CMS.Website.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="~/" />      
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <title>Đá mỹ nghệ Hòa Phát - Tận tâm chuyên nghiệp</title>
+    <meta http-equiv="Content-Language" content="vi-vn" />
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+     <meta http-equiv="Expires" content="600" />
+     <link rel="icon" href="assets/themes/vietgo/assets/img/common/favicon.png" />
+     <link rel="shortcut icon" href="assets/themes/vietgo/assets/img/common/favicon.png" type="image/x-icon" />
+     <meta name="keywords" content="da my nghe, da hoa phat, lang mo da, mo da doi, mo da xanh reu, cot da, binh thu da, cong trinh da" />
+     <meta name="description" content="Đá mỹ nghệ Hòa Phát chuyên tư vấn xây dựng công trình đá mộ đá số một tại Việt Nam" />
+     <meta content="VIETGO" name="author" />
+     <meta content="VIETGO" name="copyright" />
+     <meta content="tuvanxnk@vietgo.vn" name="EMail" />
+     <meta content="index, follow, all" name="robots" />
+     <meta content="Vietnamese, English" name="language" />
+     <meta content="1 day" name="revisit-after" />
+     <meta content="General" name="document-rating" />
+     <meta content="Global" name="document-distribution" />
+     <meta content="Global" name="distribution" />
+     <meta content="News" name="area" />
+     <meta content="Vietnam" name="placename" />
+     <meta content="Document" name="resource-type" />
+     <meta content="Vietnam" name="classification" />
+     <meta content="All" name="rating" />
+     <meta name="format-detection" content="telephone=no" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />    
+     <!--End Preload-->
+     <link rel="stylesheet" type="text/css" href="/assets/themes/dnm/css/styles.css" />
+     <!-- Swiper -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.1.2/css/swiper.min.css" />
+     <!-- Blazor Toast -->
+    <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
+    <!-- Blazor Js-->
+    <link rel="stylesheet" href="_content/Telerik.UI.for.Blazor/css/kendo-theme-default/all.css" />
+    <script  src="_content/Telerik.UI.for.Blazor/js/telerik-blazor.js" defer></script>
+    <link href="CMS.Website.styles.css" rel="stylesheet">
+    
+</head>
+
+<body>    
+
+    @RenderBody()
+
+
+    <script src="_framework/blazor.server.js" defer></script>
+
+
+</body>
+</html>

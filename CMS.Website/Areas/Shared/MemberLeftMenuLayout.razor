@@ -1,0 +1,33 @@
+﻿<!-- ===== Left-Sidebar ===== -->
+@using CMS.Data.ModelDTO;
+
+<div class="scroll-sidebar">
+    <div class="user-profile">
+        <div class="dropdown user-pro-body">
+            <div class="profile-image">
+
+                <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                    <img src="/data/user/mainimages/small/@(String.IsNullOrEmpty(@globalModel.avatar) ? "noimages.png" : globalModel.avatar)" alt="user-img" class="img-circle">
+                    
+                </a>              
+            </div>
+            <p class="profile-text m-t-15 font-16"><a href="javascript:void(0);"> @globalModel.user.Identity.Name</a></p>
+        </div>
+    </div>
+    <nav class="sidebar-nav">
+        <ul id="side-menu"> 
+            <li class="active">
+                <a href="/Member/Account/EditProfile" class="waves-effect" aria-expanded="true"><i class="icon-user fa-fw"></i> <span class="hide-menu"> Thông tin cá nhân </span></a>                
+            </li>
+             <li class="active">
+                <a href="/Member/Account/ChangePassword" class="waves-effect" aria-expanded="true"><i class="icon-user icon-key"></i> <span class="hide-menu"> Đổi mật khẩu </span></a>                
+            </li>
+        </ul>
+    </nav>
+</div>
+@code{
+    [CascadingParameter]
+    protected GlobalModel globalModel { get; set; }
+    
+}
+<!-- ===== Left-Sidebar-End ===== -->

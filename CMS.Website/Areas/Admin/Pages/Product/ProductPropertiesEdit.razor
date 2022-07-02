@@ -1,0 +1,58 @@
+﻿<!-- .row -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <h3 class="box-title m-b-0">Cập nhật danh mục thông số kĩ thuật: @productCategoryName</h3>            
+            <div class="row">
+                <TelerikTreeList Data="@Data"
+                                 IdField="Id"
+                                 ParentIdField="ParentId"
+                                 Pageable="false"
+                                 OnStateChanged="((TreeListStateEventArgs<SpProductPropertyCategoryTreeResult> args) => OnStateInitHandler(args))"
+                                 EditMode="@TreeListEditMode.Inline"
+                                 OnCreate="@CreateItem"
+                                 OnUpdate="@UpdateItem"
+                                 OnDelete="@DeleteItem"
+                                 @ref="TreeListRef">
+                    <TreeListToolBar>
+                        <TreeListCommandButton Command="Add" Icon="add">Thêm mới nhóm thuộc tính</TreeListCommandButton>
+                    </TreeListToolBar>
+                    <TreeListColumns >
+                            <TreeListColumn Field="Name" Title="Danh mục" Expandable="true"></TreeListColumn>
+                            <TreeListColumn Field="Sort" Title="Sắp xếp"></TreeListColumn>
+                            <TreeListColumn Field="ProductPropertyTypeName" Title="Loại dữ liệu" >
+                                <EditorTemplate>
+                                    @{
+                                        PropertyType = context as SpProductPropertyCategoryTreeResult;
+                                        if (PropertyType.Id != null)
+                                        {
+                                            <TelerikDropDownList Data="@DataPropertyType" @bind-Value="@PropertyType.ProductPropertyTypeId"
+                                                                 ValueField="Id" TextField="Name"
+                                                                 Width="170px" Enabled="@(!(bool)PropertyType.HaveChild)">
+                                            </TelerikDropDownList>
+                                        }
+
+
+                                    }
+                                    
+                                </EditorTemplate>
+                            </TreeListColumn>
+                            <TreeListCommandColumn>                                
+                                <TreeListCommandButton Command="Add" Icon="add" OnClick="@CanAddChild"></TreeListCommandButton>
+                                <TreeListCommandButton Command="Edit" Icon="edit"></TreeListCommandButton>
+                                <TreeListCommandButton Command="Delete" Icon="delete"></TreeListCommandButton>
+                                <TreeListCommandButton Command="Save" Icon="save" ShowInEdit="true"></TreeListCommandButton>
+                                <TreeListCommandButton Command="Cancel" Icon="cancel" ShowInEdit="true"></TreeListCommandButton>
+                                
+
+
+                            </TreeListCommandColumn>
+                  
+                    </TreeListColumns>
+                           
+                </TelerikTreeList>
+            </div>
+
+        </div>
+    </div>
+</div>

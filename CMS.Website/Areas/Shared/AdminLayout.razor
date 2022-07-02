@@ -1,0 +1,61 @@
+﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration;
+
+<AuthorizeView Roles="Quản trị hệ thống,
+                        Phụ trách chuyên mục, 
+                        Phụ trách ngành hàng,     
+                        Cập nhật sản phẩm, 
+                        Biên tập viên">               
+    <Authorized>
+        <TelerikRootComponent>
+        <BlazoredToasts Position="ToastPosition.TopCenter"
+                        Timeout="3"
+                        IconType="IconType.FontAwesome"
+                        SuccessClass="success-toast-override"
+                        SuccessIcon="fa fa-thumbs-up"
+                        ErrorIcon="fa fa-bug"
+                        InfoIcon="fa fa-info"
+                        WarningIcon="fa fa-exclamation-triangle"
+                        ShowProgressBar="@false" />
+
+        <CascadingValue Value="hubConnection">
+            <CascadingValue Value="globalModel">
+                <div id="wrapper">
+                    <nav class="navbar navbar-default navbar-static-top m-b-0">
+                        <Header />
+                    </nav>
+                    <aside class="sidebar" role="navigation">
+                        <AdminLeftMenuLayout />
+                    </aside>
+                    <div class="page-wrapper">
+                        <div class="container-fluid">   
+                            <ErrorBoundary>
+                                <ChildContent>
+                                                                               @if(globalModel.userId == null || hubConnection == null)
+            {
+
+            }
+            else{
+                    @Body
+            }
+                                 
+                                </ChildContent>
+                                <ErrorContent Context="Error">
+                                    <p class="my-error">Có lỗi xảy ra </p>
+                                </ErrorContent>
+                            </ErrorBoundary>                               
+                        </div>
+                    </div>
+                </div>
+            </CascadingValue>
+        </CascadingValue>
+    </TelerikRootComponent>
+    </Authorized>
+      <NotAuthorized>
+        <CMS.Website.Areas.Identity.Pages.Account.RedirectToLogin  returnUrl="/Admin/DashBoard"/>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
+

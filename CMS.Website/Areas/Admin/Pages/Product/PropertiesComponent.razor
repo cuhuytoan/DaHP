@@ -1,0 +1,78 @@
+﻿<EditForm Model="productPropertyModel" OnValidSubmit="@OnPostData">
+    <div  class="form-group row">
+        Tên sản phẩm : @productName
+    </div>
+    <div class="form-group row">
+        <button type="submit" class="btn btn-success">
+            Lưu
+        </button>
+        @*<button type="button" class="btn btn-danger" data-dismiss="modal"
+                @onclick="()=> OnCloseModal.InvokeAsync(true)"
+                >            
+            Thoát
+        </button>*@
+    </div>
+    <div class="form-group row">
+
+        @foreach (var p in productPropertyModel.lstProductPropertyCate)
+        {
+            <fieldset>
+                <legend>
+                    <div class="row">
+                        <div class="col-sm-8 text-left">
+                            @p.Name
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            <a data-toggle="collapse" data-target="@($"#productCategory-{@p.Id}")" role="button" aria-expanded="false"><i class="fa fa-plus-square"></i></a>
+                        </div>
+                    </div>
+                </legend>
+                <div class="collapse" id="@($"productCategory-{@p.Id}")">
+                    @foreach (var x in @p.lstProductProperties)
+                    {
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">@x.Name</label>
+                            <div class="col-sm-8">
+                                @{
+                                    switch ((int)x.ProductPropertyTypeId)
+                                    {
+                                        case 1:
+
+                                            <div class="col-sm-12">
+                                                <InputText class="form-control" @bind-Value="x.Value" />
+                                            </div>
+                                            break;
+                                        case 2:
+
+                                            <div class="col-sm-12">
+                                                <input type="number" Decimals="0" class="form-control" @bind="x.Value" />
+                                            </div>
+                                            break;
+                                        case 3:
+
+                                            <div class="col-sm-12">
+                                                <TelerikDateTimePicker class="form-control" @bind-Value="x.Value"></TelerikDateTimePicker>
+                                            </div>
+                                            break;
+                                        case 4:
+
+                                            <div class="col-sm-12">
+                                                <TelerikRadioGroup Data="lstYesNo" @bind-Value="x.Value" Layout="RadioGroupLayout.Horizontal" ValueField="Key" TextField="Value" class="form-control"></TelerikRadioGroup>
+                                            </div>
+                                            break;
+                                    }
+
+
+                                }
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </fieldset>
+        }
+
+    </div>
+
+</EditForm>

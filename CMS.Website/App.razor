@@ -1,0 +1,24 @@
+﻿<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+        <Found Context="routeData">
+             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"> 
+                <NotAuthorized>
+                    <section id="wrapper" class="error-page">
+                        <div style="height: 100%;  width: 100%;">
+                            <div class="error-body text-center" style="padding-top:15%">
+                                <h1>401</h1>
+                                <h3 class="text-uppercase">Bạn cần đăng nhập để sử dụng chức năng này</h3>            
+                            </div>
+                        </div>
+                    </section>
+                </NotAuthorized>               
+            </AuthorizeRouteView>
+            @*<RouteView  RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />*@
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <CMS.Website.Areas.Shared.Error403 />
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

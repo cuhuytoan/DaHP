@@ -1,0 +1,118 @@
+﻿@page "/Admin/Advertising/Edit"
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+
+
+            <h3 class="box-title m-b-0">Cập nhật quảng cáo</h3>
+            <p class="text-muted m-b-30 font-13"> Cập nhật chi tiết quảng cáo </p>
+            <h4 class="sub-title">Nội dung mô tả</h4>
+            <EditForm Model="advertising" OnValidSubmit="@PostAdvertising" class="form-horizontal">
+                <DataAnnotationsValidator />
+                <input type="hidden" class="form-control" @bind="advertising.Id">
+                <div class="form-group row">
+                    <div class="col-sm-8">
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Tên quảng cáo <span class="text-danger">(*)</span></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" @bind="advertising.Name" placeholder="Nhập tên quảng cáo">
+                                <span class="text-danger m-t-10"><ValidationMessage For="() => advertising.Name" /></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Mô tả</label>
+                            <div class="col-sm-10">
+                                <textarea type="text" style="height: 150px;" class="form-control" @bind="advertising.Description" placeholder="Nhập nội dung mô tả"></textarea>
+                                <span class="text-danger m-t-10"><ValidationMessage For="() => advertising.Description" /></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Code</label>
+                            <div class="col-sm-10">
+                                <textarea type="text" style="height: 150px;" class="form-control" @bind="advertising.Code" placeholder="Nhập code"></textarea>
+                                <span class="text-danger m-t-10"><ValidationMessage For="() => advertising.Code" /></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Ngày giờ đăng</label>
+                            <div class="col-sm-4">
+                                <TelerikDateTimePicker @bind-Value="advertising.StartDate"></TelerikDateTimePicker>
+                                <span class="text-danger m-t-10"><ValidationMessage For="() => advertising.StartDate" /></span>
+                            </div>
+                             <label class="col-sm-3 control-label" style="text-align: right;">Ngày kết thúc</label>
+                            <div class="col-sm-3">
+                                <div style="float: right">
+                                    <TelerikDateTimePicker @bind-Value="advertising.EndDate"></TelerikDateTimePicker>
+                                    <span class="text-danger m-t-10"><ValidationMessage For="() => advertising.EndDate" /></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Chiều cao (px)</label>
+                            <div class="col-sm-4">
+                                <InputNumber class="form-control" @bind-Value="advertising.Height" />
+                                <span class="text-danger m-t-10"><ValidationMessage For="() => advertising.Height" /></span>
+                            </div>
+                            <label class="col-sm-3 control-label" style="text-align: right;">Chiều ngang (px)</label>
+                            <div class="col-sm-3">
+                                <div style="float: right">
+                                    <InputNumber class="form-control" @bind-Value="advertising.Width"></InputNumber>
+                                    <span class="text-danger m-t-10"><ValidationMessage For="() => advertising.Width" /></span>
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="form-group row">
+                            <label class="col-sm-2 control-label">Url</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" @bind="advertising.Url" placeholder="Nhập Url">
+                                <span class="text-danger m-t-10"><ValidationMessage For="() => advertising.Url" /></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group row">
+                            <div class="col-md-12" id="uploadImg">
+                                <a @onclick="(() => OnCropImage(true))">
+
+                                    @{
+                                        if (advertising.Image != null)
+                                        {
+                                            <img class="image-preview-main-db" src="/data/advertising/mainimages/original/@advertising.Image" />
+                                        }
+                                        else if (@imageDataUrls != null && imageDataUrls.Count > 0)
+                                        {
+                                            foreach (var img in @imageDataUrls)
+                                            {
+                                                <img class="image-preview-main-db" src="@img" />
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="btn btn-primary" style="border: 2px solid rgba(103, 192, 103, 0.75);border-radius: 40px;">
+                                                <i class="fa fa-upload"> </i>Upload
+                                            </div>
+
+                                        }
+                                    }
+
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-12">             
+                        <div class="form-group row" style="display:flex;justify-content:center">                            
+                            <button type="submit" class="btn btn-mat btn-success  m-r-10"><i class="fa fa-newspaper-o"></i>Lưu</button>
+                            <a href="/Admin/Advertising?advertisingId=@advertisingId" class="btn btn-mat btn-warning  m-r-10"><i class="fa fa-times-circle"></i>Hủy bỏ</a>
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+<ImageCropper @ref="imageCropperModal" ConfirmationCropChanged="ConfirmImageCropper" />

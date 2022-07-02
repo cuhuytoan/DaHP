@@ -1,0 +1,90 @@
+﻿
+@if (ShowConfirmation)
+{
+
+    <div class="modal show d-block" id="exampleModal" tabindex="999" role="dialog">
+        <div class="modal-dialog" style="overflow-y:initial !important"  role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Chỉnh sửa ảnh</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        @onclick="() => OnConfirmationChange(false)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="height:80vh;overflow-y:auto;">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- <h3>Demo:</h3> -->
+                        <div class="img-container">
+                                <img style="max-height:500px; max-width:500px;" src="/assets/images/pictureCrop.jpg" alt="Picture">
+                            </div>
+                        </div>
+                 
+                    </div>
+                   
+                    <div class="row" id="actions">
+                        <div class="col-md-9 docs-buttons">
+
+                            <div class="btn-group">                               
+                                <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
+                                    <input type="file" class="sr-only" id="inputImage" name="file" accept="image/*">
+                                    <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">
+                                        <span class="fa fa-upload"> Tải ảnh</span>
+                                    </span>
+                                </label>                             
+                            </div>
+
+                            <div class="btn-group btn-group-crop">
+                                <button type="button" class="btn btn-success" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }">
+                                    <span class="docs-tooltip" data-toggle="tooltip" title="cropper.getCroppedCanvas({ maxWidth: 600, maxHeight: 600 })">
+                                        Cắt ảnh
+                                    </span>
+                                </button>                             
+                            </div>
+
+                            <!-- Show the cropped image in modal -->
+                        <div class="modal fade docs-cropped" id="getCroppedCanvasModal" role="dialog" aria-hidden="true" aria-labelledby="getCroppedCanvasTitle" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="getCroppedCanvasTitle">Ảnh sau khi cắt</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" id="imgAfterCrop"></div>
+                                        <div class="modal-footer">
+                                            <button id="download" @onclick="@(async () => await OnConfirmationChange(true))" class="btn btn-primary" data-dismiss="modal">Lưu </button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+
+                    </div><!-- /.docs-buttons -->
+
+                    <div class="col-md-3 docs-toggles">
+                            <div class="btn-group d-flex flex-nowrap" data-toggle="buttons">
+                           
+                            </div>
+
+                        </div>
+                        <!-- /.docs-toggles -->
+                </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger"
+                        @onclick="() => OnConfirmationChange(false)">
+                        Hủy bỏ
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+

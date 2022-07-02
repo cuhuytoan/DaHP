@@ -1,0 +1,33 @@
+﻿@if (ShowForm)
+{
+    <div class="modal show d-block bs-example-modal-lg" id="exampleModal" tabindex="999" role="dialog">
+        <div class="modal-dialog modal-lg" style="overflow-y:initial !important" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align: center; background: linear-gradient(to right,#0078bc 1%,#00beda 100%); display:flex;">                    
+                        <h3 class="modal-title" id="exampleModalLabel" style="color: aliceblue; flex: 1 1 auto;">@ConfirmationTitle</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                @onclick="() => OnConfirmationChange(false)">
+                            <span aria-hidden="true" style="font-size:2em;color:red;">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body" style="height:80vh;overflow-y:auto;">
+                    <div class="col-sm-12">
+                        @*<PropertiesComponent ProductId="@ProductId" OnCloseModal="@CloseModel"/>*@
+                        <DynamicComponent Type="@Component.ComponentType" Parameters="@Component.ComponentParameters" />
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top:none !important">
+                    @*<button type="button" class="btn btn-secondary"
+                                @onclick="() => OnConfirmationChange(true)">
+                            Lưu
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"
+                                @onclick="() => OnConfirmationChange(false)">
+                            Thoát
+                        </button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

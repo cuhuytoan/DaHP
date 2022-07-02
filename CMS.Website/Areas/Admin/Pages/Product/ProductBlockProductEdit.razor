@@ -1,0 +1,160 @@
+﻿<div class="form-group row">
+    <label class="col-sm-4 col-form-label">Khối bài viết: </label>
+    <div class="col-sm-8">
+        <label>@productBlockName</label>
+    </div>
+</div>
+<div class="form-group row">
+    <button type="button" class="btn btn-primary" data-dismiss="modal"
+            @onclick="() => OnPost()">
+        Lưu
+    </button>
+    @*<button type="button" class="btn btn-danger" data-dismiss="modal"
+                @onclick="()=> OnCloseModal.InvokeAsync(true)">
+            Thoát
+        </button>*@
+</div>
+<div class="form-group row">
+    <div class="col-sm-12">
+        <label class="col-sm- col-form-label">Danh sách bài viết liên quan</label>
+    </div>
+
+</div>
+<div class="form-group row">
+
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width:100px;">
+                        </th>
+                        <th>
+                            Tiêu đề
+                        </th>
+                        <th style="width:50px;">
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (lstProductSelected == null)
+                    {
+                        <p><em>Loading...</em></p>
+                    }
+                    else
+                    {
+                        @foreach (var item in lstProductSelected)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="/data/product/mainimages/small/@item.Image" />
+                                </td>
+                                <td>
+                                    <div style="font-weight: 700;">
+                                        <a href="/Admin/Product/Edit?productId=@item.Id">
+                                            @item.Name
+                                        </a>
+                                    </div>
+                                    <div>
+                                        Đăng bởi <b>@item.CreateByName</b> vào lúc
+                                        <b>@item.CreateDate.Value.ToString("dd/MM/yyyy HH:mm")</b>
+                                    </div>
+                                    <div>
+                                        Chuyên mục: <span style="font-weight: 700; color: #0094ff;">@item.ProductCategoryName</span>
+                                    </div>
+                                </td>
+                                <td style="text-align: center; padding-top: 30px;">
+                                    <a @onclick="() => OnRemmoveProductRelationProduct(item)"><i class="fa fa-trash"></i></a>
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="form-group row">
+    <div class="col-sm-12">
+        <input typeof="text" class="form-control m-r-10 m-b-10" type="search" @bind="@keyword" placeholder="Từ khóa tìm kiếm..." />
+        <a class="btn btn-mat btn-success m-r-10 m-b-10" @onclick="() => OnSearchProduct(keyword)" style="color: #FFFFFF;"><i class="fa fa-search"></i>Tìm kiếm</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width:100px;">
+                            </th>
+                            <th>
+                                Tiêu đề
+                            </th>
+                            <th style="width:50px;">
+                                Trạng thái
+                            </th>
+                            <th style="width:50px;">
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (lstProduct == null)
+                        {
+                            <p><em>Loading...</em></p>
+                        }
+                        else
+                        {
+                            @foreach (var item in lstProduct)
+                            {
+                                <tr>
+                                    <td>
+                                        <img src="/data/product/mainimages/small/@item.Image" />
+                                    </td>
+                                    <td>
+                                        <div style="font-weight: 700;">
+                                            <a href="/Admin/Product/Edit?productId=@item.Id">
+                                                @item.Name
+                                            </a>
+                                        </div>
+                                        <div>
+                                            Đăng bởi <b>@item.CreateByName</b> vào lúc
+                                            <b>@item.CreateDate.Value.ToString("dd/MM/yyyy HH:mm")</b>
+                                        </div>
+                                        <div>
+                                            Chuyên mục: <span style="font-weight: 700; color: #0094ff;">@item.ProductCategoryName</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="margin-top: 20px; text-align: center;">
+                                            @{
+                                                string styleStatus = "badge-success";
+                                                if (item.ProductStatusId == 0)
+                                                {
+                                                    styleStatus = "badge-info";
+                                                }
+                                                else if (item.ProductStatusId == 1)
+                                                {
+                                                    styleStatus = "badge-warning";
+                                                }
+                                            }
+                                            <label class='badge @styleStatus'> @item.StatusName</label>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: center; padding-top: 30px;">
+                                        <a @onclick="() => OnAddProductRelationProduct(item)"><i class="fa fa-plus-circle"></i></a>
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,204 @@
+﻿@page "/bai-viet/{url}"
+
+<CascadingValue Value="url">
+    <ArticleBreadCrumbComponent breadCrumbType="article" />
+
+    <div class="page-news">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-news--box">
+                        <div class="page-news__left page-news__left--page-detail">
+                            @if(articleDetail == null)
+                        {
+                            
+                        }
+                        else
+                            {
+                                 <div class="page-news__detail">
+                                <div class="page-news__detail__time">
+                                   @articleDetail.LastEditDate
+                                </div>
+                                <h1 class="page-news__detail__title">
+                                    @articleDetail.Name
+                                </h1>
+                                <div class="page-news__detail--box">
+                                    <div class="page-news__detail__social">
+                                        <ul>
+                                            <li>
+                                                <a href="#" class="page-news__detail__social__facebook" title="Chia sẻ lên Facebook" target="_blank">
+                                                    <i class="fa fa-facebook"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="page-news__detail__social__zalo" title="Chia sẻ lên Zalo" target="_blank">
+                                                    <img class="icon-zalo" src="/assets/themes/front/assets/images/icon-zalo.png" alt="">
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" title="In bài viết" target="_blank">
+                                                    <i class="fa fa-print"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="page-news__detail__social__link" title="Copy link bài viết" target="_blank">
+                                                    <i class="fa fa-link"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="page-news__detail__body">
+                                        <div class="limit-start"></div>
+                                        <h2 class="page-news__detail__body__desc">
+                                            @articleDetail.Description
+                                        </h2>
+                                        <div class="page-news__detail__body__content">
+                                            @((MarkupString)articleDetail.Content)
+                                        </div>
+                                        <div class="page-news__detail__body__flex">
+                                            <div class="page-news__detail__body__like-facebook">
+                                                <a href="#" title="Thích bài viết">
+                                                    <i class="fa fa-thumbs-o-up"></i> 15 <span>Lượt thích</span>
+                                                </a>
+                                            </div>
+                                            <div class="page-news__detail__body__author">
+                                                <p>@articleDetail.Author</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tin liên quan -->
+                                        <div class="page-news__detail__body__related">
+                                            <h2 class="page-news__detail__body__related__title">
+                                                Tin liên quan
+                                            </h2>
+                                            <div class="page-news__detail__body__related__links">
+                                                @if (lstArticleRelated == null)
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    @foreach (var p in lstArticleRelated)
+                                                    {
+                                                        <h3 class="page-news__detail__body__related__links--item">
+                                                            <a href="/bai-viet/@p.URL" @onclick="@(() => NavigationManager.NavigateTo($"/bai-viet/{@p.URL}",true))" title="">@p.Name</a>
+                                                        </h3>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+                                        <!-- Hết tin liên quan -->
+                                        <!-- Tags -->
+                                        <div class="page-news__detail__body__tags">
+                                            <div class="page-news__detail__body__tags__label">Từ khóa:</div>
+                                            <ul class="page-news__detail__body__tags__list">
+                                                @if (articleDetail.Tags != null)
+                                                {
+                                                    var lstTags = articleDetail.Tags.Split(",");
+                                                    if(lstTags != null)
+                                                    {
+                                                        @foreach (var p in lstTags)
+                                                    {
+                                                        <li>
+                                                            <h4><a href="#">@p.Trim()</a></h4>
+                                                        </li>
+                                                    }
+                                                    }
+                                                    
+                                                }
+
+
+                                            </ul>
+                                        </div>
+                                        <!-- End Tags -->
+                                        <!-- Có thể bạn quan tâm -->
+                                        <div class="page-news__detail__body__care__title">
+                                            <h2>Có thể bạn quan tâm</h2>
+                                        </div>
+                                        <div class="page-news__top-3">
+                                            <div class="page-news__top-3__item">
+                                                <a href="#">
+                                                    <div class="page-news__top-3__item__box">
+                                                        <img src="/assets/themes/front/assets/images/news/news-2.jpg" alt="">
+                                                        <h3>Thêm một đại gia Việt sở hữu tài sản tỷ USD trên sàn chứng khoán</h3>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="page-news__top-3__item">
+                                                <a href="#">
+                                                    <div class="page-news__top-3__item__box">
+                                                        <img src="/assets/themes/front/assets/images/news/news-3.jpeg" alt="">
+                                                        <h3>Lãi suất huy động bước vào cuộc đua tăng mới?</h3>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="page-news__top-3__item">
+                                                <a href="#">
+                                                    <div class="page-news__top-3__item__box">
+                                                        <img src="/assets/themes/front/assets/images/news/news-4.png" alt="">
+                                                        <h3>Những "cú đấm thép" tỷ USD là đầu tàu kinh tế Việt Nam</h3>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- Hết Có thể bạn quan tâm -->
+                                        <!-- Bình luận -->
+                                        <div class="page-news__detail__body__comment">
+                                            <div class="page-news__detail__body__comment__bar">
+                                                <div class="page-news__detail__body__comment__bar__left">
+                                                    <img src="/assets/themes/front/assets/images/logo_thumb.png" alt="">
+                                                </div>
+                                                <div class="page-news__detail__body__comment__bar__right">
+                                                    <a href="#">Đăng nhập</a>
+                                                    |
+                                                    <a href="#">Đăng ký</a>
+                                                    <a href="#" title="Giúp đỡ"><i class="fa fa-question-circle-o"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="page-news__detail__body__comment__form">
+                                                <form class="" action="" method="">
+                                                    <textarea placeholder="Nội dung bình luận"></textarea>
+                                                    <div class="page-news__detail__body__comment__form_button">
+                                                        <a>Gửi bình luận</a>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- Hết Bình luận -->
+
+                                        <div class="limit-end"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                           
+
+                        </div>
+                        <div class="page-news__right">
+                            @if (lstAdvertisingRight == null)
+                            {
+
+                            }
+                            else
+                            {
+                                @foreach (var p in lstAdvertisingRight)
+                                {
+                                    <div class="page-news__qc">
+                                        <a href="@p.Url">
+                                            <img src="/data/advertising/mainimages/original/@p.Image" alt="@p.Name">
+                                        </a>
+                                    </div>
+                                }
+
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ArticleMostReadComponent />
+    </CascadingValue>

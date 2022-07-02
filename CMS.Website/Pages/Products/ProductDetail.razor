@@ -1,0 +1,463 @@
+﻿@page "/san-pham/{url}"
+
+@if(productDetail !=null && setting !=null && productDetail !=null)
+{
+	string metaDescription =productDetail.MetaDescription != null ? productDetail.MetaDescription.Length > 300 ? productDetail.MetaDescription.Substring(0, 300) : productDetail.MetaDescription : "";
+
+	<PageTitle>@((MarkupString)((setting != null ? setting.MetaTitleDefault :"" ) + " - " + productDetail.Name))</PageTitle>
+	<HeadContent>
+    <meta name="keywords" content="@(String.IsNullOrEmpty(productDetail.MetaKeywords) ? (setting != null ? setting.MetaKeywordsDefault : "") : productDetail.MetaKeywords)" />
+    <meta name="description" content="@((MarkupString)((String.IsNullOrEmpty(metaDescription) ? (setting != null ? setting.MetaDescriptionDefault : "") : metaDescription)))" />
+    <link id="canonical" rel="canonical" href="@(NavigationManager.Uri.ToString())">
+    <!-- META FOR FACEBOOK -->
+    <meta property="og:url" content="@(NavigationManager.Uri.ToString())">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="@((MarkupString)((setting != null ? setting.MetaTitleDefault :"" ) + " - " + productDetail.Name))">
+    <meta property="og:description" content="@((MarkupString)((String.IsNullOrEmpty(metaDescription) ? (setting != null ? setting.MetaDescriptionDefault : "") : metaDescription)))" />    
+    <meta property="og:image" content="@(NavigationManager.Uri.ToString())data/product/mainimages/original/@productDetail.Image')">
+
+    <!-- END META FOR FACEBOOK -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card" value="">
+    <meta name="twitter:site" content="">
+    <meta name="twitter:creator" content="">
+    <!-- End Twitter Card -->
+</HeadContent>
+}
+
+<CascadingValue Value="url">
+
+	<ProductBreadCrumbComponent breadCrumbType="product" />
+
+	<!-- product-detail__info -->
+	<div class="product-detail__info">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="product-detail__info--box">
+						@if (productDetail != null)
+						{
+							<!-- List image -->
+							<div class="swiper-container product-detail__info__image">
+								<span class="close-button"></span>
+								<div class="gallery-top">
+									@if (lstProductPicture == null)
+									{ }
+									else
+									{
+										<div class="swiper-wrapper">
+											<div class="swiper-slide" style="background-image:url('/data/product/mainimages/original/@productDetail.Image')"></div>
+											@foreach (var p in lstProductPicture)
+											{
+												<div class="swiper-slide" style="background-image:url('/data/productpicture/mainimages/original/@p.Image')"></div>
+											}
+
+										</div>
+									}
+
+									<!-- Add Arrows -->
+								<div class="swiper-button-next swiper-button-white"></div>
+									<div class="swiper-button-prev swiper-button-white"></div>
+								</div>
+								<div class="gallery-thumbs">
+									@if (lstProductPicture == null)
+									{ }
+									else
+									{
+										<div class="swiper-wrapper">
+											<div class="swiper-slide" style="background-image:url('/data/product/mainimages/original/@productDetail.Image')"></div>
+											@foreach (var p in lstProductPicture)
+											{
+												<div class="swiper-slide" style="background-image:url('/data/productpicture/mainimages/original/@p.Image')"></div>
+											}
+
+										</div>
+									}
+								</div>
+
+								<div class="swiper-scrollbar"></div>
+							</div>
+							<!-- End list image -->
+							<div class="product-detail__info__right">
+								<!-- Title -->
+							<div class="product-detail__info__right__title">
+									<h1>@productDetail.Name</h1>
+								</div>
+								<!-- Desc -->
+							<div class="product-detail__info__right__desc">
+									<span class="product-detail__info__right__rating">
+										<i class="fa fa-star @(productDetail.AveragePointReview >= 1 ? "active" : "")"></i>
+										<i class="fa fa-star @(productDetail.AveragePointReview >= 2 ? "active" : "")"></i>
+										<i class="fa fa-star @(productDetail.AveragePointReview >= 3 ? "active" : "")"></i>
+										<i class="fa fa-star @(productDetail.AveragePointReview >= 4 ? "active" : "")"></i>
+										<i class="fa fa-star @(productDetail.AveragePointReview >= 5 ? "active" : "")"></i>
+									</span>
+									<span class="product-detail__info__right__evaluate">
+										<strong>@productDetail.TotalProductReview</strong>
+										Đánh giá
+									</span>
+									<span class="product-detail__info__right__sold">
+										Đã bán
+										<strong>18</strong>
+									</span>
+								</div>
+								<!-- Price -->
+							<div class="product-detail__price">
+									<span class="product-detail__price__new">
+										@String.Format((new System.Globalization.CultureInfo("vi-VN")),"{0:N0}", @productDetail.Price) <sup>đ</sup>
+									</span>
+									<span class="product-detail__price__old">
+										@String.Format((new System.Globalization.CultureInfo("vi-VN")),"{0:N0}", @productDetail.PriceOld) <sup>đ</sup>
+									</span>
+									@if (@productDetail.Rate != null && @productDetail.Rate > 0)
+									{
+										<span class="product-detail__price__sale">
+											Giảm @productDetail.Rate %
+										</span>
+									}
+
+
+								</div>
+								<!-- End price -->
+								<!-- List Desc -->
+							<div class="product-detail__list-desc">
+									<ul>
+										<li><i class="fa fa-check-square"></i> Giao hàng nhanh cùng J&T</li>
+										<li><i class="fa fa-check-square"></i> Trả hàng 2-3 ngày</li>
+									</ul>
+								</div>
+								<!-- End list desc -->
+								<!-- Quality Input -->
+							<div class="product-detail__quality">
+									<div class="product-detail__quality__title">Số lượng:</div>
+									<div class="product-detail__quality__group-input">
+										<button @onclick="@(() => OnQtyChange(2))" class="first"><img src="assets/themes/front/assets/images/common/icons-remove.svg" alt="remove-icon" width="20" height="20"></button>
+										<input type="text" class="product-detail__quality__input" value=@QtyToCart>
+										<button @onclick="@(() => OnQtyChange(1))" class="last"><img src="assets/themes/front/assets/images/common/icons-add.svg" alt="add-icon" width="20" height="20"></button>
+									</div>
+								</div>
+								<!-- End Quality Input -->
+								<!-- Button buy -->
+							<div class="product-detail__button">
+									<div class="add-to-cart">
+										<a href="javascript:void(0);" @onclick="@(() => SaveToCart())">
+											<img src="/assets/themes/front/assets/images/shopping-cart.png">
+											Thêm vào giỏ hàng
+										</a>
+									</div>
+									<div class="buy-now">
+										<a href="javascript:void(0);" @onclick="@(() => BuyNow())">
+											<img src="/assets/themes/front/assets/images/icon-buy-now.png">
+											Mua luôn
+										</a>
+									</div>
+								</div>
+								<!-- End Button buy -->
+								<!-- Social -->
+							<div class="product-detail__social">
+									<div class="product-detail__social__title">Chia sẻ:</div>
+									<a href="https://www.facebook.com/sharer/sharer.php?u=@(NavigationManager.BaseUri)"><img src="assets/themes/front/assets/images/common/social-facebook.svg" alt="social-facebook"></a>
+									<a href="#"><img src="assets/themes/front/assets/images/common/social-messenger.svg" alt="social-messenger"></a>
+									<a href="http://pinterest.com/pin/create/link/?url=@(NavigationManager.BaseUri)"><img src="assets/themes/front/assets/images/common/social-pinterest.svg" alt="social-pinterest"></a>
+									<a href="https://twitter.com/intent/tweet?url=@(NavigationManager.BaseUri)"><img src="assets/themes/front/assets/images/common/social-twitter.svg" alt="social-twitter"></a>
+									<a href="javascripts:void(0);" @onclick="@((typeSocial) => SocialShare("copy"))"><img src="assets/themes/front/assets/images/common/social-copy.svg" alt="social-copy" title="Copy link"></a>
+									<div class="product-detail__social__separator"></div>
+									@if (!ProductLike)
+									{
+										<a href="javascripts:void(0)"><img src="assets/themes/front/assets/images/common/icons-like.svg" alt="social-like" @onclick="() => OnChangeProductLike(ProductLike)"></a>
+									}
+									else
+									{
+										<a href="javascripts:void(0)"><img src="assets/themes/front/assets/images/common/icons-liked.svg" alt="social-like" @onclick="() => OnChangeProductLike(ProductLike)"></a>
+									}
+
+									<div> @(productDetail.LikeCount ?? 0) Thích</div>
+								</div>
+								<!-- End Social -->
+						</div>
+						}
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end product-detail__info top -->
+	<!-- product-detail__content -->
+	<div class="product-detail__content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="product-detail__content--main">
+						<!-- Box left -->
+						<div class="product-detail__content__left">
+							<!-- Info shop -->
+							<div class="product-detail__shop-info">
+
+								@if (productBrandDetail != null)
+								{
+									<div class="product-detail__shop-info__left">
+
+
+										<div class="product-detail__shop-info__avatar">
+											<img src="/data/productbrand/mainimages/original/@productBrandDetail.Image" alt="@productBrandDetail.Name">
+										</div>
+										<div class="product-detail__shop-info__desc">
+											<div class="product-detail__shop-info__name">
+												@productBrandDetail.Name
+											</div>
+											<div>
+												@{
+													string styleStatus = "badge-secondary";
+													if(@productBrandDetail.ProductBrandLevelId == 1)
+													{
+														styleStatus = "badge-secondary";
+													}
+													else if(@productBrandDetail.ProductBrandLevelId == 2)
+													{
+														styleStatus = "badge-primary";
+													}
+													else if(@productBrandDetail.ProductBrandLevelId == 3)
+													{
+														styleStatus = "badge-info";
+													}
+													else if(@productBrandDetail.ProductBrandLevelId == 4)
+													{
+														styleStatus = "badge-light";
+													}
+													else if(@productBrandDetail.ProductBrandLevelId == 5)
+													{
+														styleStatus = "badge-warning";
+													}
+												}
+												
+												<span class="badge @styleStatus">@productBrandDetail.ProductBrandLevelName</span>	
+												
+												
+											</div>
+											<div class="product-detail__shop-info__more">
+												<span class="product-detail__shop-info__address">
+													<img src="/assets/themes/front/assets/images/icon-location.png" alt="">
+													@productBrandDetail.LocationName
+												</span>
+												<span class="product-detail__shop-info__status">
+													Đang hoạt động
+												</span>
+											</div>
+											<div class="product-detail__shop-info__button">
+												@if (!ProductBrandFollow)
+												{
+													<span class="product-detail__shop-info__mess">
+														<a href="javascripts:void(0)" @onclick="() => OnChangeProductBrandFollow(ProductBrandFollow)">
+															<svg enable-background="new 0 0 10 10" viewBox="0 0 10 10" x="0" y="0" class="product-detail__shop-info__icon"><polygon points="10 4.5 5.5 4.5 5.5 0 4.5 0 4.5 4.5 0 4.5 0 5.5 4.5 5.5 4.5 10 5.5 10 5.5 5.5 10 5.5"></polygon></svg>
+															Theo dõi
+														</a>
+													</span>
+												}
+												else
+												{
+													<span class="product-detail__shop-info__followed">
+														<a href="javascripts:void(0)" @onclick="() => OnChangeProductBrandFollow(ProductBrandFollow)">
+															<img src="/assets/themes/front/assets/images/common/followed.png">
+															Đã theo dõi
+														</a>
+													</span>
+												}
+
+
+												<span class="product-detail__shop-info__go-to-shop">
+													<a href="javascript:void(0);" @onclick="@(() => NavigationManager.NavigateTo($"/cua-hang/{productBrandDetail.Url}",true))" >
+														<img src="/assets/themes/front/assets/images/icon_go_to_shop.png">
+														Xem shop
+													</a>
+												</span>
+											</div>
+										</div>
+
+									</div>
+									<div class="product-detail__shop-info__right">
+										<div class="product-detail__shop-info__right__item">
+											<p>Sản phẩm</p>
+											<p><strong>@productBrandDetail.ProductCount</strong></p>
+										</div>
+										<div class="product-detail__shop-info__right__item">
+											<p>Đánh giá</p>
+											<p><strong>0</strong></p>
+										</div>
+										<div class="product-detail__shop-info__right__item">
+											<p>Ngày tham gia</p>
+											<p><strong>@productBrandDetail.CreateDate?.ToString("dd/MM/yyyy")</strong></p>
+										</div>
+									</div>
+								}
+							</div>
+							<!-- End Info shop -->
+							<!-- Thông tin chi tiết sản phẩm -->
+							<div class="product-detail__more-info">
+
+								<h3 class="product-detail__more-info__title">Thông tin sản phẩm</h3>
+								@if (productDetail != null)
+								{
+									<div class="product-detail__more-info__list">
+										<div class="product-detail__more-info__item-list">
+											<label>Danh mục:</label>
+											<span>@productDetail.ProductCategoryIdsName</span>
+										</div>
+										<div class="product-detail__more-info__item-list">
+											<label>Thương hiệu:</label>
+											<span>@productBrandDetail.Name</span>
+										</div>
+										<div class="product-detail__more-info__item-list">
+											<label>Xuất xứ:</label>
+											<span>@productDetail.CountryName</span>
+										</div>
+										<div class="product-detail__more-info__item-list">
+											<label>Đơn vị tính:</label>
+											<span>@productDetail.UnitName</span>
+										</div>
+										<div class="product-detail__more-info__item-list">
+											<label>Trọng lượng:</label>
+											<span>@productDetail.AmountDefault</span>
+										</div>
+									</div>
+
+									<h3 class="product-detail__more-info__title">Mô tả sản phẩm</h3>
+									<div class="product-detail__more-info__box-desc">
+										@((MarkupString)@productDetail.Content)
+									</div>
+								}
+
+
+
+
+							</div>
+							<!-- Hết Thông tin chi tiết sản phẩm -->
+							@if(productPropertyModel != null )
+							{
+								<!-- Thông tin thông số kỹ thuật sản phẩm -->
+                            <div class="product-detail__tech-info">
+                                <h3 class="product-detail__tech-info__title">Thông số kỹ thuật</h3>
+                                <div class="product-detail__tech-info__list">
+									@foreach(var p in productPropertyModel.lstProductPropertyCate)
+										{
+												<div class="product-detail__tech-info__cat">
+													@p.Name
+												</div>
+												  @foreach (var x in @p.lstProductProperties)
+											{
+												<div class="product-detail__tech-info__item-list">
+													<label>@x.Name :</label>
+													<span>@x.Value</span>
+												</div>
+											}
+
+										}
+									
+                                  
+                                </div>
+                            </div>
+                            <!-- Hết thông số kỹ thuật sản phẩm -->
+							}
+							
+							<!-- Đánh giá sản phẩm -->
+							<!-- Đánh giá của bạn -->
+							<div class="product-detail__evaluate">
+								<h3 class="product-detail__evaluate__title">Đánh giá của bạn</h3>
+								<AuthorizeView>
+									<Authorized>
+										<div class="product-detail__my__comments">
+											<div class="product-detail__my__comment">
+												<img class="product-detail__my__comment__avatar" src="/data/user/mainimages/small/@globalModel.avatar" alt="">
+												<div class="product-detail__my__comment__body">
+													<h5 class="product-detail__my__comment__name">@globalModel.fullName</h5>
+													<div class="product-detail__my__comment__rating">
+														<i class="fa fa-star @(pointStar >= 1  ? "active" :"")" @onclick="() => OnChangeStar(1)" @onmouseover="() => OnStarMouseOver(1)"></i>
+														<i class="fa fa-star @(pointStar >= 2  ? "active" :"")" @onclick="() => OnChangeStar(2)" @onmouseover="() => OnStarMouseOver(2)"></i>
+														<i class="fa fa-star @(pointStar >= 3  ? "active" :"")" @onclick="() => OnChangeStar(3)" @onmouseover="() => OnStarMouseOver(3)"></i>
+														<i class="fa fa-star @(pointStar >= 4  ? "active" :"")" @onclick="() => OnChangeStar(4)" @onmouseover="() => OnStarMouseOver(4)"></i>
+														<i class="fa fa-star @(pointStar >= 5  ? "active" :"")" @onclick="() => OnChangeStar(5)" @onmouseover="() => OnStarMouseOver(5)"></i>
+													</div>
+													<div class="order-form__list">
+														<div class="order-form__item order-form__full">
+															<textarea name="name" rows="3" placeholder="Nhập đánh giá của bạn" @bind="productReviewContent"></textarea>
+														</div>
+														<div class="order-form__button">
+															<button type="button" name="button" @onclick="() => OnPostProductReview()">Gửi đánh giá</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</Authorized>
+									<NotAuthorized>
+										<div class="order-form__list">
+											<div class="order-form__item order-form__full">
+												<textarea disabled name="name" rows="3" placeholder="Bạn cần đăng nhập để đánh giá sản phẩm"></textarea>
+											</div>
+											<div class="order-form__button">
+												<button type="button" name="button" @onclick="() =>  loginModal.Open()">Đăng nhập</button>
+											</div>
+										</div>
+									</NotAuthorized>
+								</AuthorizeView>
+
+
+							</div>
+							<!-- Hết Đánh giá của bạn -->
+							<!-- Đánh giá sản phẩm -->
+							<div class="product-detail__evaluate">
+								<h3 class="product-detail__evaluate__title">Đánh giá sản phẩm (@productDetail.TotalProductReview)</h3>
+
+								<div class="product-detail__evaluate__comments">
+									@if (lstProductReview == null || lstProductReview.Count == 0)
+									{
+
+									}
+									else
+									{
+										@foreach (var p in lstProductReview)
+										{
+											<div class="product-detail__evaluate__comment">
+												<img class="product-detail__evaluate__comment__avatar" src="/data/user/mainimages/small/@p.AvatarUrl" alt="">
+												<div class="product-detail__evaluate__comment__body">
+													<h5 class="product-detail__evaluate__comment__name">@p.CustomerName</h5>
+													<div class="product-detail__evaluate__comment__rating">
+														<i class="fa fa-star @(p.Star >= 1  ? "active" :"")"></i>
+														<i class="fa fa-star @(p.Star >= 2  ? "active" :"")"></i>
+														<i class="fa fa-star @(p.Star >= 3  ? "active" :"")"></i>
+														<i class="fa fa-star @(p.Star >= 4  ? "active" :"")"></i>
+														<i class="fa fa-star @(p.Star >= 5  ? "active" :"")"></i>
+													</div>
+													<div class="product-detail__evaluate__comment__texts">
+														<span>@p.Content</span>
+													</div>
+												</div>
+											</div>
+										}
+
+									}
+
+
+								</div>
+							</div>
+							<!-- Hết Đánh giá sản phẩm -->
+							<!-- Hết Đánh giá sản phẩm -->
+						</div>
+						<!-- End Box left -->
+						<!-- Box right - Sản phẩm tương tự -->
+						<ProductRelatedComponent />
+						<!-- End Box right - Sản phẩm tương tự -->
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end product-detail__content -->
+
+
+	<ProductOthersComponent />
+
+	<LoginComponent @ref="loginModal" />
+</CascadingValue>

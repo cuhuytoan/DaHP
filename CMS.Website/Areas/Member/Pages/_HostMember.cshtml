@@ -1,0 +1,75 @@
+﻿@page "/Member/"
+@namespace CMS.Website.Areas.Member
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo.png">
+    <title>CMS </title>
+    <base href="~/" />
+    <!-- ===== Bootstrap CSS ===== -->
+    <link href="/assets/themes/default/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">*@
+    <!-- ===== Plugin CSS ===== -->
+    <link href="/assets/themes/default/plugins/components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="/assets/themes/default/plugins/components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+    <!-- ===== Animation CSS ===== -->
+    <link href="/assets/themes/default/css/animate.css" rel="stylesheet">
+    <!-- ===== Custom CSS ===== -->
+    <link href="/assets/themes/default/css/style.css" rel="stylesheet">
+    <!-- ===== Color CSS ===== -->
+    <link href="/assets/themes/default/css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- ===== font awe ===== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- ===== switchery ===== -->
+    <link href="/assets/themes/default/plugins/components/switchery/dist/switchery.min.css" rel="stylesheet" />
+    <!-- ===== Css custom by ToanCH ===== -->
+    <link href="/assets/css/customcht.css" rel="stylesheet">
+    <!-- Blazor Toast -->
+    <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
+    <!-- Blazor Js-->
+    <link rel="stylesheet" href="_content/Telerik.UI.for.Blazor/css/kendo-theme-default/all.css" />
+
+    <script src="_content/Telerik.UI.for.Blazor/js/telerik-blazor.js" ></script>
+    <!--Cropper.Js-->
+    <link href="/assets/cropperjs/cropper.min.css" rel="stylesheet" />
+    <link href="CMS.Website.styles.css" rel="stylesheet">
+</head>
+
+<body class="mini-sidebar">
+    <!-- Pre-loader start -->
+    <div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+    <!-- Pre-loader end -->
+    <app>
+        <component type="typeof(MemberApp)" render-mode="Server" />
+    </app>
+    <script src="/_framework/blazor.server.js"></script>
+    
+        <!-- ===== jQuery ===== -->
+    <script src="/assets/themes/default/plugins/components/jquery/dist/jquery.min.js"></script>
+    <!-- ===== Bootstrap JavaScript ===== -->
+    <script src="/assets/themes/default/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- ===== Slimscroll JavaScript ===== -->
+    <script src="/assets/themes/default/js/jquery.slimscroll.js"></script>
+    <!-- ===== Wave Effects JavaScript ===== -->
+    <script src="/assets/themes/default/js/waves.js"></script>
+    <!-- ===== Menu Plugin JavaScript ===== -->
+    <script src="/assets/themes/default/js/sidebarmenu.js"></script>
+    <!-- ===== Custom JavaScript ===== -->
+    <script src="/assets/themes/default/js/custom.js"></script>
+    <!-- ===== Style Switcher JS ===== -->
+    <script src="/assets/themes/default/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
+    <!-- ===== Style Switcher JS ===== -->
+    <script src="/assets/cropperjs/cropper.js"></script>
+</body>
+</html>

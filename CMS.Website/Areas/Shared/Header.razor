@@ -1,0 +1,108 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@using CMS.Data.ModelDTO;
+
+
+<style>
+    .user-profile-header img {
+        position: relative;
+        width: 45px;
+        height: 45px;
+    }
+</style>
+<div class="navbar-header">
+    <a class="navbar-toggle font-20 hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+    </a>
+    <div class="top-left-part">
+        <a class="logo" href="javascript:void(0)" @onclick="@(() => NavigationManager.NavigateTo("/",true))">
+            <b>
+                <img style="height:40px;" src="/assets/images/logo.png" alt="home" />
+            </b>
+            <span>
+                CMS
+                @*<img src="/Cubic/plugins/images/logo-text.png" alt="homepage" class="dark-logo" />*@
+            </span>
+        </a>
+    </div>
+    <ul class="nav navbar-top-links navbar-left hidden-xs">
+        <li>
+            <a href="javascript:void(0)" class="sidebartoggler font-20 waves-effect waves-light"><i class="icon-arrow-left-circle"></i></a>
+        </li>
+        <li>
+            <form role="search" class="app-search hidden-xs">
+                <i class="icon-magnifier"></i>
+                <input type="text" placeholder="Tìm kiếm..." class="form-control">
+            </form>
+        </li>
+    </ul>
+    <ul class="nav navbar-top-links navbar-right pull-right">
+        <li class="dropdown">
+            <a class="dropdown-toggle waves-effect waves-light font-20" data-toggle="dropdown" href="javascript:void(0);">
+                <i class="icon-speech"></i>
+                <span class="badge badge-xs badge-danger">@globalModel.totalUnread</span>
+            </a>
+            <ul class="dropdown-menu mailbox animated bounceInDown">
+                <li>
+                    <div class="drop-title">Bạn có @globalModel.totalUnread thông báo</div>
+                </li>
+                @if (globalModel.lstUserNoti == null)
+                {
+                    <li>
+                        <p><em>Loading...</em></p>
+                    </li>
+
+                }
+                else
+                {
+                    @foreach (var p in globalModel.lstUserNoti)
+                    {
+                        <li>
+                            <div class="message-center">
+                                <a href="@p.URL">
+                                    <div class="user-img">
+                                        <img src="/assets/images/logo.png" alt="user" class="img-circle">
+                                        <span class="profile-status online pull-right"></span>
+                                    </div>
+                                    <div class="mail-contnet">
+                                        <h5>@p.Subject</h5>
+                                        <span class="mail-desc">@((MarkupString)@p.Content)</span>
+                                        <span class="time">@CMS.Common.Utils.RenderTimeSince((DateTime)p.CreateDate)</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    }
+
+                }
+
+                <li>
+                    <a class="text-center" href="/Member/Account/ListNotification">
+                        <strong>Xem tất cả</strong>
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown user-profile-header">
+            <a href="javascript:void(0);" class="dropdown-toggle u-dropdown text-blue" style="display:flex;align-items:center" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                <img src="/data/user/mainimages/small/@(String.IsNullOrEmpty(@globalModel.avatar) ? "noimages.png" : globalModel.avatar)" alt="user-img" class="img-circle">
+                @*<span class="d-none m-l-10"> @user.Identity.Name</span>*@
+            </a>
+            <ul class="dropdown-menu mailbox animated bounceInDown">
+                <li><a href="javascript:void(0);" @onclick="@(()=> NavigationManager.NavigateTo("/Member/Account/EditProfile",true))" ><i class="fa fa-user"></i> Tài khoản của tôi</a></li>
+@*                <li><a href="javascript:void(0);" @onclick="@(()=> NavigationManager.NavigateTo("/Shopman/DashBoard",true))"><i class="fa fa-store"></i> Cửa hàng của tôi</a></li>
+                <li><a href="javascript:void(0);" @onclick="@(()=> NavigationManager.NavigateTo("/danh-sach-don-hang",true))"><i class="fa fa-shopping-cart"></i> Đơn mua</a></li>*@
+                <li role="separator" class="divider"></li>
+                <li><a href="/Identity/Account/Logout"><i class="fa fa-power-off"></i> Đăng xuất</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<!-- ===== Top-Navigation-End ===== -->
+@code{
+    [CascadingParameter]
+    protected GlobalModel globalModel { get; set; }
+    [CascadingParameter]
+    private HubConnection hubConnection { get; set; }   
+}

@@ -1,0 +1,50 @@
+﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration;
+
+<AuthorizeView>               
+    <Authorized>
+<TelerikRootComponent>
+    <BlazoredToasts Position="ToastPosition.TopCenter"
+                    Timeout="3"
+                    IconType="IconType.FontAwesome"
+                    SuccessClass="success-toast-override"
+                    SuccessIcon="fa fa-thumbs-up"
+                    ErrorIcon="fa fa-bug"
+                    InfoIcon="fa fa-info"
+                    WarningIcon="fa fa-exclamation-triangle"
+                    ShowProgressBar="@false" />
+
+    <CascadingValue Value="hubConnection">
+        <CascadingValue Value="globalModel">
+            <div id="wrapper">
+                <nav class="navbar navbar-default navbar-static-top m-b-0">
+                    <Header />
+                </nav>
+                <aside class="sidebar" role="navigation">
+                    <MemberLeftMenuLayout />
+                </aside>
+                <div class="page-wrapper">
+
+                    <div class="container-fluid">     
+                                                    @if(globalModel.userId == null)
+            {
+
+            }
+                else
+                {
+                            @Body     
+                }
+                    </div>
+                </div>
+            </div>
+        </CascadingValue>
+    </CascadingValue>
+  </TelerikRootComponent>
+    </Authorized>
+      <NotAuthorized>
+        <CMS.Website.Areas.Identity.Pages.Account.RedirectToLogin  returnUrl="/Member/Account/EditProfile"/>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+

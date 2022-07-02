@@ -1,0 +1,14 @@
+﻿global using CMS.Data.ModelDTO;
+global using CMS.Data.ModelEntity;
+global using CMS.Data.ModelFilter;
+global using CMS.Services.Repositories;
+global using CMS.Services.RepositoriesBase;
+global using Microsoft.Data.SqlClient;
+global using Microsoft.EntityFrameworkCore;
+global using Newtonsoft.Json;
+global using System.Data;
+global using System.Linq.Expressions;
+global using System.Net;
+global using System.Net.Http.Headers;
+global using System.Net.Mail;
+global using System.Text;

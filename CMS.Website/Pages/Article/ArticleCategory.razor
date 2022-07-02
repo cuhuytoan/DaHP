@@ -1,0 +1,95 @@
+﻿@page "/chuyen-muc/{url}"
+
+<CascadingValue Value="url">
+
+<ArticleBreadCrumbComponent breadCrumbType="articleCategory" />
+
+<!-- page news -->
+<div class="page-news">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="page-news--box">
+                    <div class="page-news__left">
+
+                        <div class="page-news__highlight">
+                            @if (articleHightLight == null)
+                            {
+
+                            }
+                            else
+                            {
+                                <a href="/bai-viet/@articleHightLight.URL" @onclick="@(() => NavigationManager.NavigateTo($"/bai-viet/{@articleHightLight.URL}",true))">
+                                    <div class="page-news__highlight__box">
+                                        <div class="page-news__highlight__img">
+                                            <img src="/data/article/mainimages/original/@articleHightLight.Image" alt="@articleHightLight.Name">
+                                        </div>
+                                        <div class="page-news__highlight__content">
+                                            <h3 class="page-news__highlight__content__title">@articleHightLight.Name</h3>
+                                            <p class="page-news__highlight__content__desc">
+                                                @if (@articleHightLight.Description != null && @articleHightLight.Description.Length > 300)
+                                                {
+                                                    @articleHightLight.Description.Substring(0,300) <span> ...</span>
+
+                                                }
+                                                else
+                                                {
+                                                    @articleHightLight.Description
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+
+                        </div>
+
+                        <div class="page-news__top-3">
+                            @if (lstArticleNew == null)
+                            {
+                                }
+                                else{
+                                @foreach (var p in lstArticleNew)
+                                {
+                                    <div class="page-news__top-3__item">
+                                        <a href="/bai-viet/@p.URL" @onclick="@(() => NavigationManager.NavigateTo($"/bai-viet/{@p.URL}",true))">
+                                            <div class="page-news__top-3__item__box">
+                                                <img src="/data/article/mainimages/original/@p.Image" alt="@p.Name">
+                                                <h3>@p.Name</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                }
+                            }
+
+                        </div>
+
+                    </div>
+                    <div class="page-news__right">
+                        @if (lstAdvertisingRight == null)
+                        {
+
+                        }
+                        else
+                        {
+                            @foreach (var p in lstAdvertisingRight)
+                            {
+                                <div class="page-news__qc">
+                                    <a href="@p.Url">
+                                        <img src="/data/advertising/mainimages/original/@p.Image" alt="@p.Name">
+                                    </a>
+                                </div>
+                            }
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ArticleMostReadComponent />
+</CascadingValue>

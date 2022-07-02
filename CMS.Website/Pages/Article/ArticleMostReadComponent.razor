@@ -1,0 +1,49 @@
+﻿<div class="page-news-full">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="page-news-full--box">
+            <div class="page-news-full__title">
+              <h2>Đọc nhiều nhất chuyên mục</h2>
+            </div>
+            @if(advertisingTop == null)
+            {
+
+            }
+                    else
+                    {
+                        <div class="page-news-full__qc">
+
+              <a href="@advertisingTop.Url">
+                <img src="/data/advertising/mainimages/original/@advertisingTop.Image" alt="@advertisingTop.Name">
+              </a>
+            </div>
+                    }
+            
+            <div class="page-news-full__list">
+            @if(lstArticle== null)
+            {
+
+            }
+            else{
+                @foreach(var p in lstArticle)
+                {
+                                   <div class="page-news-full__list__item">
+                <a href="/bai-viet/@p.URL" @onclick="@(() => NavigationManager.NavigateTo($"/bai-viet/{@p.URL}",true))">
+                  <div class="page-news-full__list__item__box">
+                    <img src="/data/article/mainimages/original/@p.Image" alt="@p.Name">
+                    <h3>@p.Name</h3>
+                  </div>
+                </a>
+              </div>          
+                            }
+                
+              
+            }
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
