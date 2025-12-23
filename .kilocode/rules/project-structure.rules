@@ -1,0 +1,620 @@
+# Project Structure Rules for CMS Migration
+# Reference: docs/migration-plan.md
+
+## Overview
+This file defines the overall project structure and organization rules for the CMS migration project, ensuring consistency across all components and phases.
+
+## Root Project Structure
+
+```
+cms-migration/
+├── .kilocode/
+│   ├── modes/           # Custom Kilo Code modes
+│   └── rules/           # Project rules (this directory)
+│       ├── database-migration.rules
+│       ├── api-development.rules
+│       ├── frontend-development.rules
+│       ├── testing.rules
+│       ├── deployment.rules
+│       └── project-structure.rules
+├── docs/
+│   ├── migration-plan.md
+│   ├── database-migration-guide.md
+│   └── api-documentation.md
+├── database/
+│   ├── schema/
+│   ├── migrations/
+│   ├── functions/
+│   ├── seeds/
+│   └── validation/
+├── backend/
+│   ├── CMS.API/         # .NET Core Web API
+│   ├── CMS.Data/        # Data layer (migrated)
+│   └── CMS.Services/    # Business logic (migrated)
+├── frontend/
+│   ├── cms-admin/       # Next.js admin panel
+│   └── cms-public/      # Next.js public site
+├── infrastructure/
+│   ├── docker/
+│   ├── kubernetes/
+│   └── terraform/
+├── scripts/
+│   ├── migration/
+│   ├── deployment/
+│   └── monitoring/
+├── tests/
+│   ├── unit/
+│   ├── integration/
+│   └── e2e/
+├── .github/
+│   └── workflows/
+├── docker-compose.yml
+├── Dockerfile
+└── README.md
+```
+
+## Backend Structure (.NET Core API)
+
+### CMS.API Project Structure
+```
+CMS.API/
+├── Controllers/
+│   ├── v1/
+│   │   ├── ArticlesController.cs
+│   │   ├── ProductsController.cs
+│   │   ├── CategoriesController.cs
+│   │   ├── UsersController.cs
+│   │   ├── OrdersController.cs
+│   │   └── UploadController.cs
+│   └── v1.cs (API versioning)
+├── Models/
+│   ├── Requests/
+│   │   ├── CreateArticleRequest.cs
+│   │   ├── UpdateProductRequest.cs
+│   │   └── SearchRequest.cs
+│   ├── Responses/
+│   │   ├── ArticleResponse.cs
+│   │   ├── ProductResponse.cs
+│   │   └── ApiResponse.cs
+│   └── DTOs/
+├── Services/
+│   ├── Interfaces/
+│   │   ├── IArticleService.cs
+│   │   └── IProductService.cs
+│   └── Implementations/
+├── Middleware/
+│   ├── AuthenticationMiddleware.cs
+│   ├── ErrorHandlingMiddleware.cs
+│   ├── LoggingMiddleware.cs
+│   └── RateLimitingMiddleware.cs
+├── Validators/
+│   ├── ArticleValidator.cs
+│   ├── ProductValidator.cs
+│   └── FluentValidation/
+├── Filters/
+│   ├── ValidationFilter.cs
+│   └── ExceptionFilter.cs
+├── Extensions/
+│   ├── ServiceExtensions.cs
+│   └── ApplicationBuilderExtensions.cs
+├── Configuration/
+│   ├── JwtSettings.cs
+│   ├── DatabaseSettings.cs
+│   └── CorsSettings.cs
+├── Program.cs
+├── Startup.cs (if needed)
+├── appsettings.json
+├── appsettings.Development.json
+├── appsettings.Staging.json
+└── appsettings.Production.json
+```
+
+### Data Layer Structure
+```
+CMS.Data/
+├── Entities/
+│   ├── Article.cs
+│   ├── Product.cs
+│   ├── User.cs
+│   └── Category.cs
+├── Configurations/
+│   ├── ArticleConfiguration.cs
+│   ├── ProductConfiguration.cs
+│   └── UserConfiguration.cs
+├── Migrations/
+│   ├── 20240101000000_InitialCreate.cs
+│   └── 20240102000000_AddIndexes.cs
+├── Repositories/
+│   ├── Interfaces/
+│   └── Implementations/
+├── ApplicationDbContext.cs
+└── DesignTimeDbContextFactory.cs
+```
+
+## Frontend Structure (Next.js)
+
+### Admin Panel Structure
+```
+cms-admin/
+├── src/
+│   ├── app/
+│   │   ├── (auth)/
+│   │   │   ├── login/
+│   │   │   └── layout.tsx
+│   │   ├── dashboard/
+│   │   ├── articles/
+│   │   │   ├── page.tsx
+│   │   │   ├── create/
+│   │   │   └── [id]/
+│   │   │       ├── edit/
+│   │   │       └── view/
+│   │   ├── products/
+│   │   ├── categories/
+│   │   ├── users/
+│   │   ├── settings/
+│   │   ├── layout.tsx
+│   │   └── loading.tsx
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── button.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── table.tsx
+│   │   │   └── modal.tsx
+│   │   ├── forms/
+│   │   │   ├── article-form.tsx
+│   │   │   └── product-form.tsx
+│   │   ├── layouts/
+│   │   │   ├── sidebar.tsx
+│   │   │   ├── header.tsx
+│   │   │   └── admin-layout.tsx
+│   │   └── features/
+│   │       ├── articles/
+│   │       ├── products/
+│   │       └── dashboard/
+│   ├── hooks/
+│   │   ├── useArticles.ts
+│   │   ├── useProducts.ts
+│   │   └── useAuth.ts
+│   ├── lib/
+│   │   ├── api.ts
+│   │   ├── utils.ts
+│   │   └── validations.ts
+│   ├── stores/
+│   │   ├── auth-store.ts
+│   │   └── ui-store.ts
+│   ├── types/
+│   │   ├── article.ts
+│   │   ├── product.ts
+│   │   └── user.ts
+│   └── utils/
+├── public/
+├── next.config.js
+├── tailwind.config.js
+├── tsconfig.json
+├── package.json
+└── .env.local
+```
+
+### Public Site Structure
+```
+cms-public/
+├── src/
+│   ├── app/
+│   │   ├── (public)/
+│   │   │   ├── page.tsx
+│   │   │   ├── articles/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── [slug]/
+│   │   │   ├── products/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── [slug]/
+│   │   │   ├── categories/
+│   │   │   └── search/
+│   │   ├── layout.tsx
+│   │   └── not-found.tsx
+│   ├── components/
+│   │   ├── ui/
+│   │   ├── layouts/
+│   │   ├── features/
+│   │   └── shared/
+│   ├── lib/
+│   ├── types/
+│   └── utils/
+├── public/
+├── next.config.js
+├── tailwind.config.js
+└── package.json
+```
+
+## Database Structure
+
+### Schema Organization
+```
+database/
+├── schema/
+│   ├── 001_core_tables.sql
+│   ├── 002_user_management.sql
+│   ├── 003_content_management.sql
+│   ├── 004_ecommerce.sql
+│   ├── 005_indexes.sql
+│   └── 006_constraints.sql
+├── functions/
+│   ├── article_functions.sql
+│   ├── product_functions.sql
+│   ├── search_functions.sql
+│   └── utility_functions.sql
+├── seeds/
+│   ├── roles.sql
+│   ├── permissions.sql
+│   ├── categories.sql
+│   └── settings.sql
+├── migrations/
+│   ├── v1.0.0/
+│   ├── v1.1.0/
+│   └── v2.0.0/
+└── validation/
+    ├── schema_validation.sql
+    ├── data_integrity_checks.sql
+    └── performance_tests.sql
+```
+
+## Testing Structure
+
+### Unit Tests
+```
+tests/
+├── CMS.API.UnitTests/
+│   ├── Controllers/
+│   ├── Services/
+│   ├── Validators/
+│   └── Helpers/
+├── CMS.Data.UnitTests/
+│   ├── Repositories/
+│   └── Entities/
+├── cms-admin.UnitTests/
+│   ├── components/
+│   ├── hooks/
+│   └── utils/
+└── cms-public.UnitTests/
+    ├── components/
+    └── pages/
+```
+
+### Integration Tests
+```
+tests/
+├── CMS.API.IntegrationTests/
+│   ├── Controllers/
+│   ├── Database/
+│   └── ExternalServices/
+├── cms-admin.IntegrationTests/
+│   ├── api/
+│   └── e2e/
+└── cms-public.IntegrationTests/
+    ├── api/
+    └── e2e/
+```
+
+## Infrastructure Structure
+
+### Docker Configuration
+```
+infrastructure/
+├── docker/
+│   ├── api/
+│   │   ├── Dockerfile
+│   │   ├── docker-entrypoint.sh
+│   │   └── nginx.conf
+│   ├── frontend/
+│   │   ├── Dockerfile
+│   │   └── nginx.conf
+│   ├── database/
+│   │   ├── Dockerfile
+│   │   ├── init.sql
+│   │   └── postgresql.conf
+│   └── docker-compose.yml
+├── kubernetes/
+│   ├── api-deployment.yaml
+│   ├── frontend-deployment.yaml
+│   ├── database-statefulset.yaml
+│   ├── ingress.yaml
+│   ├── configmaps.yaml
+│   └── secrets.yaml
+└── terraform/
+    ├── main.tf
+    ├── variables.tf
+    ├── outputs.tf
+    └── modules/
+```
+
+## Scripts and Automation
+
+### Migration Scripts
+```
+scripts/
+├── migration/
+│   ├── analyze-schema.py
+│   ├── generate-migrations.py
+│   ├── migrate-data.py
+│   ├── validate-migration.py
+│   └── rollback.py
+├── deployment/
+│   ├── deploy-api.sh
+│   ├── deploy-frontend.sh
+│   ├── setup-database.sh
+│   └── health-check.sh
+└── monitoring/
+    ├── setup-monitoring.sh
+    ├── backup.sh
+    ├── restore.sh
+    └── alerts.sh
+```
+
+## Configuration Management
+
+### Environment Configuration
+```
+config/
+├── development/
+│   ├── api.env
+│   ├── frontend.env
+│   ├── database.env
+│   └── docker-compose.override.yml
+├── staging/
+│   ├── api.env
+│   ├── frontend.env
+│   ├── database.env
+│   └── docker-compose.override.yml
+└── production/
+    ├── api.env
+    ├── frontend.env
+    ├── database.env
+    └── docker-compose.override.yml
+```
+
+## Documentation Structure
+
+### Technical Documentation
+```
+docs/
+├── architecture/
+│   ├── system-overview.md
+│   ├── api-specification.md
+│   ├── database-schema.md
+│   └── deployment-guide.md
+├── development/
+│   ├── setup-guide.md
+│   ├── coding-standards.md
+│   ├── testing-guide.md
+│   └── debugging.md
+├── operations/
+│   ├── monitoring.md
+│   ├── backup-recovery.md
+│   ├── security.md
+│   └── troubleshooting.md
+└── user-guides/
+    ├── admin-manual.md
+    ├── content-authoring.md
+    └── api-integration.md
+```
+
+## Naming Conventions
+
+### General Rules
+- Use PascalCase for C# classes, interfaces, and methods
+- Use camelCase for JavaScript/TypeScript variables and functions
+- Use snake_case for database tables, columns, and functions
+- Use kebab-case for file names and URLs
+- Use UPPER_CASE for constants and environment variables
+
+### Specific Conventions
+
+#### C# Naming
+```csharp
+// Classes and Interfaces
+public class ArticleService : IArticleService
+public class CreateArticleRequest
+
+// Methods
+public async Task<Article> GetArticleByIdAsync(int id)
+public void ValidateArticle(Article article)
+
+// Properties
+public int Id { get; set; }
+public string Name { get; set; }
+```
+
+#### TypeScript Naming
+```typescript
+// Interfaces and Types
+interface Article {
+  id: number;
+  name: string;
+  content: string;
+}
+
+type CreateArticleRequest = {
+  name: string;
+  content: string;
+  categoryIds: number[];
+};
+
+// Functions and Variables
+const useArticles = () => { /* ... */ };
+const handleSubmit = () => { /* ... */ };
+const isLoading = false;
+```
+
+#### Database Naming
+```sql
+-- Tables
+article
+article_category
+product
+product_category
+
+-- Columns
+id
+name
+created_at
+updated_at
+
+-- Functions
+sp_article_search
+fn_calculate_total
+```
+
+## File Organization Rules
+
+### File Size Limits
+- Maximum 500 lines per file for source code
+- Maximum 1000 lines per file for test files
+- Split large files into logical modules
+
+### Import Organization
+```csharp
+// C# - Group by namespace
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+using CMS.Data.Entities;
+using CMS.Services.Interfaces;
+```
+
+```typescript
+// TypeScript - Group by type
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+
+import { Button } from '@/components/ui/button';
+import { useArticles } from '@/hooks/useArticles';
+import { Article } from '@/types/article';
+```
+
+## Version Control Strategy
+
+### Branching Strategy
+```
+main                    # Production-ready code
+├── develop            # Integration branch
+│   ├── feature/api-articles
+│   ├── feature/frontend-admin
+│   ├── feature/database-migration
+│   └── feature/testing-setup
+├── release/v1.0.0     # Release branches
+└── hotfix/critical-bug
+```
+
+### Commit Message Convention
+```
+type(scope): description
+
+Types:
+- feat: New feature
+- fix: Bug fix
+- docs: Documentation
+- style: Code style changes
+- refactor: Code refactoring
+- test: Testing
+- chore: Maintenance
+
+Examples:
+feat(api): add article search endpoint
+fix(auth): resolve JWT token refresh issue
+docs(readme): update installation instructions
+```
+
+## Code Quality Standards
+
+### Code Review Checklist
+- [ ] Code follows naming conventions
+- [ ] No hardcoded values
+- [ ] Proper error handling
+- [ ] Unit tests included
+- [ ] Documentation updated
+- [ ] Security considerations addressed
+- [ ] Performance optimized
+
+### Code Analysis Rules
+- Maintain minimum code coverage of 80%
+- No critical security vulnerabilities
+- Maximum cyclomatic complexity of 10
+- Maximum method length of 30 lines
+- No unused imports or variables
+
+## Security Standards
+
+### API Security
+- All endpoints require authentication except public content
+- Use JWT tokens with appropriate expiration
+- Implement rate limiting
+- Validate all input data
+- Sanitize user content
+
+### Database Security
+- Use parameterized queries
+- Implement row-level security where needed
+- Encrypt sensitive data
+- Regular security audits
+- Principle of least privilege
+
+### Frontend Security
+- Sanitize user input
+- Implement Content Security Policy
+- Use HTTPS everywhere
+- Secure cookie settings
+- Regular dependency updates
+
+## Performance Standards
+
+### API Performance
+- Response time < 200ms for simple requests
+- Response time < 500ms for complex requests
+- Support pagination for large datasets
+- Implement caching for frequently accessed data
+- Optimize database queries
+
+### Frontend Performance
+- First Contentful Paint < 1.5s
+- Largest Contentful Paint < 2.5s
+- Cumulative Layout Shift < 0.1
+- First Input Delay < 100ms
+- Bundle size < 500KB (gzipped)
+
+### Database Performance
+- Query execution time < 100ms for common operations
+- Proper indexing strategy
+- Connection pooling
+- Query optimization
+- Regular performance monitoring
+
+## Monitoring and Logging
+
+### Application Logging
+```csharp
+// Structured logging
+_logger.LogInformation("Article created", new
+{
+    ArticleId = article.Id,
+    UserId = userId,
+    Timestamp = DateTime.UtcNow
+});
+```
+
+### Monitoring Metrics
+- Application response times
+- Error rates
+- Database connection pool usage
+- Cache hit rates
+- User session metrics
+
+### Alerting Rules
+- API response time > 500ms for 5 minutes
+- Error rate > 5% for 10 minutes
+- Database connection pool exhausted
+- Disk space < 10% available
+- Memory usage > 90%

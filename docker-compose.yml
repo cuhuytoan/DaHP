@@ -1,0 +1,89 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: cms_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cms_db}
+      POSTGRES_USER: ${POSTGRES_USER:-cms_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cms_password}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cms_user} -d ${POSTGRES_DB:-cms_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cms_network
+
+  # Redis Cache (Optional)
+  redis:
+    image: redis:7-alpine
+    container_name: cms_redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_password}
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cms_network
+
+  # Backend API (Commented out - run locally during development)
+  # Uncomment when backend implementation is complete
+  # api:
+  #   build:
+  #     context: ./backend/CMS.API
+  #     dockerfile: Dockerfile
+  #   container_name: cms_api
+  #   restart: unless-stopped
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+  #     - ASPNETCORE_URLS=http://+:80
+  #     - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=${POSTGRES_DB:-cms_db};Username=${POSTGRES_USER:-cms_user};Password=${POSTGRES_PASSWORD:-cms_password}
+  #     - ConnectionStrings__Redis=${REDIS_CONNECTION:-redis:6379,password=${REDIS_PASSWORD:-redis_password}}
+  #     - JwtSettings__SecretKey=${JWT_SECRET_KEY:-your-super-secret-key-with-at-least-32-characters-for-security}
+  #     - JwtSettings__Issuer=${JWT_ISSUER:-CMS.API}
+  #     - JwtSettings__Audience=${JWT_AUDIENCE:-CMS.Frontend}
+  #     - JwtSettings__ExpirationInMinutes=${JWT_EXPIRATION_MINUTES:-60}
+  #     - JwtSettings__RefreshTokenExpirationInDays=${JWT_REFRESH_EXPIRATION_DAYS:-7}
+  #     - Cors__AllowedOrigins__0=http://localhost:3000
+  #     - Cors__AllowedOrigins__1=http://frontend:3000
+  #   ports:
+  #     - "${API_PORT:-5000}:80"
+  #   volumes:
+  #     - ./backend/CMS.API/wwwroot/uploads:/app/wwwroot/uploads
+  #     - ./backend/CMS.API/logs:/app/logs
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost/health"]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 40s
+  #   networks:
+  #     - cms_network
+
+networks:
+  cms_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local

@@ -9,3 +9,32 @@ CMS.Services/obj/
 CMS.Website/wwwroot/data/
 CMS.Services/bin/
 CMS.RCL/bin/
+
+# Docker
+.env
+docker-compose.override.yml
+
+# Backend
+backend/CMS.API/bin/
+backend/CMS.API/obj/
+backend/CMS.API/logs/
+backend/CMS.API/wwwroot/uploads/*
+!backend/CMS.API/wwwroot/uploads/.gitkeep
+
+# Frontend
+frontend/cms-admin/node_modules/
+frontend/cms-admin/.next/
+frontend/cms-admin/out/
+frontend/cms-admin/.env*.local
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

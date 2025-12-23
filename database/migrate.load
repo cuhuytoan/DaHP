@@ -1,0 +1,31 @@
+LOAD DATABASE
+    FROM mssql://sa1:Toantom%40123@chatbot2.ptha.io.vn:11433/DaTruongThanh
+    INTO postgresql://cms_user:cms_password_dev@localhost:5432/cms_db
+
+WITH include drop,
+     create tables,
+     create indexes,
+     reset sequences,
+     workers = 8,
+     concurrency = 1
+
+SET maintenance_work_mem to '128MB',
+    work_mem to '12MB'
+
+CAST type datetime to timestamptz drop default drop not null using zero-dates-to-null,
+     type date to date drop default drop not null using zero-dates-to-null,
+     type nvarchar to text,
+     type ntext to text,
+     type varchar to text,
+     type char to text,
+     type nchar to text,
+     type xml to text,
+     type bit to boolean,
+     type money to numeric,
+     type smallmoney to numeric,
+     type tinyint to smallint,
+     type uniqueidentifier to uuid,
+     type image to bytea,
+     type varbinary to bytea,
+     type binary to bytea
+;

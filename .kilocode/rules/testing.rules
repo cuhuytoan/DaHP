@@ -1,0 +1,803 @@
+# Testing Rules for CMS Migration
+# Reference: docs/migration-plan.md
+
+## Overview
+This file defines comprehensive testing rules for the CMS migration project,
+ensuring quality across database migration, API development, and frontend implementation.
+
+## Testing Strategy
+
+### Testing Pyramid
+```
+End-to-End Tests (E2E)     ── 10%
+Integration Tests           ── 20%
+Unit Tests                  ── 70%
+```
+
+### Test Categories
+
+#### 1. Database Migration Testing
+#### 2. API Testing
+#### 3. Frontend Testing
+#### 4. Integration Testing
+#### 5. Performance Testing
+#### 6. Security Testing
+
+---
+
+## 1. Database Migration Testing
+
+### Schema Validation Tests
+```sql
+-- Test table existence
+SELECT table_name FROM information_schema.tables
+WHERE table_schema = 'public'
+AND table_name IN ('article', 'product', 'asp_net_users');
+
+-- Test column existence and types
+SELECT column_name, data_type, is_nullable
+FROM information_schema.columns
+WHERE table_name = 'article'
+ORDER BY ordinal_position;
+
+-- Test foreign key constraints
+SELECT
+    tc.table_name,
+    kcu.column_name,
+    ccu.table_name AS foreign_table_name,
+    ccu.column_name AS foreign_column_name
+FROM information_schema.table_constraints AS tc
+JOIN information_schema.key_column_usage AS kcu
+    ON tc.constraint_name = kcu.constraint_name
+JOIN information_schema.constraint_column_usage AS ccu
+    ON ccu.constraint_name = tc.constraint_name
+WHERE constraint_type = 'FOREIGN KEY'
+    AND tc.table_name = 'article';
+```
+
+### Data Integrity Tests
+```sql
+-- Test row counts match
+CREATE OR REPLACE FUNCTION test_data_integrity()
+RETURNS TABLE (table_name TEXT, source_count BIGINT, target_count BIGINT, status TEXT)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    tables_to_check TEXT[] := ARRAY['article', 'product', 'asp_net_users'];
+    source_count BIGINT;
+    target_count BIGINT;
+BEGIN
+    FOREACH table_name IN ARRAY tables_to_check
+    LOOP
+        -- Get target count
+        EXECUTE format('SELECT COUNT(*) FROM %I', table_name) INTO target_count;
+
+        -- Mock source count (replace with actual SQL Server query)
+        source_count := target_count; -- Placeholder
+
+        status := CASE WHEN source_count = target_count THEN 'PASS' ELSE 'FAIL' END;
+
+        RETURN QUERY SELECT table_name, source_count, target_count, status;
+    END LOOP;
+END;
+$$;
+```
+
+### Stored Procedure Tests
+```sql
+-- Test article search function
+SELECT * FROM sp_article_search(
+    p_keyword := 'test',
+    p_page_size := 10,
+    p_current_page := 1
+);
+
+-- Test product search function
+SELECT * FROM sp_product_search(
+    p_keyword := 'test',
+    p_product_status_id := 4,
+    p_page_size := 10,
+    p_current_page := 1
+);
+
+-- Validate search results
+DO $$
+DECLARE
+    result_count INTEGER;
+BEGIN
+    SELECT COUNT(*) INTO result_count
+    FROM sp_article_search(p_keyword := 'test');
+
+    IF result_count >= 0 THEN
+        RAISE NOTICE 'Article search test: PASS';
+    ELSE
+        RAISE EXCEPTION 'Article search test: FAIL';
+    END IF;
+END;
+$$;
+```
+
+---
+
+## 2. API Testing
+
+### Unit Testing (Backend)
+
+#### Service Layer Tests
+```csharp
+// CMS.API.Tests/Services/ArticleServiceTests.cs
+using Xunit;
+using Moq;
+using CMS.Services.Repositories;
+using CMS.Data.ModelEntity;
+
+namespace CMS.API.Tests.Services
+{
+    public class ArticleServiceTests
+    {
+        private readonly Mock<IArticleRepository> _mockRepository;
+        private readonly ArticleService _service;
+
+        public ArticleServiceTests()
+        {
+            _mockRepository = new Mock<IArticleRepository>();
+            _service = new ArticleService(_mockRepository.Object);
+        }
+
+        [Fact]
+        public async Task GetArticleById_ExistingId_ReturnsArticle()
+        {
+            // Arrange
+            var articleId = 1;
+            var expectedArticle = new Article { Id = articleId, Name = "Test Article" };
+            _mockRepository.Setup(r => r.ArticleGetById(articleId))
+                .ReturnsAsync(expectedArticle);
+
+            // Act
+            var result = await _service.GetArticleByIdAsync(articleId);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(articleId, result.Id);
+            Assert.Equal("Test Article", result.Name);
+        }
+
+        [Fact]
+        public async Task GetArticleById_NonExistingId_ReturnsNull()
+        {
+            // Arrange
+            var articleId = 999;
+            _mockRepository.Setup(r => r.ArticleGetById(articleId))
+                .ReturnsAsync((Article)null);
+
+            // Act
+            var result = await _service.GetArticleByIdAsync(articleId);
+
+            // Assert
+            Assert.Null(result);
+        }
+    }
+}
+```
+
+#### Controller Tests
+```csharp
+// CMS.API.Tests/Controllers/ArticlesControllerTests.cs
+using Xunit;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using CMS.API.Controllers;
+using CMS.API.Models.Responses;
+
+namespace CMS.API.Tests.Controllers
+{
+    public class ArticlesControllerTests
+    {
+        private readonly Mock<IArticleService> _mockService;
+        private readonly ArticlesController _controller;
+
+        public ArticlesControllerTests()
+        {
+            _mockService = new Mock<IArticleService>();
+            _controller = new ArticlesController(_mockService.Object);
+        }
+
+        [Fact]
+        public async Task GetArticle_ExistingId_ReturnsOkResult()
+        {
+            // Arrange
+            var articleId = 1;
+            var article = new ArticleResponse { Id = articleId, Name = "Test Article" };
+            _mockService.Setup(s => s.GetArticleByIdAsync(articleId))
+                .ReturnsAsync(article);
+
+            // Act
+            var result = await _controller.GetArticle(articleId);
+
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            var apiResponse = Assert.IsType<ApiResponse<ArticleResponse>>(okResult.Value);
+            Assert.True(apiResponse.Success);
+            Assert.Equal(articleId, apiResponse.Data.Id);
+        }
+
+        [Fact]
+        public async Task GetArticle_NonExistingId_ReturnsNotFound()
+        {
+            // Arrange
+            var articleId = 999;
+            _mockService.Setup(s => s.GetArticleByIdAsync(articleId))
+                .ReturnsAsync((ArticleResponse)null);
+
+            // Act
+            var result = await _controller.GetArticle(articleId);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(result);
+        }
+    }
+}
+```
+
+### Integration Testing (API)
+
+#### API Endpoint Tests
+```csharp
+// CMS.API.IntegrationTests/ArticlesApiTests.cs
+using Xunit;
+using System.Net;
+using System.Net.Http.Json;
+using CMS.API.IntegrationTests.Helpers;
+
+namespace CMS.API.IntegrationTests
+{
+    public class ArticlesApiTests : IClassFixture<WebApplicationFactory<Program>>
+    {
+        private readonly WebApplicationFactory<Program> _factory;
+        private readonly HttpClient _client;
+
+        public ArticlesApiTests(WebApplicationFactory<Program> factory)
+        {
+            _factory = factory;
+            _client = _factory.CreateClient();
+        }
+
+        [Fact]
+        public async Task GetArticles_ReturnsSuccessStatusCode()
+        {
+            // Act
+            var response = await _client.GetAsync("/api/articles");
+
+            // Assert
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<List<ArticleResponse>>>();
+            Assert.NotNull(apiResponse);
+            Assert.True(apiResponse.Success);
+        }
+
+        [Fact]
+        public async Task CreateArticle_ValidData_ReturnsCreated()
+        {
+            // Arrange
+            var request = new CreateArticleRequest
+            {
+                Name = "Test Article",
+                Content = "Test content",
+                CategoryIds = new List<int> { 1 },
+                IsPublished = false
+            };
+
+            // Act
+            var response = await _client.PostAsJsonAsync("/api/articles", request);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+
+            var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<ArticleResponse>>();
+            Assert.NotNull(apiResponse);
+            Assert.True(apiResponse.Success);
+            Assert.Equal("Test Article", apiResponse.Data.Name);
+        }
+
+        [Fact]
+        public async Task CreateArticle_InvalidData_ReturnsBadRequest()
+        {
+            // Arrange
+            var request = new CreateArticleRequest
+            {
+                Name = "", // Invalid: empty name
+                Content = "Test content",
+                CategoryIds = new List<int>(),
+                IsPublished = false
+            };
+
+            // Act
+            var response = await _client.PostAsJsonAsync("/api/articles", request);
+
+            // Assert
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+            var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
+            Assert.NotNull(apiResponse);
+            Assert.False(apiResponse.Success);
+            Assert.NotEmpty(apiResponse.Errors);
+        }
+    }
+}
+```
+
+### API Testing Checklist
+- [ ] All endpoints return correct HTTP status codes
+- [ ] Authentication works correctly
+- [ ] Authorization secures sensitive endpoints
+- [ ] Input validation prevents invalid data
+- [ ] Error responses provide meaningful messages
+- [ ] Pagination works correctly
+- [ ] File uploads are handled properly
+- [ ] CORS is configured correctly
+- [ ] Rate limiting prevents abuse
+
+---
+
+## 3. Frontend Testing
+
+### Unit Testing (React Components)
+
+#### Component Tests
+```typescript
+// __tests__/components/ui/Button.test.tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Button } from '@/components/ui/Button';
+
+describe('Button', () => {
+  it('renders children correctly', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByText('Click me')).toBeInTheDocument();
+  });
+
+  it('handles click events', () => {
+    const handleClick = jest.fn();
+    render(<Button onClick={handleClick}>Click me</Button>);
+
+    fireEvent.click(screen.getByText('Click me'));
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('applies correct variant classes', () => {
+    render(<Button variant="destructive">Delete</Button>);
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('bg-destructive');
+  });
+
+  it('is disabled when disabled prop is true', () => {
+    render(<Button disabled>Disabled</Button>);
+    const button = screen.getByRole('button');
+    expect(button).toBeDisabled();
+  });
+});
+```
+
+#### Hook Tests
+```typescript
+// __tests__/hooks/useArticles.test.ts
+import { renderHook, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useArticles } from '@/hooks/useArticles';
+
+// Mock the API
+jest.mock('@/services/articleApi');
+
+const createWrapper = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  );
+};
+
+describe('useArticles', () => {
+  it('fetches articles successfully', async () => {
+    const mockArticles = [
+      { id: 1, name: 'Article 1', content: 'Content 1' },
+      { id: 2, name: 'Article 2', content: 'Content 2' },
+    ];
+
+    const mockApi = require('@/services/articleApi');
+    mockApi.articleApi.getArticles.mockResolvedValue({
+      data: mockArticles,
+      success: true,
+    });
+
+    const { result } = renderHook(() => useArticles({}), {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    expect(result.current.data).toEqual(mockArticles);
+  });
+
+  it('handles error states', async () => {
+    const mockApi = require('@/services/articleApi');
+    mockApi.articleApi.getArticles.mockRejectedValue(new Error('API Error'));
+
+    const { result } = renderHook(() => useArticles({}), {
+      wrapper: createWrapper(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isError).toBe(true);
+    });
+
+    expect(result.current.error?.message).toBe('API Error');
+  });
+});
+```
+
+### Integration Testing (Frontend)
+
+#### Page Tests
+```typescript
+// __tests__/pages/articles/create.test.tsx
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { CreateArticlePage } from '@/app/(admin)/articles/create/page';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const createWrapper = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  );
+};
+
+describe('Create Article Page', () => {
+  it('creates article successfully', async () => {
+    const user = userEvent.setup();
+
+    render(<CreateArticlePage />, { wrapper: createWrapper() });
+
+    // Fill form
+    await user.type(screen.getByLabelText(/article name/i), 'Test Article');
+    await user.type(screen.getByLabelText(/content/i), 'Test content');
+    await user.click(screen.getByRole('button', { name: /create article/i }));
+
+    // Wait for success message
+    await waitFor(() => {
+      expect(screen.getByText('Article created successfully')).toBeInTheDocument();
+    });
+  });
+
+  it('shows validation errors for empty fields', async () => {
+    const user = userEvent.setup();
+
+    render(<CreateArticlePage />, { wrapper: createWrapper() });
+
+    // Try to submit empty form
+    await user.click(screen.getByRole('button', { name: /create article/i }));
+
+    // Check for validation errors
+    expect(screen.getByText('Article name is required')).toBeInTheDocument();
+    expect(screen.getByText('Article content is required')).toBeInTheDocument();
+  });
+});
+```
+
+### E2E Testing
+
+#### Playwright Tests
+```typescript
+// e2e/articles.spec.ts
+import { test, expect } from '@playwright/test';
+
+test.describe('Article Management', () => {
+  test.beforeEach(async ({ page }) => {
+    // Login as admin
+    await page.goto('/admin/login');
+    await page.fill('[name="email"]', 'admin@example.com');
+    await page.fill('[name="password"]', 'password');
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/admin/dashboard');
+  });
+
+  test('creates new article', async ({ page }) => {
+    // Navigate to create article page
+    await page.goto('/admin/articles/create');
+
+    // Fill form
+    await page.fill('[name="name"]', 'E2E Test Article');
+    await page.fill('[name="content"]', 'This is a test article created by E2E test.');
+
+    // Select category
+    await page.click('[data-testid="category-select"]');
+    await page.click('[data-testid="category-option-1"]');
+
+    // Submit form
+    await page.click('button[type="submit"]');
+
+    // Verify success
+    await expect(page.getByText('Article created successfully')).toBeVisible();
+
+    // Verify article appears in list
+    await page.goto('/admin/articles');
+    await expect(page.getByText('E2E Test Article')).toBeVisible();
+  });
+
+  test('edits existing article', async ({ page }) => {
+    // Navigate to articles list
+    await page.goto('/admin/articles');
+
+    // Click edit on first article
+    await page.click('[data-testid="edit-article-1"]');
+
+    // Update title
+    await page.fill('[name="name"]', 'Updated E2E Test Article');
+
+    // Save changes
+    await page.click('button[type="submit"]');
+
+    // Verify success
+    await expect(page.getByText('Article updated successfully')).toBeVisible();
+  });
+});
+```
+
+---
+
+## 4. Performance Testing
+
+### Load Testing
+```csharp
+// CMS.API.PerformanceTests/LoadTests.cs
+using NBomber.CSharp;
+using NBomber.Http.CSharp;
+
+namespace CMS.API.PerformanceTests
+{
+    public class LoadTests
+    {
+        [Fact]
+        public void ArticlesApi_LoadTest()
+        {
+            var httpClient = new HttpClient();
+
+            var scenario = Scenario.Create("articles_api_load_test", async context =>
+            {
+                var request = Http.CreateRequest("GET", "http://localhost:5000/api/articles")
+                    .WithHeader("Accept", "application/json");
+
+                var response = await Http.Send(httpClient, request);
+
+                return response.StatusCode == 200
+                    ? Response.Ok()
+                    : Response.Fail();
+            })
+            .WithLoadSimulations(
+                Simulation.Inject(rate: 10, interval: TimeSpan.FromSeconds(1), during: TimeSpan.FromMinutes(1)),
+                Simulation.Inject(rate: 50, interval: TimeSpan.FromSeconds(1), during: TimeSpan.FromMinutes(2)),
+                Simulation.Inject(rate: 100, interval: TimeSpan.FromSeconds(1), during: TimeSpan.FromMinutes(3))
+            );
+
+            NBomberRunner
+                .RegisterScenarios(scenario)
+                .Run();
+        }
+    }
+}
+```
+
+### Database Performance Tests
+```sql
+-- Test query performance
+EXPLAIN ANALYZE
+SELECT a.*, ast.name as status_name
+FROM article a
+LEFT JOIN article_status ast ON a.article_status_id = ast.id
+WHERE a.active = true
+ORDER BY a.create_date DESC
+LIMIT 20;
+
+-- Test search performance
+EXPLAIN ANALYZE
+SELECT * FROM sp_article_search(
+    p_keyword := 'performance',
+    p_page_size := 20,
+    p_current_page := 1
+);
+
+-- Check index usage
+SELECT
+    schemaname,
+    tablename,
+    indexname,
+    idx_scan,
+    idx_tup_read,
+    idx_tup_fetch
+FROM pg_stat_user_indexes
+WHERE tablename IN ('article', 'product')
+ORDER BY idx_scan DESC;
+```
+
+---
+
+## 5. Security Testing
+
+### Authentication Tests
+```typescript
+// __tests__/auth/security.test.ts
+describe('Authentication Security', () => {
+  it('prevents unauthorized access to admin routes', async () => {
+    const response = await request(app)
+      .get('/api/admin/articles')
+      .expect(401);
+  });
+
+  it('validates JWT tokens', async () => {
+    const invalidToken = 'invalid.jwt.token';
+
+    const response = await request(app)
+      .get('/api/articles')
+      .set('Authorization', `Bearer ${invalidToken}`)
+      .expect(401);
+  });
+
+  it('enforces role-based access', async () => {
+    const userToken = await getUserToken(); // Editor role
+
+    const response = await request(app)
+      .delete('/api/articles/1')
+      .set('Authorization', `Bearer ${userToken}`)
+      .expect(403); // Forbidden for editors
+  });
+});
+```
+
+### Input Validation Tests
+```csharp
+// CMS.API.Tests/Security/InputValidationTests.cs
+public class InputValidationTests
+{
+    [Theory]
+    [InlineData("<script>alert('xss')</script>", "XSS attack")]
+    [InlineData("../../../etc/passwd", "Path traversal")]
+    [InlineData("'; DROP TABLE users; --", "SQL injection")]
+    public async Task PreventsMaliciousInput(string maliciousInput, string attackType)
+    {
+        // Arrange
+        var request = new CreateArticleRequest
+        {
+            Name = maliciousInput,
+            Content = "Test content",
+            CategoryIds = new List<int> { 1 },
+            IsPublished = false
+        };
+
+        // Act
+        var response = await _client.PostAsJsonAsync("/api/articles", request);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+
+        var apiResponse = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
+        Assert.False(apiResponse.Success);
+        Assert.Contains("sanitized", apiResponse.Message.ToLower());
+    }
+}
+```
+
+---
+
+## 6. Test Automation
+
+### CI/CD Integration
+```yaml
+# .github/workflows/test.yml
+name: Tests
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Restore dependencies
+      run: |
+        dotnet restore
+        npm ci
+
+    - name: Run database migrations
+      run: dotnet ef database update
+      working-directory: CMS.Data
+
+    - name: Run API tests
+      run: dotnet test CMS.API.Tests
+
+    - name: Run frontend tests
+      run: npm test
+
+    - name: Run E2E tests
+      run: npx playwright test
+```
+
+### Test Coverage Requirements
+- **Backend**: Minimum 80% code coverage
+- **Frontend**: Minimum 70% code coverage
+- **Critical paths**: 100% coverage required
+
+### Test Data Management
+```sql
+-- Create test data
+INSERT INTO article_status (id, name) VALUES
+(0, 'Draft'),
+(1, 'Review'),
+(2, 'Published');
+
+INSERT INTO article_category (name, active) VALUES
+('Test Category', true);
+
+-- Clean up test data
+TRUNCATE TABLE article CASCADE;
+TRUNCATE TABLE product CASCADE;
+```
+
+---
+
+## 7. Testing Checklist
+
+### Pre-Release Checklist
+- [ ] All unit tests pass
+- [ ] All integration tests pass
+- [ ] E2E tests pass in staging environment
+- [ ] Performance benchmarks met
+- [ ] Security scan completed
+- [ ] Code review completed
+- [ ] Database migration tested
+- [ ] Rollback procedures tested
+
+### Post-Release Monitoring
+- [ ] Error rates below 1%
+- [ ] Response times within SLA
+- [ ] Database performance stable
+- [ ] User feedback collected
+- [ ] Automated alerts configured

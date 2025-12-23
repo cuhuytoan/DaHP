@@ -1,0 +1,26 @@
+LOAD DATABASE
+    FROM mssql://sa:Toantom123@mssqlserver:1433/DaTruongThanh
+    INTO postgresql://cms_user:cms_password@pgserver:5432/cms_db
+
+WITH include drop, create tables, create indexes, reset sequences
+
+SET work_mem to '128MB',
+    maintenance_work_mem to '512 MB'
+
+CAST type nvarchar to text drop typemod,
+     type ntext to text drop typemod,
+     type varchar to text drop typemod,
+     type datetime to timestamptz,
+     type datetime2 to timestamptz,
+     type smalldatetime to timestamptz,
+     type money to numeric,
+     type smallmoney to numeric,
+     type bit to boolean,
+     type tinyint to smallint,
+     type uniqueidentifier to uuid,
+     type hierarchyid to text,
+     type geography to text,
+     type varbinary to bytea,
+     type image to bytea
+
+ALTER SCHEMA 'dbo' RENAME TO 'public';

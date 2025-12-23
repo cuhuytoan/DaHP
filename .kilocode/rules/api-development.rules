@@ -1,0 +1,397 @@
+# API Development Rules for CMS Migration
+# Reference: docs/migration-plan.md
+
+## Overview
+This file defines rules for developing the .NET Core Web API that will replace
+the Blazor Server-Side application and serve the Next.js frontend.
+
+## Architecture Principles
+
+### RESTful Design
+- Use proper HTTP methods (GET, POST, PUT, DELETE)
+- Implement resource-based URLs
+- Return appropriate HTTP status codes
+- Use consistent response formats
+
+### API Structure
+```
+CMS.API/
+├── Controllers/
+│   ├── ArticlesController.cs
+│   ├── ProductsController.cs
+│   ├── CategoriesController.cs
+│   ├── UsersController.cs
+│   ├── OrdersController.cs
+│   └── UploadController.cs
+├── Models/
+│   ├── Requests/
+│   │   ├── CreateArticleRequest.cs
+│   │   ├── UpdateProductRequest.cs
+│   │   └── SearchRequest.cs
+│   └── Responses/
+│       ├── ArticleResponse.cs
+│       ├── ProductResponse.cs
+│       └── ApiResponse.cs
+├── Services/
+│   ├── Interfaces/
+│   └── Implementations/
+├── Middleware/
+│   ├── AuthenticationMiddleware.cs
+│   ├── ErrorHandlingMiddleware.cs
+│   └── LoggingMiddleware.cs
+└── Validators/
+    ├── ArticleValidator.cs
+    └── ProductValidator.cs
+```
+
+## Authentication & Authorization
+
+### JWT Implementation
+- Use JWT Bearer tokens for authentication
+- Implement refresh token mechanism
+- Secure sensitive endpoints with authorization
+- Validate tokens on each request
+
+### Role-Based Access
+- Maintain existing user roles (Admin, Editor, etc.)
+- Implement policy-based authorization
+- Secure admin endpoints appropriately
+- Allow public access to content endpoints
+
+## Data Transfer Objects (DTOs)
+
+### Request DTOs
+```csharp
+public class CreateArticleRequest
+{
+    [Required]
+    [StringLength(1000)]
+    public string Name { get; set; }
+
+    [Required]
+    public string Content { get; set; }
+
+    [Required]
+    public List<int> CategoryIds { get; set; }
+
+    public bool IsPublished { get; set; }
+    public DateTime? PublishDate { get; set; }
+}
+```
+
+### Response DTOs
+```csharp
+public class ArticleResponse
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Content { get; set; }
+    public List<CategorySummary> Categories { get; set; }
+    public string Author { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public bool IsPublished { get; set; }
+}
+```
+
+### API Response Wrapper
+```csharp
+public class ApiResponse<T>
+{
+    public bool Success { get; set; }
+    public T Data { get; set; }
+    public string Message { get; set; }
+    public List<string> Errors { get; set; }
+    public PaginationInfo Pagination { get; set; }
+}
+```
+
+## Controller Patterns
+
+### Base Controller
+```csharp
+[ApiController]
+[Route("api/[controller]")]
+public class BaseController : ControllerBase
+{
+    protected IActionResult ApiResponse<T>(T data, string message = null)
+    {
+        return Ok(new ApiResponse<T>
+        {
+            Success = true,
+            Data = data,
+            Message = message
+        });
+    }
+
+    protected IActionResult ApiError(string message, List<string> errors = null)
+    {
+        return BadRequest(new ApiResponse<object>
+        {
+            Success = false,
+            Message = message,
+            Errors = errors ?? new List<string>()
+        });
+    }
+}
+```
+
+### CRUD Operations
+```csharp
+public class ArticlesController : BaseController
+{
+    [HttpGet]
+    public async Task<IActionResult> GetArticles([FromQuery] ArticleSearchRequest request)
+    {
+        var result = await _articleService.SearchAsync(request);
+        return ApiResponse(result.Items, pagination: result.Pagination);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetArticle(int id)
+    {
+        var article = await _articleService.GetByIdAsync(id);
+        if (article == null)
+            return NotFound(ApiError("Article not found"));
+
+        return ApiResponse(article);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin,Editor")]
+    public async Task<IActionResult> CreateArticle([FromBody] CreateArticleRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ApiError("Invalid request", GetModelErrors()));
+
+        var article = await _articleService.CreateAsync(request, User.GetUserId());
+        return CreatedAtAction(nameof(GetArticle), new { id = article.Id }, ApiResponse(article));
+    }
+
+    [HttpPut("{id}")]
+    [Authorize(Roles = "Admin,Editor")]
+    public async Task<IActionResult> UpdateArticle(int id, [FromBody] UpdateArticleRequest request)
+    {
+        var result = await _articleService.UpdateAsync(id, request, User.GetUserId());
+        if (!result.Success)
+            return NotFound(ApiError(result.Message));
+
+        return ApiResponse(result.Data);
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteArticle(int id)
+    {
+        var result = await _articleService.DeleteAsync(id, User.GetUserId());
+        if (!result.Success)
+            return NotFound(ApiError(result.Message));
+
+        return NoContent();
+    }
+}
+```
+
+## Validation Rules
+
+### Model Validation
+- Use DataAnnotations for basic validation
+- Implement FluentValidation for complex business rules
+- Validate all input data before processing
+- Return detailed validation errors
+
+### Business Rule Validation
+```csharp
+public class CreateArticleValidator : AbstractValidator<CreateArticleRequest>
+{
+    public CreateArticleValidator()
+    {
+        RuleFor(x => x.Name)
+            .NotEmpty().WithMessage("Article name is required")
+            .MaximumLength(1000).WithMessage("Article name cannot exceed 1000 characters");
+
+        RuleFor(x => x.Content)
+            .NotEmpty().WithMessage("Article content is required");
+
+        RuleFor(x => x.CategoryIds)
+            .NotEmpty().WithMessage("At least one category must be selected")
+            .Must(ids => ids.Count <= 5).WithMessage("Maximum 5 categories allowed");
+
+        When(x => x.IsPublished, () =>
+        {
+            RuleFor(x => x.PublishDate)
+                .NotNull().WithMessage("Publish date is required when publishing")
+                .GreaterThanOrEqualTo(DateTime.Now).WithMessage("Publish date cannot be in the past");
+        });
+    }
+}
+```
+
+## Error Handling
+
+### Global Exception Handler
+```csharp
+public class GlobalExceptionHandler : IExceptionHandler
+{
+    public async ValueTask<bool> TryHandleAsync(
+        HttpContext httpContext,
+        Exception exception,
+        CancellationToken cancellationToken)
+    {
+        var response = new ApiResponse<object>
+        {
+            Success = false,
+            Message = "An unexpected error occurred"
+        };
+
+        switch (exception)
+        {
+            case ValidationException validationEx:
+                httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                response.Errors = validationEx.Errors.Select(e => e.ErrorMessage).ToList();
+                break;
+
+            case UnauthorizedAccessException:
+                httpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+                response.Message = "Access denied";
+                break;
+
+            case KeyNotFoundException:
+                httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                response.Message = "Resource not found";
+                break;
+
+            default:
+                httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                // Log the exception
+                _logger.LogError(exception, "Unhandled exception occurred");
+                break;
+        }
+
+        await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);
+        return true;
+    }
+}
+```
+
+## Performance Optimization
+
+### Caching Strategy
+- Implement Redis for frequently accessed data
+- Cache category trees and lookup data
+- Use appropriate cache expiration policies
+- Implement cache invalidation on data updates
+
+### Database Optimization
+- Use EF Core compiled queries for complex operations
+- Implement proper indexing strategy
+- Use async/await for all database operations
+- Implement connection pooling
+
+### Response Compression
+```csharp
+builder.Services.AddResponseCompression(options =>
+{
+    options.Providers.Add<GzipCompressionProvider>();
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/json" });
+});
+```
+
+## Security Rules
+
+### Input Sanitization
+- Validate and sanitize all user inputs
+- Use parameterized queries to prevent SQL injection
+- Implement XSS protection
+- Validate file uploads and prevent malicious files
+
+### Rate Limiting
+```csharp
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("api", opt =>
+    {
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.PermitLimit = 100;
+    });
+});
+```
+
+### CORS Configuration
+```csharp
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000", "https://yourdomain.com")
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
+```
+
+## API Documentation
+
+### Swagger Configuration
+```csharp
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "CMS API",
+        Version = "v1",
+        Description = "Content Management System API"
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter JWT token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+```
+
+## Testing Rules
+
+### Unit Testing
+- Test all business logic in service layer
+- Mock external dependencies
+- Test validation rules
+- Test error handling scenarios
+
+### Integration Testing
+- Test API endpoints with real database
+- Test authentication and authorization
+- Test file upload functionality
+- Test pagination and filtering
+
+### API Testing Checklist
+- [ ] All endpoints return correct HTTP status codes
+- [ ] Authentication works correctly
+- [ ] Authorization secures sensitive endpoints
+- [ ] Input validation prevents invalid data
+- [ ] Error responses provide meaningful messages
+- [ ] Pagination works correctly
+- [ ] File uploads are handled properly
+- [ ] CORS is configured correctly
+- [ ] Rate limiting prevents abuse

@@ -1,0 +1,215 @@
+# Database Migration Rules for CMS Project
+# Reference: docs/database-migration-guide.md
+
+## Overview
+This file defines rules for database migration from SQL Server to PostgreSQL
+as part of the CMS migration from Blazor to Next.js + .NET Core API.
+
+## Migration Phases
+1. Schema Analysis & Design
+2. Data Type Conversion
+3. Stored Procedure Migration
+4. Data Migration Execution
+5. Validation & Testing
+
+## Schema Conversion Rules
+
+### Table Naming Convention
+- Convert PascalCase to snake_case (e.g., `ArticleCategory` → `article_category`)
+- Use plural forms for table names
+- Maintain referential integrity
+
+### Column Naming Convention
+- Convert PascalCase to snake_case (e.g., `ArticleTypeId` → `article_type_id`)
+- Use descriptive names
+- Maintain consistency across related tables
+
+### Data Type Mappings
+| SQL Server | PostgreSQL | Migration Rule |
+|------------|------------|----------------|
+| INT | INTEGER | Direct mapping |
+| BIGINT | BIGINT | Direct mapping |
+| BIT | BOOLEAN | Convert 1/0 to true/false |
+| DATETIME | TIMESTAMP | Preserve timezone if needed |
+| NVARCHAR(n) | VARCHAR(n) | UTF-8 native support |
+| NTEXT | TEXT | Unlimited length |
+| MONEY | DECIMAL(19,4) | Financial precision |
+| IDENTITY | SERIAL | Auto-increment |
+
+### Primary Key Rules
+- Use SERIAL for auto-incrementing IDs
+- Maintain existing ID ranges
+- Reset sequences after migration
+
+### Foreign Key Rules
+- Preserve all referential relationships
+- Use CASCADE for dependent deletes where appropriate
+- Validate FK constraints post-migration
+
+## Stored Procedure Migration Rules
+
+### Function Naming
+- Convert `SpTableNameOperation` to `sp_table_name_operation`
+- Use descriptive function names
+- Maintain parameter naming conventions
+
+### Parameter Handling
+- Convert SQL Server parameters to PostgreSQL function parameters
+- Handle OUTPUT parameters as function return values
+- Use proper parameter types (IN, OUT, INOUT)
+
+### SQL Syntax Conversion
+- Replace T-SQL with PL/pgSQL
+- Convert table variables to temporary tables
+- Handle NULL comparisons properly
+- Convert string concatenation (+ to ||)
+
+### Error Handling
+- Use BEGIN/EXCEPTION blocks
+- Log errors appropriately
+- Return meaningful error messages
+
+## Data Migration Rules
+
+### Batch Processing
+- Process data in batches of 1000-5000 records
+- Implement transaction boundaries
+- Log progress and errors
+
+### Data Validation
+- Check row counts before/after migration
+- Validate data integrity constraints
+- Test foreign key relationships
+
+### Special Data Handling
+- Convert datetime values with proper timezone handling
+- Handle special characters in text fields
+- Preserve file paths and URLs
+
+## Performance Optimization
+
+### Indexing Strategy
+- Create indexes on frequently queried columns
+- Use composite indexes for multi-column searches
+- Monitor index usage and adjust as needed
+
+### Query Optimization
+- Convert complex T-SQL queries to efficient PostgreSQL
+- Use appropriate JOIN types
+- Optimize subqueries and CTEs
+
+## Validation Rules
+
+### Pre-Migration Checks
+- Verify source database connectivity
+- Check table and column counts
+- Validate data types and constraints
+
+### Post-Migration Validation
+- Compare row counts between source and target
+- Test referential integrity
+- Validate data accuracy with spot checks
+
+### Performance Validation
+- Test query performance with EXPLAIN ANALYZE
+- Compare execution times
+- Validate index effectiveness
+
+## Rollback Procedures
+
+### Database Rollback
+- Maintain backup of target database
+- Document rollback steps
+- Test rollback procedures
+
+### Data Rollback
+- Implement incremental backup strategy
+- Document data recovery procedures
+- Test data restoration
+
+## Monitoring and Logging
+
+### Migration Logging
+- Log all migration activities
+- Record start/end times
+- Track success/failure status
+
+### Error Logging
+- Capture detailed error information
+- Log data validation failures
+- Maintain audit trail
+
+## Security Considerations
+
+### Connection Security
+- Use secure connection strings
+- Implement proper authentication
+- Encrypt sensitive data in transit
+
+### Data Privacy
+- Handle PII data appropriately
+- Implement data masking for test environments
+- Comply with data protection regulations
+
+## Tools and Dependencies
+
+### Required Tools
+- pgLoader for automated migration
+- PostgreSQL client tools (psql, pg_dump)
+- SQL Server Management Studio or Azure Data Studio
+- Python with pyodbc and psycopg2 for custom scripts
+
+### Dependencies
+- PostgreSQL 15+ with required extensions
+- .NET Core 6.0+ for EF Core
+- Node.js for migration scripts
+- Git for version control
+
+## File Organization
+
+### Migration Scripts Location
+```
+database/
+├── schema/
+│   ├── tables.sql
+│   ├── indexes.sql
+│   ├── constraints.sql
+│   └── functions.sql
+├── data/
+│   ├── lookup-data.sql
+│   ├── reference-data.sql
+│   └── migration-scripts.py
+└── validation/
+    ├── pre-migration-checks.sql
+    ├── post-migration-validation.sql
+    └── performance-tests.sql
+```
+
+## Version Control
+
+### Branching Strategy
+- Use feature branches for migration components
+- Tag migration milestones
+- Maintain migration script versions
+
+### Documentation
+- Document all migration decisions
+- Maintain change log
+- Update runbooks and procedures
+
+## Compliance and Standards
+
+### Naming Standards
+- Follow PostgreSQL naming conventions
+- Use consistent prefixes/suffixes
+- Document naming decisions
+
+### Code Standards
+- Follow PL/pgSQL best practices
+- Use consistent formatting
+- Include comments for complex logic
+
+### Testing Standards
+- Unit test migration functions
+- Integration test data flows
+- Performance test critical queries
