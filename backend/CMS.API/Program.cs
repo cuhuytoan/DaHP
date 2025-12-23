@@ -112,6 +112,9 @@ builder.Services.AddScoped<IAdvertisingService, AdvertisingService>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<INewsletterService, NewsletterService>();
 
+// Register GCS Storage Service for file uploads
+builder.Services.AddSingleton<CMS.API.Services.Interfaces.IGcsStorageService, CMS.API.Services.GcsStorageService>();
+
 // Register Admin Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBrandService, BrandService>();

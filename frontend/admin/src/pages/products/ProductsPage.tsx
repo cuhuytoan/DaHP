@@ -3,9 +3,21 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { productsApi } from '../../api/client';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
-import { Plus, Search, Edit, Trash2, CheckCircle, Eye } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '../../components/ui/card';
+import { Plus, Search, Edit, Trash2, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+interface Product {
+    id: number;
+    code?: string;
+    name: string;
+    image?: string;
+    price?: number;
+    active?: boolean;
+    approved?: number;
+    productStatusId?: number;
+    productStatusName?: string;
+}
 
 export function ProductsPage() {
     const [search, setSearch] = useState('');
@@ -24,8 +36,20 @@ export function ProductsPage() {
         },
     });
 
-    const products = data?.data?.data?.items || [];
-    const totalPages = data?.data?.data?.totalPages || 1;
+    // Backend returns: { success, data: Product[], pagination: {...} }
+    const products: Product[] = data?.data?.data || [];
+    const pagination = data?.data?.pagination;
+    const totalPages = pagination?.totalPages || 1;
+
+    // Derive status display from backend fields
+    const getStatusDisplay = (product: Product) => {
+        if (product.approved === 1 && product.active) {
+            return { label: 'Đã xuất bản', className: 'bg-green-100 text-green-800' };
+        } else if (product.approved === 1) {
+            return { label: 'Đã duyệt', className: 'bg-blue-100 text-blue-800' };
+        }
+        return { label: 'Nháp', className: 'bg-yellow-100 text-yellow-800' };
+    };
 
     return (
         <div className="space-y-6">
@@ -50,7 +74,10 @@ export function ProductsPage() {
                             <Input
                                 placeholder="Tìm kiếm sản phẩm..."
                                 value={search}
-                                onChange={(e) => setSearch(e.target.value)}
+                                onChange={(e) => {
+                                    setSearch(e.target.value);
+                                    setPage(1); // Reset to first page on search
+                                }}
                                 className="pl-9"
                             />
                         </div>
@@ -79,64 +106,62 @@ export function ProductsPage() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {products.map((product: any) => (
-                                            <tr key={product.id} className="border-b hover:bg-muted/50">
-                                                <td className="py-3 px-2">
-                                                    <div className="flex items-center gap-3">
-                                                        {product.image && (
-                                                            <img
-                                                                src={product.image}
-                                                                alt={product.name}
-                                                                className="h-10 w-10 rounded object-cover"
-                                                            />
-                                                        )}
-                                                        <span className="font-medium">{product.name}</span>
-                                                    </div>
-                                                </td>
-                                                <td className="py-3 px-2 text-muted-foreground">{product.code}</td>
-                                                <td className="py-3 px-2 text-right">
-                                                    {new Intl.NumberFormat('vi-VN', {
-                                                        style: 'currency',
-                                                        currency: 'VND',
-                                                    }).format(product.price || 0)}
-                                                </td>
-                                                <td className="py-3 px-2 text-center">
-                                                    <span
-                                                        className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${product.isPublished
-                                                                ? 'bg-green-100 text-green-800'
-                                                                : 'bg-yellow-100 text-yellow-800'
-                                                            }`}
-                                                    >
-                                                        {product.isPublished ? 'Đã xuất bản' : 'Nháp'}
-                                                    </span>
-                                                </td>
-                                                <td className="py-3 px-2">
-                                                    <div className="flex items-center justify-end gap-2">
-                                                        <Link to={`/products/${product.id}`}>
-                                                            <Button variant="ghost" size="icon">
-                                                                <Eye className="h-4 w-4" />
+                                        {products.map((product) => {
+                                            const status = getStatusDisplay(product);
+                                            return (
+                                                <tr key={product.id} className="border-b hover:bg-muted/50">
+                                                    <td className="py-3 px-2">
+                                                        <div className="flex items-center gap-3">
+                                                            {product.image && (
+                                                                <img
+                                                                    src={product.image}
+                                                                    alt={product.name}
+                                                                    className="h-10 w-10 rounded object-cover"
+                                                                />
+                                                            )}
+                                                            <span className="font-medium">{product.name}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td className="py-3 px-2 text-muted-foreground">{product.code || '-'}</td>
+                                                    <td className="py-3 px-2 text-right">
+                                                        {new Intl.NumberFormat('vi-VN', {
+                                                            style: 'currency',
+                                                            currency: 'VND',
+                                                        }).format(product.price || 0)}
+                                                    </td>
+                                                    <td className="py-3 px-2 text-center">
+                                                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${status.className}`}>
+                                                            {status.label}
+                                                        </span>
+                                                    </td>
+                                                    <td className="py-3 px-2">
+                                                        <div className="flex items-center justify-end gap-2">
+                                                            <Link to={`/products/${product.id}`}>
+                                                                <Button variant="ghost" size="icon">
+                                                                    <Eye className="h-4 w-4" />
+                                                                </Button>
+                                                            </Link>
+                                                            <Link to={`/products/${product.id}/edit`}>
+                                                                <Button variant="ghost" size="icon">
+                                                                    <Edit className="h-4 w-4" />
+                                                                </Button>
+                                                            </Link>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                onClick={() => {
+                                                                    if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+                                                                        deleteMutation.mutate(product.id);
+                                                                    }
+                                                                }}
+                                                            >
+                                                                <Trash2 className="h-4 w-4 text-destructive" />
                                                             </Button>
-                                                        </Link>
-                                                        <Link to={`/products/${product.id}/edit`}>
-                                                            <Button variant="ghost" size="icon">
-                                                                <Edit className="h-4 w-4" />
-                                                            </Button>
-                                                        </Link>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            onClick={() => {
-                                                                if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
-                                                                    deleteMutation.mutate(product.id);
-                                                                }
-                                                            }}
-                                                        >
-                                                            <Trash2 className="h-4 w-4 text-destructive" />
-                                                        </Button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>
@@ -145,6 +170,7 @@ export function ProductsPage() {
                             <div className="flex items-center justify-between mt-4">
                                 <span className="text-sm text-muted-foreground">
                                     Trang {page} / {totalPages}
+                                    {pagination?.totalCount && ` (${pagination.totalCount} sản phẩm)`}
                                 </span>
                                 <div className="flex gap-2">
                                     <Button

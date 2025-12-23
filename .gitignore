@@ -20,6 +20,8 @@ backend/CMS.API/obj/
 backend/CMS.API/logs/
 backend/CMS.API/wwwroot/uploads/*
 !backend/CMS.API/wwwroot/uploads/.gitkeep
+# GCS credentials - NEVER commit this file
+backend/CMS.API/uploader-key.json
 
 # Frontend
 frontend/cms-admin/node_modules/

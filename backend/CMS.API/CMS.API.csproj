@@ -46,6 +46,12 @@
 
     <!-- Rate Limiting -->
     <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
+    
+    <!-- Google Cloud Storage -->
+    <PackageReference Include="Google.Cloud.Storage.V1" Version="4.10.0" />
+    
+    <!-- Image Processing -->
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.7" />
   </ItemGroup>
 
 </Project>

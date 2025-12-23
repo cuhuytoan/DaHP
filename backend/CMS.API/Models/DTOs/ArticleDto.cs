@@ -217,7 +217,6 @@ public class ArticleCategoryDto
     public int? Sort { get; set; }
     public int? Counter { get; set; }
     public bool? DisplayMenu { get; set; }
-    public string? MenuColor { get; set; }
     public bool? Active { get; set; }
     public bool? CanDelete { get; set; }
     public DateTime? CreateDate { get; set; }
@@ -247,9 +246,6 @@ public class CreateArticleCategoryRequest
 
     public bool DisplayMenu { get; set; } = true;
 
-    [StringLength(50)]
-    public string? MenuColor { get; set; }
-
     public bool Active { get; set; } = true;
 }
 
@@ -275,9 +271,6 @@ public class UpdateArticleCategoryRequest
     public int? Sort { get; set; }
 
     public bool DisplayMenu { get; set; } = true;
-
-    [StringLength(50)]
-    public string? MenuColor { get; set; }
 
     public bool Active { get; set; } = true;
 }

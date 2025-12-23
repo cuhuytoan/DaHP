@@ -7,6 +7,16 @@ import { Card, CardContent, CardHeader } from '../../components/ui/card';
 import { Plus, Search, Edit, Trash2, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+interface Article {
+    id: number;
+    name: string;
+    createDate?: string;
+    active?: boolean;
+    approved?: number;
+    articleStatusId?: number;
+    articleStatusName?: string;
+}
+
 export function ArticlesPage() {
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(1);
@@ -22,8 +32,20 @@ export function ArticlesPage() {
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ['articles'] }),
     });
 
-    const articles = data?.data?.data?.items || [];
-    const totalPages = data?.data?.data?.totalPages || 1;
+    // Backend returns: { success, data: Article[], pagination: {...} }
+    const articles: Article[] = data?.data?.data || [];
+    const pagination = data?.data?.pagination;
+    const totalPages = pagination?.totalPages || 1;
+
+    // Derive status display from backend fields
+    const getStatusDisplay = (article: Article) => {
+        if (article.approved === 1 && article.active) {
+            return { label: 'Đã xuất bản', className: 'bg-green-100 text-green-800' };
+        } else if (article.approved === 1) {
+            return { label: 'Đã duyệt', className: 'bg-blue-100 text-blue-800' };
+        }
+        return { label: 'Nháp', className: 'bg-yellow-100 text-yellow-800' };
+    };
 
     return (
         <div className="space-y-6">
@@ -47,7 +69,10 @@ export function ArticlesPage() {
                         <Input
                             placeholder="Tìm kiếm bài viết..."
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => {
+                                setSearch(e.target.value);
+                                setPage(1); // Reset to first page on search
+                            }}
                             className="pl-9"
                         />
                     </div>
@@ -73,42 +98,63 @@ export function ArticlesPage() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {articles.map((article: any) => (
-                                        <tr key={article.id} className="border-b hover:bg-muted/50">
-                                            <td className="py-3 px-2 font-medium">{article.name}</td>
-                                            <td className="py-3 px-2 text-muted-foreground">
-                                                {new Date(article.createdDate).toLocaleDateString('vi-VN')}
-                                            </td>
-                                            <td className="py-3 px-2 text-center">
-                                                <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${article.isPublished ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                                                    }`}>
-                                                    {article.isPublished ? 'Đã xuất bản' : 'Nháp'}
-                                                </span>
-                                            </td>
-                                            <td className="py-3 px-2">
-                                                <div className="flex justify-end gap-2">
-                                                    <Link to={`/articles/${article.id}`}>
-                                                        <Button variant="ghost" size="icon"><Eye className="h-4 w-4" /></Button>
-                                                    </Link>
-                                                    <Link to={`/articles/${article.id}/edit`}>
-                                                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
-                                                    </Link>
-                                                    <Button variant="ghost" size="icon" onClick={() => {
-                                                        if (confirm('Xóa bài viết này?')) deleteMutation.mutate(article.id);
-                                                    }}>
-                                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                                    </Button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {articles.map((article) => {
+                                        const status = getStatusDisplay(article);
+                                        return (
+                                            <tr key={article.id} className="border-b hover:bg-muted/50">
+                                                <td className="py-3 px-2 font-medium">{article.name}</td>
+                                                <td className="py-3 px-2 text-muted-foreground">
+                                                    {article.createDate 
+                                                        ? new Date(article.createDate).toLocaleDateString('vi-VN')
+                                                        : '-'}
+                                                </td>
+                                                <td className="py-3 px-2 text-center">
+                                                    <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${status.className}`}>
+                                                        {status.label}
+                                                    </span>
+                                                </td>
+                                                <td className="py-3 px-2">
+                                                    <div className="flex justify-end gap-2">
+                                                        <Link to={`/articles/${article.id}`}>
+                                                            <Button variant="ghost" size="icon"><Eye className="h-4 w-4" /></Button>
+                                                        </Link>
+                                                        <Link to={`/articles/${article.id}/edit`}>
+                                                            <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
+                                                        </Link>
+                                                        <Button variant="ghost" size="icon" onClick={() => {
+                                                            if (confirm('Xóa bài viết này?')) deleteMutation.mutate(article.id);
+                                                        }}>
+                                                            <Trash2 className="h-4 w-4 text-destructive" />
+                                                        </Button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                             <div className="flex items-center justify-between mt-4">
-                                <span className="text-sm text-muted-foreground">Trang {page} / {totalPages}</span>
+                                <span className="text-sm text-muted-foreground">
+                                    Trang {page} / {totalPages} 
+                                    {pagination?.totalCount && ` (${pagination.totalCount} bài viết)`}
+                                </span>
                                 <div className="flex gap-2">
-                                    <Button variant="outline" size="sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Trước</Button>
-                                    <Button variant="outline" size="sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>Sau</Button>
+                                    <Button 
+                                        variant="outline" 
+                                        size="sm" 
+                                        onClick={() => setPage(p => Math.max(1, p - 1))} 
+                                        disabled={page === 1}
+                                    >
+                                        Trước
+                                    </Button>
+                                    <Button 
+                                        variant="outline" 
+                                        size="sm" 
+                                        onClick={() => setPage(p => Math.min(totalPages, p + 1))} 
+                                        disabled={page === totalPages}
+                                    >
+                                        Sau
+                                    </Button>
                                 </div>
                             </div>
                         </>
